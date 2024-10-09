@@ -1,0 +1,15 @@
+[flake8]
+max-line-length = 88
+exclude = 
+    migrations,
+    __pycache__,
+    env
+filename= *.py
+accept-encodigns=utf-8
+inline-quotes=single
+max-complexity=12
+max-linenumber=500
+max-line-length=119
+multiline-quotes=double
+per-file-ignores=
+ backend-/erpdivatech/erpdivatech/settings
