@@ -12,4 +12,4 @@ max-linenumber=500
 max-line-length=119
 multiline-quotes=double
 per-file-ignores=
- backend-/erpdivatech/erpdivatech/settings
+ backend-/erpdivatech/erpdivatech/settings.py
