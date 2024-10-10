@@ -11,5 +11,4 @@ max-complexity=12
 max-linenumber=500
 max-line-length=119
 multiline-quotes=double
-per-file-ignores=
- backend-/erpdivatech/erpdivatech/settings.py
+per-file-ignores = backend-/erpdivatech/erpdivatech/settings.py:F401
