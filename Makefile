@@ -1,7 +1,7 @@
 .PHONY: run-server
 
 run-server:
-	poetry run python erp/manage.py runserver 127.0.0.1:8000
+	poetry run python3 erp/manage.py runserver 127.0.0.1:8000
 
 .PHONY: install
 install:
@@ -13,9 +13,21 @@ migrations:
 .PHONY: migrate
 migrate:
 	poetry run python -m erp/manage.py migrate
+
 .PHONY: superuser
 superuser:
 	 poetry run python -m erp/manage.py createsuperuser
+
+
+.PHONY: install-pre-commit
+install-pre-commit:
+	poetry run pre-commit uninstall; poetry run pre-commit install
+
+.PHONY: lint
+lint:
+	poetry run pre-commit run --all-files
+
 .PHONY: update
 update: install migrate install-pre-commit ;
 
+export PYTHONPATH=/home/divatech/Desktop/new-erp/backend-/

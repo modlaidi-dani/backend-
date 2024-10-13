@@ -1,11 +1,7 @@
+from django.conf import settings
 from django.contrib import admin
-from django.urls import path, include
-from rest_framework_simplejwt.views import (
-    TokenObtainPairView,
-    TokenRefreshView,
-    TokenVerifyView,
-)
-from django.conf import  settings
+from django.urls import include, path
+from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView, TokenVerifyView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -23,5 +19,5 @@ urlpatterns = [
     # path('tiers/', include('tiers.urls')),
     # path('user/', include('user.urls')),
     # path('ventes/', include('ventes.urls')),
-    
+
 ]

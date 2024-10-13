@@ -1,24 +1,25 @@
-from django.db import models
-from django.contrib.auth.models import Permission
-from user.models import CustomUser
-from django.utils import timezone
-from django.http import JsonResponse
 from datetime import datetime
+
+from django.contrib.auth.models import Permission
+from django.db import models
 from django.db.models import Sum
+from django.http import JsonResponse
+from django.utils import timezone
+from user.models import CustomUser
 
 
 class ReglementsCustomPermission(Permission):
     class Meta:
         verbose_name = 'Custom Permission'
         verbose_name_plural = 'Custom Permissions'
-        
+
 class ModeReglement(models.Model):
     label = models.CharField(max_length=2500 , default="", null=True, blank =True)
     actif = models.BooleanField(default=True)
     num_cheque = models.CharField(max_length=2500 , default="", null=True, blank =True)
     store = models.ForeignKey('clientinfo.store', on_delete=models.CASCADE, default=None, null=True, blank=True)
     def __str__(self):
-	    return "Type Reglement : " + str(self.label) 
+	    return "Type Reglement : " + str(self.label)
 
 class depense(models.Model):
     type_depense = models.ForeignKey('TypeDepense', on_delete = models.SET_NULL, related_name='mes_depenses',null=True, blank=True, default=None)
@@ -28,7 +29,7 @@ class depense(models.Model):
     caisse = models.ForeignKey('clientinfo.CompteEntreprise', on_delete = models.CASCADE, related_name='depenses')
     user = models.ForeignKey('user.CustomUser', on_delete=models.CASCADE, default=None, null=True, blank=True)
     store = models.ForeignKey('clientinfo.store', on_delete=models.CASCADE, default=None, null=True, blank=True)
-    
+
 class TypeDepense(models.Model):
     TYPE_DEPENSE_CHOICES = [
         ('salaire', 'Salaire'),
@@ -46,35 +47,35 @@ class TypeDepense(models.Model):
     designation = models.CharField(max_length=50 ,null=True, blank=True, default="")
     date_creation = models.DateTimeField(auto_now_add=True)
     store = models.ForeignKey('clientinfo.store', on_delete=models.CASCADE, default=None, null=True, blank=True)
-    
+
 class EcheanceReglement(models.Model):
     label = models.CharField(max_length=2500 , default="", null=True, blank =True)
     actif = models.BooleanField(default=True)
     store = models.ForeignKey('clientinfo.store', on_delete=models.CASCADE, default=None, null=True, blank=True)
     def __str__(self):
-	    return "echeance Reglement : " + str(self.label) 
+	    return "echeance Reglement : " + str(self.label)
 
 class HistoriqueMontantRecuperer(models.Model):
     montant = models.DecimalField(max_digits=20, decimal_places=2, null=True, blank=True)
     date = models.DateField()
     client = models.ForeignKey('tiers.Client', on_delete = models.CASCADE, related_name='montant_envoye' , null=True, blank=True, default =None)
     def __str__(self):
-	    return self.montant 
-    
+	    return self.montant
+
 class Reglement(models.Model):
     Reglement_Type_CHOICES = [
         ("paiement", "paiement"),
         ("remboursement", "remboursement"),
     ]
-    montantSource = models.ForeignKey(HistoriqueMontantRecuperer, on_delete = models.CASCADE, related_name='rep_reglements', null=True, blank=True, default =None) 
-    codeReglement = models.CharField( max_length=30,default="", blank=True, null=True) 
-    type_reglement = models.CharField( max_length=100, choices=Reglement_Type_CHOICES) 
+    montantSource = models.ForeignKey(HistoriqueMontantRecuperer, on_delete = models.CASCADE, related_name='rep_reglements', null=True, blank=True, default =None)
+    codeReglement = models.CharField( max_length=30,default="", blank=True, null=True)
+    type_reglement = models.CharField( max_length=100, choices=Reglement_Type_CHOICES)
     collected = models.BooleanField(default=False)
     client = models.ForeignKey('tiers.Client', on_delete = models.CASCADE, related_name='client_reglements')
     mode_reglement = models.ForeignKey(ModeReglement, on_delete = models.CASCADE, related_name='reglements_type')
     dateReglement = models.DateField()
-    num_cheque = models.CharField( max_length=100,default="", blank=True, null=True) 
-    note = models.TextField(default="", blank=True, null=True) 
+    num_cheque = models.CharField( max_length=100,default="", blank=True, null=True)
+    note = models.TextField(default="", blank=True, null=True)
     piece_jointe = models.FileField(upload_to="pj", blank=True, null=True)
     BonS = models.ForeignKey('ventes.BonSortie', on_delete = models.CASCADE, related_name='bonS_reglements', default=None, null=True, blank=True)
     facture = models.ForeignKey('ventes.Facture', on_delete = models.CASCADE, related_name='facture_reglements', default=None, null=True, blank=True)
@@ -82,20 +83,20 @@ class Reglement(models.Model):
     CompteEntreprise = models.ForeignKey('clientinfo.CompteEntreprise', on_delete = models.CASCADE, related_name='client_reglements')
     store = models.ForeignKey('clientinfo.store', on_delete=models.CASCADE, default=None, null=True, blank=True)
     user = models.ForeignKey('user.CustomUser', on_delete=models.CASCADE, default=None, null=True, blank=True)
-    
- 
-        
+
+
+
     def __str__(self):
-	    return " codeReglement  " + str(self.codeReglement) 
- 
+	    return " codeReglement  " + str(self.codeReglement)
+
 class ReglementFournisseur(models.Model):
     Reglement_Type_CHOICES = [
         ("paiement", "paiement"),
         ("remboursement", "remboursement"),
     ]
 
-    codeReglement = models.CharField( max_length=30,default="", blank=True, null=True) 
-    type_reglement = models.CharField( max_length=100, choices=Reglement_Type_CHOICES) 
+    codeReglement = models.CharField( max_length=30,default="", blank=True, null=True)
+    type_reglement = models.CharField( max_length=100, choices=Reglement_Type_CHOICES)
     collected = models.BooleanField(default=False)
     fournisseur = models.ForeignKey('tiers.Fournisseur', on_delete = models.CASCADE, related_name='fournisseur_reglements')
     mode_reglement = models.ForeignKey(ModeReglement, on_delete = models.CASCADE, related_name='reglements_typefournisseur')
@@ -108,23 +109,23 @@ class ReglementFournisseur(models.Model):
     user = models.ForeignKey('user.CustomUser', on_delete=models.CASCADE, default=None, null=True, blank=True)
 
     def __str__(self):
-	    return " codeReglement  " + str(self.codeReglement) 
+	    return " codeReglement  " + str(self.codeReglement)
 
 class ClotureReglements(models.Model):
     montant= models.CharField(max_length=100, blank=True, null=True, default='')
-    date = models.DateField()  
+    date = models.DateField()
     utilisateur= models.ForeignKey('user.CustomUser',on_delete=models.CASCADE, blank=True, null=True, default=None)
     collected = models.BooleanField(default=False)
     montant_collected = models.CharField(max_length=100, blank=True, null=True, default='')
     caisse = models.ForeignKey('clientinfo.CompteEntreprise', on_delete = models.CASCADE, related_name='clotures_reg', blank=True, null=True, default=None)
-    store= models.ForeignKey('clientinfo.store',on_delete=models.CASCADE, blank=True, null=True, default=None) 
- 
-class montantCollected(models.Model):     
+    store= models.ForeignKey('clientinfo.store',on_delete=models.CASCADE, blank=True, null=True, default=None)
+
+class montantCollected(models.Model):
     montant= models.CharField(max_length=100, blank=True, null=True, default='')
-    date = models.DateField()  
+    date = models.DateField()
     utilisateur= models.ForeignKey('user.CustomUser',on_delete=models.CASCADE, blank=True, null=True, default=None)
     caisse = models.ForeignKey('clientinfo.CompteEntreprise', on_delete = models.CASCADE, related_name='montantcollected_reg', blank=True, null=True, default=None)
-    store= models.ForeignKey('clientinfo.store',on_delete=models.CASCADE, blank=True, null=True, default=None)  
+    store= models.ForeignKey('clientinfo.store',on_delete=models.CASCADE, blank=True, null=True, default=None)
 
 class mouvementCaisse(models.Model):
     date =models.DateField()
@@ -135,4 +136,3 @@ class mouvementCaisse(models.Model):
     motif = models.CharField( max_length=100,default="", blank=True, null=True)
     user = models.ForeignKey('user.CustomUser', on_delete=models.CASCADE, default=None, null=True, blank=True)
     store = models.ForeignKey('clientinfo.store', on_delete=models.CASCADE, default=None, null=True, blank=True)
-    

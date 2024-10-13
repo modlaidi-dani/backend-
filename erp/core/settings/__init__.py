@@ -1,10 +1,8 @@
-import logging
+
 import os.path
 from pathlib import Path
 
 from split_settings.tools import include, optional
-
-
 
 BASE_DIR = Path(__file__).resolve().parent.parent.parent.parent
 
@@ -21,7 +19,7 @@ if not os.path.isabs(LOCAL_SETTINGS_PATH):
 # yapf: disable
 include(
     'base.py',
- 
+    'custom.py',
     optional(LOCAL_SETTINGS_PATH),
-    
+    'envvars.py'
 )

@@ -2,7 +2,6 @@
 
 from datetime import timedelta
 
-
 SECRET_KEY = NotImplemented
 
 DEBUG = False

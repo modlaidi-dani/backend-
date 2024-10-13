@@ -1,5 +1,7 @@
-from django.db import models
 from datetime import datetime
+
+from django.db import models
+
 # Create your models here.
 
 class MoyenTransport(models.Model):
@@ -11,16 +13,16 @@ class MoyenTransport(models.Model):
 class FicheLivraisonExterne(models.Model):
     client = models.CharField(max_length=255, null=True, blank=True, default='')
     adresse = models.CharField(max_length=255, null=True, blank=True, default='')
-    date = models.DateField(null=True, blank=True)  
+    date = models.DateField(null=True, blank=True)
     transporteur = models.CharField(max_length=255, null=True, blank=True, default='')
     modePaiement = models.CharField(max_length=255, null=True, blank=True, default='')
     montant = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
     numeroColis = models.IntegerField(default=1)
     note = models.CharField(max_length=255, null=True, blank=True, default='')
-    
+
 class requeteclientinfo(models.Model):
-    client = models.ForeignKey('tiers.Client', on_delete = models.CASCADE, related_name='clients_requetes', blank=True , null=True, default=None)  
-    dateReq = models.DateField(null=True, blank=True)  
+    client = models.ForeignKey('tiers.Client', on_delete = models.CASCADE, related_name='clients_requetes', blank=True , null=True, default=None)
+    dateReq = models.DateField(null=True, blank=True)
     etat = models.CharField(max_length=255, null=True, blank=True, default='')
     modePaiement = models.CharField(max_length=255, null=True, blank=True, default='')
     note = models.CharField(max_length=255, null=True, blank=True, default='')
@@ -29,9 +31,9 @@ class CourseLivraison(models.Model):
     chauffeur =models.ForeignKey('user.CustomUser', on_delete = models.CASCADE, related_name='mes_courses', blank=True , null=True, default=None)
     adresse = models.CharField(max_length=255, null=True, blank=True, default='')
     note = models.CharField(max_length=255, null=True, blank=True, default='')
-    dateTimeAffectation = models.DateTimeField(null=True, blank=True)  
-    dateTimeDebut = models.DateTimeField(null=True, blank=True)  
-    dateTimeFin = models.DateTimeField(null=True, blank=True)    
+    dateTimeAffectation = models.DateTimeField(null=True, blank=True)
+    dateTimeDebut = models.DateTimeField(null=True, blank=True)
+    dateTimeFin = models.DateTimeField(null=True, blank=True)
     moyen_transport = models.ForeignKey(MoyenTransport, on_delete=models.CASCADE, related_name='courses', blank=False, null=False)
     typeCourse = models.CharField(max_length=255, null=True, blank=True, default='') #livraison courier / transporteur
     transporteur = models.CharField(max_length=255, null=True, blank=True, default='')
@@ -41,19 +43,19 @@ class CourseLivraison(models.Model):
     montantrecupere = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True, default =0)
     tempsCourse = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
     etat = models.CharField(max_length=255, null=True, blank=True, default='')
-    
+
 class BlsEnRequeteClient(models.Model):
     requete = models.ForeignKey(requeteclientinfo, related_name = "bonsL_enreq", on_delete=models.CASCADE, blank=False, null=False)
     bonlivraison = models.ForeignKey('ventes.BonSortie', related_name = "bonsL_requests", on_delete=models.CASCADE, blank=False, null=False)
     modePaiement = models.CharField(max_length=255, null=True, blank=True, default='')
     etat_livraison =  models.CharField(max_length=255, null=True, blank=True, default='')
-    note = models.CharField(max_length=255, null=True, blank=True, default='')   
-    
+    note = models.CharField(max_length=255, null=True, blank=True, default='')
+
 class PreparationStock(models.Model):
     idBon = models.CharField(max_length=255, null=True, blank=True, default='')
     bonEntry = models.ForeignKey('inventory.BonEntry', related_name = "bonsE_preparation", on_delete=models.CASCADE, blank=False, null=False)
-    datePrep = models.DateTimeField()    
-    
+    datePrep = models.DateTimeField()
+
 class BonTransport(models.Model):
     idBon = models.CharField(max_length=255, null=True, blank=True, default='')
     bonlivraison = models.ForeignKey('ventes.BonSortie', related_name = "bonsL_transports", on_delete=models.CASCADE, blank=False, null=False)
@@ -68,13 +70,13 @@ class BonTransport(models.Model):
     etat_livraison =  models.CharField(max_length=255, null=True, blank=True, default='')
 class ProduitsEnBonTransport(models.Model):
     BonNo = models.ForeignKey(BonTransport, on_delete = models.CASCADE, related_name='produits_en_bon_transport')
-    produit = models.ForeignKey('produits.Product', on_delete = models.CASCADE, related_name='mes_bons_transport')    
+    produit = models.ForeignKey('produits.Product', on_delete = models.CASCADE, related_name='mes_bons_transport')
     quantity = models.IntegerField(default=1)
     livre = models.BooleanField(default=False)
-  
+
     def __str__(self):
-	    return "Bon no: " + str(self.BonNo.idBon) + ", Item = " + self.produit.name  
-            
+	    return "Bon no: " + str(self.BonNo.idBon) + ", Item = " + self.produit.name
+
 class ReglementTransport(models.Model):
     montant = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
     date = models.DateField()

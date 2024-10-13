@@ -1,20 +1,19 @@
 
+from clientinfo.models import store
+from django.contrib.auth import get_user_model
+from django.contrib.auth.models import AbstractUser, Group, Permission, User
 from django.db import models
-from django.contrib.auth.models import User
-from django.contrib.auth.models import AbstractUser,  Group, Permission
 from django.db.models.signals import post_save
 from django.dispatch import receiver
-from django.contrib.auth import get_user_model
-from rest_framework_simplejwt.tokens import RefreshToken
-from clientinfo.models import store
 from rest_framework.authtoken.models import Token
+from rest_framework_simplejwt.tokens import RefreshToken
 
 
 class userCustomPermission(Permission):
     class Meta:
         verbose_name = 'Custom Permission'
         verbose_name_plural = 'Custom Permissions'
-        
+
 class CustomUser(User):
     role = models.CharField(max_length=100, null=True, blank=True, default='')
     group = models.ForeignKey('CustomGroup', on_delete=models.SET_NULL, related_name="group_user", null=True, blank=True, default=None)
@@ -27,7 +26,7 @@ class cordinates(models.Model):
     User = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name="mycoordinates")  # Link the log entry to an author (user)
     latitude = models.CharField(max_length=250, default="", null=True, blank=True)
     longitude = models.CharField(max_length=250, default="", null=True, blank=True)
-    
+
 class Equipe(models.Model):
     label = models.CharField(max_length=250, default="", null=True, blank=True)
     store = models.ForeignKey('clientinfo.store', on_delete=models.CASCADE, related_name="mes_equipes", null=True, blank=True)
@@ -43,13 +42,13 @@ class MyLogEntry(models.Model):
 
     class Meta:
         ordering = ['-timestamp']  # Display log entries in descending order of timestamp
-               
+
 class CustomGroup(Group):
     label = models.CharField(max_length=100, unique=False)
     description = models.TextField(max_length=2500)
     store = models.ForeignKey('clientinfo.store', on_delete=models.CASCADE, related_name="mes_groupes", null=True, blank=True, default=None)
     custom_permissions = models.ManyToManyField(Permission, blank=True)
-    
+
     def __str__(self) :
         return self.label
 @receiver(post_save, sender=CustomUser)
