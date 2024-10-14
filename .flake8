@@ -14,3 +14,5 @@ max-linenumber=500
 max-line-length=119
 multiline-quotes=double
 per-file-ignores = backend-/erp/core/settings/templates/settings.dev.py:F821
+                   backend-/.github/workflows/pr.yml:F821
+                   bakend-/erp/core/settings/envvars.py:F821

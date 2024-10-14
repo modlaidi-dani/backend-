@@ -16,21 +16,6 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "rest_framework_simplejwt.token_blacklist",
     "rest_framework",
-    # "user",
-    # "clientinfo",
-    # "tiers",
-    # "produits",
-    # "inventory",
-    # "ventes",
-    # "achats",
-    # "reglements",
-    # # "heroicons",
-    # "comptoire",
-    # # "target",
-    # # "statistiques",
-    # "logistique",
-    # # "production",
-    # "gestionRH",
 ]
 
 MIDDLEWARE = [
