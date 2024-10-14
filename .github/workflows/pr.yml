@@ -8,19 +8,22 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Set up Python
         uses: actions/setup-python@v3
         with:
-          python-version: '3.9'
+          python-version: "3.9"
 
       - name: Install Poetry
         uses: abatilo/actions-poetry@v2.0.0
         with:
           poetry-version: 1.7.2
 
-      - name: Install dependencies
-        run: make install && make install-pre-commit
+      - name: Install Dependencies
+        run: |
+          make install && make install-pre-commit
 
       - name: Lint code
         run: make lint
