@@ -12,11 +12,11 @@ migrations:
 
 .PHONY: migrate
 migrate:
-	poetry run python -m erp/manage.py migrate
+	poetry run python -m erp.manage migrate
 
 .PHONY: superuser
 superuser:
-	 poetry run python -m erp/manage.py createsuperuser
+	 poetry run python -m erp.manage createsuperuser
 
 
 .PHONY: install-pre-commit
@@ -29,5 +29,10 @@ lint:
 
 .PHONY: update
 update: install migrate install-pre-commit ;
+
+.PHONY: up-dependencies-only
+up-dependencies-only:
+	test -f .env || touch .env
+	docker compose  -f docker-compose.dev.yml up --force-recreate db
 
 export PYTHONPATH=/home/divatech/Desktop/new-erp/backend-/
