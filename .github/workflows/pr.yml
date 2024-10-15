@@ -19,11 +19,13 @@ jobs:
       - name: Install Poetry
         uses: abatilo/actions-poetry@v2.0.0
         with:
-          poetry-version: 1.8.1  # Updated to the latest stable version
+          poetry-version: 1.8.1
 
-      - name: Disable keyring
-        run: |
-          export POETRY_KEYRING_BACKEND=memory
+      - name: Disable lazy wheel solver
+        run: poetry config solver.lazy-wheel false
+
+      - name: Update lock file
+        run: poetry lock --no-update
 
       - name: Install Dependencies
         run: |
