@@ -23,6 +23,7 @@ jobs:
         run: |
           echo "PYTHON_KEYRING_BACKEND=keyring.backends.null.Keyring" >> $GITHUB_ENV
 
+
       - name: Install Dependencies
         run: |
           poetry install --no-interaction --no-ansi
