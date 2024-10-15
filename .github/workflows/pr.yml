@@ -19,15 +19,19 @@ jobs:
       - name: Install Poetry
         uses: abatilo/actions-poetry@v2.0.0
 
-      
+      # Disable keyring by setting PYTHON_KEYRING_BACKEND to null
+      - name: Disable Keyring
+        run: |
+          echo "PYTHON_KEYRING_BACKEND=keyring.backends.null.Keyring" >> $GITHUB_ENV
 
-      - name: Install dependencies
-        run:  poetry install keyring==23.11.0
-
+      - name: Install Dependencies
+        run: |
+          make install && make install-pre-commit
 
       - name: Lint code
-        run: poetry run make lint
+        run: make lint
 
       # Uncomment to run tests
       # - name: Run Tests
-      #   run: poetry run python manage.py test
+      #   run: |
+      #     python manage.py test
