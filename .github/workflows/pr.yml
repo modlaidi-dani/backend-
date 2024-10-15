@@ -20,14 +20,19 @@ jobs:
         uses: abatilo/actions-poetry@v2.0.0
 
 
+      - name: Disable keyring
+        run: |
+          export POETRY_KEYRING_BACKEND=memory
+
       - name: Install Dependencies
         run: |
-          make install && make install-pre-commit
+          poetry config virtualenvs.in-project true
+          poetry install --no-interaction --no-ansi
+          make install-pre-commit
 
       - name: Lint code
-        run: make lint
+        run: poetry run make lint
 
       # Uncomment to run tests
       # - name: Run Tests
-      #   run: |
-      #     python manage.py test
+      #   run: poetry run python manage.py test
