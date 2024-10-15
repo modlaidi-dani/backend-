@@ -7,33 +7,19 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
+    - uses: actions/checkout@v4
 
-      - name: Set up Python
-        uses: actions/setup-python@v3
-        with:
-          python-version: "3.12"
+    - name: Run Poetry image
+      uses: abatilo/actions-poetry@v2
+      with:
+          poetry-version: 1.8.3
 
-      - name: Install Poetry
-        uses: abatilo/actions-poetry@v2.0.0
+   # - name: Disable "dubious ownership" errors
+   #      # This allows us to install pre-commit
+   #      run: git config --global --add safe.directory '*'
 
-      - name: Disable Keyring
-        run: |
-          echo "PYTHON_KEYRING_BACKEND=keyring.backends.null.Keyring" >> $GITHUB_ENV
+    - name: Install
+      run: make install && make install-pre-commit
 
-      - name: Generate Fresh Lock File
-        run: |
-          poetry config virtualenvs.create false
-          poetry install --no-interaction --no-ansi
-          poetry config virtualenvs.create true
-
-      - name: Lint code
-        run: poetry run flake8 .
-
-      - name: Run Tests
-        run: poetry run pytest
-
-      - name: Build Documentation
-        run: poetry run sphinx-build docs docs/_build
+    - name: Lint
+      run: make lint
