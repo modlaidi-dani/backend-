@@ -18,10 +18,6 @@ jobs:
       with:
           poetry-version: 1.8.3
 
-   # - name: Disable "dubious ownership" errors
-   #      # This allows us to install pre-commit
-   #      run: git config --global --add safe.directory '*'
-
     - name: Install
       run: make install && make install-pre-commit
 
