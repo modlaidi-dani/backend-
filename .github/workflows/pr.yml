@@ -20,6 +20,11 @@ jobs:
         uses: abatilo/actions-poetry@v2.0.0
 
 
+      - name: Install keyring
+        run: pip install keyring==23.9.3
+
+
+
       - name: Install Dependencies
         run: |
           make install && make install-pre-commit
