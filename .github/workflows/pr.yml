@@ -24,7 +24,7 @@ jobs:
           echo "PYTHON_KEYRING_BACKEND=keyring.backends.null.Keyring" >> $GITHUB_ENV
 
       - name: Clean Poetry Cache
-        run: poetry cache clear pypi
+        run: poetry cache clear pypi --all
 
       - name: Reinstall Dependencies
         run: poetry install --no-interaction --no-ansi
