@@ -19,11 +19,10 @@ jobs:
       - name: Install Poetry
         uses: abatilo/actions-poetry@v2.0.0
 
-      - name: Clean Poetry cache
-        run: poetry cache clear --all pypi
+      
 
       - name: Install dependencies
-        run: poetry install
+        run:  poetry install keyring==23.11.0
 
 
       - name: Lint code
