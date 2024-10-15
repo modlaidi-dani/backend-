@@ -16,21 +16,14 @@ jobs:
         with:
           python-version: "3.12"
 
-      # - name: Install Poetry
-      #   uses: abatilo/actions-poetry@v2.0.0
-
-      # # Disable keyring by setting PYTHON_KEYRING_BACKEND to null
-      # - name: Disable Keyring
-      #   run: |
-      #     echo "PYTHON_KEYRING_BACKEND=keyring.backends.null.Keyring" >> $GITHUB_ENV
       - name: Install Poetry
-        run: |
-          curl -sSL https://install.python-poetry.org | python3 -
-          echo "::add-path::$(poetry config --list --local | grep 'virtualenvs.path' | cut -d' ' -f2 | sed 's|/bin/poetry||')"
+        uses: abatilo/actions-poetry@v2.0.0
+
       
-      - name: Install Dependencies
+      - name: Disable Keyring
         run: |
-          poetry install
+          echo "PYTHON_KEYRING_BACKEND=keyring.backends.null.Keyring" >> $GITHUB_ENV
+      
 
       - name: Install Dependencies
         run: |
