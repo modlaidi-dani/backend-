@@ -18,7 +18,8 @@ jobs:
 
       - name: Install Poetry
         uses: abatilo/actions-poetry@v2.0.0
-
+        with:
+          poetry-version: 1.8.1  # Updated to the latest stable version
 
       - name: Disable keyring
         run: |
@@ -28,7 +29,6 @@ jobs:
         run: |
           poetry config virtualenvs.in-project true
           poetry install --no-interaction --no-ansi
-          make install-pre-commit
 
       - name: Lint code
         run: poetry run make lint
