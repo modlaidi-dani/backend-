@@ -21,5 +21,6 @@ include(
     'custom.py',
     optional(LOCAL_SETTINGS_PATH),
     'envvars.py',
-    'logging.py'
+    'logging.py',
+    'rest_framework.py'
 )
