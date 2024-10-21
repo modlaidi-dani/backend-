@@ -1,14 +1,14 @@
 .PHONY: run-server
 
 run-server:
-	poetry run python3 erp/manage.py runserver 127.0.0.1:8000
+	poetry run python3 -m erp.manage runserver 127.0.0.1:8000
 
 .PHONY: install
 install:
 	poetry install
 .PHONY: migrations
 migrations:
-	poetry run python -m erp/manage.py makemigrations
+	poetry run python -m erp.manages makemigrations
 
 .PHONY: migrate
 migrate:
@@ -36,3 +36,4 @@ up-dependencies-only:
 	docker compose  -f docker-compose.dev.yml up --force-recreate db
 
 export PYTHONPATH=/home/divatech/Desktop/new-erp/backend-/
+export PYTHONPATH=./backend-/erp
