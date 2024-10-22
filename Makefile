@@ -1,22 +1,25 @@
+
+
+
 .PHONY: run-server
 
 run-server:
-	poetry run python3 -m erp.manage runserver 127.0.0.1:8000
+	poetry run python3  -m erp.manage runserver 127.0.0.1:8000
 
 .PHONY: install
 install:
 	poetry install
 .PHONY: migrations
 migrations:
-	poetry run python -m erp.manages makemigrations
+	poetry run python3 -m erp.manage makemigrations
 
 .PHONY: migrate
 migrate:
-	poetry run python -m erp.manage migrate
+	poetry run python3 -m erp.manage migrate
 
 .PHONY: superuser
 superuser:
-	 poetry run python -m erp.manage createsuperuser
+	 poetry run python3 -m erp.manage createsuperuser
 
 
 .PHONY: install-pre-commit

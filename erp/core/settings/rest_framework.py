@@ -18,7 +18,6 @@ SIMPLE_JWT = {
     "SIGNING_KEY": config('SECRET_KEY'),
     'UPDATE_LAST_LOGIN': True,
     'TEST_REQUEST_DEFAULT_FORMAT': 'json',
-    "VERIFYING_KEY": "",
     "AUDIENCE": None,
     "ISSUER": None,
     "JSON_ENCODER": None,
