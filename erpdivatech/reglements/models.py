@@ -7,10 +7,10 @@ from datetime import datetime
 from django.db.models import Sum
 
 
-class ReglementsCustomPermission(Permission):
-    class Meta:
-        verbose_name = 'Custom Permission'
-        verbose_name_plural = 'Custom Permissions'
+# class ReglementsCustomPermission(Permission):
+#     class Meta:
+#         verbose_name = 'Custom Permission'
+#         verbose_name_plural = 'Custom Permissions'
         
 class ModeReglement(models.Model):
     label = models.CharField(max_length=2500 , default="", null=True, blank =True)

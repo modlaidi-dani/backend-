@@ -9,10 +9,10 @@ from decimal import Decimal
 from django.db.models import Sum, F, ExpressionWrapper, DecimalField
 import ast
 
-class VentesCustomPermission(Permission):
-    class Meta:
-        verbose_name = 'Custom Permission'
-        verbose_name_plural = 'Custom Permissions'
+# class VentesCustomPermission(Permission):
+#     class Meta:
+#         verbose_name = 'Custom Permission'
+#         verbose_name_plural = 'Custom Permissions'
 
 class validationBl(models.Model):
     type_validation = models.CharField(max_length=25, default='', blank=True, null=True )

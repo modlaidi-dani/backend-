@@ -6,10 +6,10 @@ from datetime import datetime, timedelta
 from inventory.models import ProduitsEnBonEntry, ProduitsEnBonRetour
 # from ventes.models import ProduitsEnBonSortie
 # from comptoire.models import ProduitsEnBonComptoir
-class ProduitsCustomPermission(Permission):
-    class Meta:
-        verbose_name = 'Custom Permission'
-        verbose_name_plural = 'Custom Permissions'
+# class ProduitsCustomPermission(Permission):
+#     class Meta:
+#         verbose_name = 'Custom Permission'
+#         verbose_name_plural = 'Custom Permissions'
        
 class Category(models.Model):
      MotherCategory = models.ForeignKey('self', on_delete=models.SET_NULL, default=None, null=True, blank=True, related_name='variants')

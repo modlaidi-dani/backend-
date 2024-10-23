@@ -9,7 +9,6 @@ from datetime import datetime
 #         verbose_name = 'Custom Permission'
 #         verbose_name_plural = 'Custom Permissions'
 
-
     
 class BonCommandeAchat(models.Model):
     idBon = models.CharField(

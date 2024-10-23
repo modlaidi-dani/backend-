@@ -10,10 +10,10 @@ from decimal import Decimal
 from django.db.models import Q
 from django.db.models import F
 
-class InventoryCustomPermission(Permission):
-    class Meta:
-        verbose_name = 'Custom Permission'
-        verbose_name_plural = 'Custom Permissions'
+# class InventoryCustomPermission(Permission):
+#     class Meta:
+#         verbose_name = 'Custom Permission'
+#         verbose_name_plural = 'Custom Permissions'
 
 class Entrepot(models.Model): 
    store = models.ForeignKey(store,on_delete=models.CASCADE, related_name='store_entrepot', blank=True, null=True, default=None)

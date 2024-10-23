@@ -2,11 +2,11 @@ from django.db import models
 from django.contrib.auth.models import Permission
 # from comptoire.models import BonRetourComptoir
 
-# Create your models here.
-class clientinfoCustomPermission(Permission):
-    class Meta:
-        verbose_name = 'Custom Permission'
-        verbose_name_plural = 'Custom Permissions'
+# # Create your models here.
+# class clientinfoCustomPermission(Permission):
+#     class Meta:
+#         verbose_name = 'Custom Permission'
+#         verbose_name_plural = 'Custom Permissions'
         
 class store(models.Model):
     name= models.CharField(max_length=100, null=True, blank=True, default="") 
