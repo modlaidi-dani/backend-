@@ -1,4 +1,5 @@
-import os
 
-SECRET_KEY = os.getenv("SECRTE_KEY")
+from decouple import config
+
+SECRET_KEY = config('SECRET_KEY'),
 DEBUG = True

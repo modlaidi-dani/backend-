@@ -1,22 +1,25 @@
+
+
+
 .PHONY: run-server
 
 run-server:
-	poetry run python3 erp/manage.py runserver 127.0.0.1:8000
+	poetry run python3  -m erp.manage runserver 127.0.0.1:8000
 
 .PHONY: install
 install:
 	poetry install
 .PHONY: migrations
 migrations:
-	poetry run python -m erp/manage.py makemigrations
+	poetry run python3 -m erp.manage makemigrations
 
 .PHONY: migrate
 migrate:
-	poetry run python -m erp.manage migrate
+	poetry run python3 -m erp.manage migrate
 
 .PHONY: superuser
 superuser:
-	 poetry run python -m erp.manage createsuperuser
+	 poetry run python3 -m erp.manage createsuperuser
 
 
 .PHONY: install-pre-commit
@@ -36,3 +39,4 @@ up-dependencies-only:
 	docker compose  -f docker-compose.dev.yml up --force-recreate db
 
 export PYTHONPATH=/home/divatech/Desktop/new-erp/backend-/
+export PYTHONPATH=./backend-/erp
