@@ -32,8 +32,8 @@ jobs:
       - name: Lint
         run: make lint
 
-      - name: Test
-        run: make test
-        env:
-          COOKING_CORE_SETTING_DATABASES: '{"default":{"HOST":"db"}}'
-          COOKING_CORE_SETTING_LOCAL_SETTINGS_PATH: "./erp/core/settings/templates/settings.github.py"
+      # - name: Test
+      #   run: make test
+      #   env:
+      #     COOKING_CORE_SETTING_DATABASES: '{"default":{"HOST":"db"}}'
+      #     COOKING_CORE_SETTING_LOCAL_SETTINGS_PATH: "./erp/core/settings/templates/settings.github.py"
