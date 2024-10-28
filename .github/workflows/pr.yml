@@ -17,13 +17,8 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Install pipx and add it to PATH
-        run: |
-          python3 -m pip install --user pipx
-          export PATH="$PATH:/github/home/.local/bin"  # Manually add pipx to PATH
-
       - name: Install Poetry
-        run: pipx install poetry==1.8.3  # Now pipx should be in PATH
+        run: python3 -m pip install --upgrade pip && python3 -m pip install poetry==1.8.3
 
       - name: Install dependencies
         run: make install && make install-pre-commit
