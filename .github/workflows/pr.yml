@@ -5,21 +5,35 @@ on: [pull_request]
 jobs:
   build:
     runs-on: ubuntu-latest
+    container: python:3.10.4-buster
+    services:
+      db:
+        image: postgres:14.2-alpine
+        env:
+          POSTGRES_DB: cooking_core
+          POSTGRES_USER: cooking_core
+          POSTGRES_PASSWORD: cooking_core
 
     steps:
-    - uses: actions/checkout@v4
-    - name: Set up Python
-      uses: actions/setup-python@v3
-      with:
+      - uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v3
+        with:
           python-version: "3.12"
 
-    - name: Run Poetry image
-      uses: abatilo/actions-poetry@v2
-      with:
+      - name: Run Poetry image
+        uses: abatilo/actions-poetry@v2
+        with:
           poetry-version: 1.8.3
 
-    - name: Install
-      run: make install && make install-pre-commit
+      - name: Install
+        run: make install && make install-pre-commit
 
-    - name: Lint
-      run: make lint
+      - name: Lint
+        run: make lint
+
+      - name: Test
+        run: make test
+        env:
+          COOKING_CORE_SETTING_DATABASES: '{"default":{"HOST":"db"}}'
+          COOKING_CORE_SETTING_LOCAL_SETTINGS_PATH: "./erp/core/settings/templates/settings.github.py"

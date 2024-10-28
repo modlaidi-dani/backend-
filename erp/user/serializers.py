@@ -1,5 +1,6 @@
 from django.contrib.auth import authenticate, get_user_model
 from rest_framework import serializers
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.tokens import RefreshToken
 
 User = get_user_model()
@@ -46,4 +47,19 @@ class LoginSerializer(serializers.Serializer):
 
         if user is None:
             raise serializers.ValidationError("Invalid email or password")
-        return user
+
+        # Return both user and token for easy access in the view
+        return {
+            'user': user,
+            'token': self.get_token(user)
+        }
+
+class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
+    @classmethod
+    def get_token(cls, user):
+        token = super().get_token(user)
+        # Add custom claims
+        token['email'] = user.email
+        token['first_name'] = user.first_name
+        token['last_name'] = user.last_name
+        return token
