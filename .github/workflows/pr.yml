@@ -5,7 +5,6 @@ on: [pull_request]
 jobs:
   build:
     runs-on: ubuntu-latest
-    container: python:3.12-slim  # Uses Python 3.12 directly with compatible GLIBC
     services:
       db:
         image: postgres:latest
