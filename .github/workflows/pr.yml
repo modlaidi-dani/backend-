@@ -20,28 +20,16 @@ jobs:
       - name: Install system dependencies
         run: |
           apt-get update
-          apt-get install -y make libpq-dev gcc git
+          apt-get install -y make libpq-dev  # Install make and libpq-dev for dependencies
 
       - name: Install Poetry
         run: python3 -m pip install --upgrade pip && python3 -m pip install poetry==1.8.3
 
-      - name: Configure Poetry to skip project installation
-        run: poetry config installer.no-binary ":all:"
-
-      - name: Install dependencies with Poetry
-        run: poetry install --no-root  # This prevents Poetry from installing the non-existent backend package
-      
-      - name: Check for Git Repository
+      - name: Add psycopg2-binary and install dependencies
         run: |
-          if [ -d ".git" ]; then
-            poetry run pre-commit uninstall
-            poetry run pre-commit install
-          else
-            echo "Skipping pre-commit installation because this is not a git repository."
-          fi
-
-      - name: Install
-        run: make install
+          poetry add psycopg2-binary --group dev
+          make install
+          make install-pre-commit
 
       - name: Lint
         run: make lint
