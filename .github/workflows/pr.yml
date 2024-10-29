@@ -26,7 +26,9 @@ jobs:
         run: python3 -m pip install --upgrade pip && python3 -m pip install poetry==1.8.3
 
       - name: Install dependencies
-        run: make install && make install-pre-commit
+        run:
+            poetry add psycopg2-binary --dev
+            make install && make install-pre-commit
 
       - name: Lint
         run: make lint
