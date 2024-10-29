@@ -5,7 +5,7 @@ on: [pull_request]
 jobs:
   build:
     runs-on: ubuntu-latest
-  
+    container: python:3.12-slim
     services:
       db:
         image: postgres:latest
@@ -16,17 +16,23 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+      
       - name: Set up Python
         uses: actions/setup-python@v3
         with:
           python-version: "3.12"
+
+      - name: Install system dependencies
+        run: |
+          apt-get update
+          apt-get install -y curl
 
       - name: Run Poetry image
         uses: abatilo/actions-poetry@v2
         with:
           poetry-version: 1.8.3
 
-      - name: Install
+      - name: Install dependencies
         run: make install && make install-pre-commit
 
       - name: Lint
