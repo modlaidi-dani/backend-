@@ -9,17 +9,17 @@ jobs:
       db:
         image: postgres:latest
         env:
-          POSTGRES_USER: erp
-          POSTGRES_PASSWORD: erpPassword
+          POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
+          POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
           POSTGRES_DB: erp
           options: >-
             --health-cmd="pg_isready -U ${{ secrets.POSTGRES_USER }}"
             --health-interval=5s
             --health-timeout=5s
             --health-retries=5
-
     steps:
       - uses: actions/checkout@v4
+
       - name: Set up Python
         uses: actions/setup-python@v3
         with:
@@ -35,8 +35,9 @@ jobs:
 
       - name: Lint
         run: make lint
+
       - name: Test
         run: make test
         env:
-          CORESETTING_DATABASES: '{"default":{"HOST":"db"}}'
+          CORESETTING_DATABASES: '{"default":{"ENGINE":"django.db.backends.postgresql","NAME":"erp","USER":"${{ secrets.POSTGRES_USER }}","PASSWORD":"${{ secrets.POSTGRES_PASSWORD }}","HOST":"db","PORT":"5432"}}'
           CORESETTING_LOCAL_SETTINGS_PATH: "./erp/core/settings/templates/settings.github.py"
