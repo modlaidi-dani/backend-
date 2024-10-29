@@ -9,8 +9,8 @@ jobs:
       db:
         image: postgres:latest
         env:
-          POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
-          POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
+          POSTGRES_USER: erp
+          POSTGRES_PASSWORD: erpPassword
           POSTGRES_DB: erp
           options: >-
             --health-cmd="pg_isready -U ${{ secrets.POSTGRES_USER }}"
