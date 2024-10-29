@@ -11,12 +11,7 @@ jobs:
         env:
           POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
           POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
-          POSTGRES_DB: erp
-          options: >-
-            --health-cmd="pg_isready -U ${{ secrets.POSTGRES_USER }}"
-            --health-interval=5s
-            --health-timeout=5s
-            --health-retries=5
+          POSTGRES_DB: ${{secrets.POSTGRES_DB}}
     steps:
       - uses: actions/checkout@v4
 
@@ -41,6 +36,4 @@ jobs:
         env:
           CORESETTING_DATABASES: '{"default":{"HOST":"db"}}'
           CORESETTING_LOCAL_SETTINGS_PATH: "./erp/core/settings/templates/settings.github.py"
-          POSTGRES_DB: erp
-          POSTGRES_USER: erp
-          POSTGRES_PASSWORD: erpPassword
+         
