@@ -29,11 +29,7 @@ jobs:
         run: |
           poetry install --no-root  # Skips trying to install the non-existent backend package
 
-      - name: Set up Git for pre-commit
-        run: |
-          git init
-          git config --global user.name "GitHub Actions"
-          git config --global user.email "actions@github.com"
+      
 
       - name: Install and run pre-commit hooks
         run: |
