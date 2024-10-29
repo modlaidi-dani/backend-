@@ -20,15 +20,17 @@ jobs:
       - name: Install system dependencies
         run: |
           apt-get update
-          apt-get install -y make libpq-dev 
+          apt-get install -y make libpq-dev  
 
       - name: Install Poetry
         run: python3 -m pip install --upgrade pip && python3 -m pip install poetry==1.8.3
 
-      - name: Install dependencies
-        run:
-            poetry add psycopg2-binary --dev
-            make install && make install-pre-commit
+      - name: Add psycopg2-binary and install dependencies
+        run: |
+          poetry add psycopg2-binary --group dev
+          make install
+          make install-pre-commit
 
       - name: Lint
         run: make lint
+
