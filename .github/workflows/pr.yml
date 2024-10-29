@@ -25,14 +25,23 @@ jobs:
       - name: Install Poetry
         run: python3 -m pip install --upgrade pip && python3 -m pip install poetry==1.8.3
 
-      - name: Install dependencies with Poetry
-        run: |
-          poetry install --no-root  # Skips trying to install the non-existent backend package
+      - name: Configure Poetry to skip project installation
+        run: poetry config installer.no-binary ":all:"
 
+      - name: Install dependencies with Poetry
+        run: poetry install --no-root  # This prevents Poetry from installing the non-existent backend package
       
+      - name: Check for Git Repository
+        run: |
+          if [ -d ".git" ]; then
+            poetry run pre-commit uninstall
+            poetry run pre-commit install
+          else
+            echo "Skipping pre-commit installation because this is not a git repository."
+          fi
 
       - name: Install
-        run: make install && make install-pre-commit
+        run: make install
 
       - name: Lint
         run: make lint
