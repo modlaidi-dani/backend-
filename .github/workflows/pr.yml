@@ -20,7 +20,7 @@ jobs:
       - name: Install system dependencies
         run: |
           apt-get update
-          apt-get install -y make libpq-dev  
+          apt-get install -y make libpq-dev 
 
       - name: Install Poetry
         run: python3 -m pip install --upgrade pip && python3 -m pip install poetry==1.8.3
@@ -30,4 +30,3 @@ jobs:
 
       - name: Lint
         run: make lint
-
