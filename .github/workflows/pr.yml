@@ -22,10 +22,7 @@ jobs:
         with:
           python-version: "3.12"
 
-      - name: Install system dependencies
-        run: |
-          apt-get update
-          apt-get install -y curl
+    
 
       - name: Run Poetry image
         uses: abatilo/actions-poetry@v2
