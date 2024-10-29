@@ -39,5 +39,5 @@ jobs:
       - name: Test
         run: make test
         env:
-          CORESETTING_DATABASES: '{"default":{"ENGINE":"django.db.backends.postgresql","NAME":"erp","USER":"${{ secrets.POSTGRES_USER }}","PASSWORD":"${{ secrets.POSTGRES_PASSWORD }}","HOST":"db","PORT":"5432"}}'
+          CORESETTING_DATABASES: '{"default":{"HOST":"db"}}'
           CORESETTING_LOCAL_SETTINGS_PATH: "./erp/core/settings/templates/settings.github.py"
