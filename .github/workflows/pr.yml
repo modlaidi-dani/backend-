@@ -16,9 +16,6 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-      
-      - name: Ensure Git Repository
-        run: git init
 
       - name: Run Poetry image
         uses: abatilo/actions-poetry@v2
