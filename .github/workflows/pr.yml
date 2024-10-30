@@ -34,10 +34,6 @@ jobs:
       - name: Test
         run: make test
         env:
-          DATABASE_URL: "postgres://postgres:${{ secrets.POSTGRES_PASSWORD }}@db:5432/${{ secrets.POSTGRES_DB }}"
           CORESETTING_DATABASES: '{"default":{"HOST":"db"}}'
           CORESETTING_LOCAL_SETTINGS_PATH: "./erp/core/settings/templates/settings.github.py"
           SECRET_KEY: ${{ secrets.SECRET_KEY }}
-          POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
-          POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
-          POSTGRES_DB: ${{secrets.POSTGRES_DB}}
