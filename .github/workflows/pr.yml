@@ -16,22 +16,14 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-
-      - name: Verify Git installation
-        run: |
-          git --version || (apt-get update && apt-get install -y git)
-
+      
       - name: Run Poetry image
         uses: abatilo/actions-poetry@v2
         with:
           poetry-version: 1.8.3
 
       - name: Install Dependencies
-        run: |
-          make install
-          make install-pre-commit
-          echo "Pre-commit installation log:"
-          cat $(POETRY_CACHE_DIR)/poetry/repo/pre-commit.log
+        run: make install && make install-pre-commit
 
       - name: Lint
         run: make lint
