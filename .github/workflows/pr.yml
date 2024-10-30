@@ -32,7 +32,6 @@ jobs:
 
       - name: Install dependencies
         run: |
-          # Ensure the correct path for Poetry is used
           source $GITHUB_PATH
           poetry install
           make install-pre-commit
