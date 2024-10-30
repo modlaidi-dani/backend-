@@ -17,10 +17,19 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Check Git version
+        run: git --version
+
+      - name: List directory contents
+        run: ls -la
+
       - name: Run Poetry image
         uses: abatilo/actions-poetry@v2
         with:
           poetry-version: 1.8.3
+
+      - name: Install pre-commit
+        run: poetry install pre-commit
 
       - name: Install Dependencies
         run: make install && make install-pre-commit
