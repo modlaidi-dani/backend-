@@ -28,7 +28,10 @@ jobs:
 
       - name: Install Dependencies
         run: |
-          make install && make install-pre-commit
+          make install
+          make install-pre-commit
+          echo "Pre-commit installation log:"
+          cat $(POETRY_CACHE_DIR)/poetry/repo/pre-commit.log
 
       - name: Lint
         run: make lint
