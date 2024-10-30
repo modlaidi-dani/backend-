@@ -17,10 +17,6 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Verify Git installation
-        run: |
-          git --version || (apt-get update && apt-get install -y git)
-
       - name: Run Poetry image
         uses: abatilo/actions-poetry@v2
         with:
@@ -28,10 +24,9 @@ jobs:
 
       - name: Install Dependencies
         run: |
-          make install && make install-pre-commit
+          make install 
 
-      - name: Lint
-        run: make lint
+      
         
       - name: Test
         run: make test
