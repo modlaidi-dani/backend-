@@ -22,9 +22,17 @@ jobs:
         with:
           poetry-version: 1.8.3
           
-      - name: Install Dependencies
-        run: make install && make install-pre-commit
+      - name: Install Dev Dependencies
+        run: poetry install --with dev
 
+      - name: Check Pre-commit Installation
+        run: poetry show pre-commit
+
+      - name: Ensure Git Repository
+        run: git init
+
+      - name: Install Pre-commit
+        run: poetry run pre-commit install
 
       - name: Lint
         run: make lint
