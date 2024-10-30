@@ -22,10 +22,10 @@ jobs:
         with:
           python-version: "3.12"
 
-      - name: Run Poetry image
-        uses: abatilo/actions-poetry@v2
-        with:
-          poetry-version: 1.8.3
+      - name: Install Poetry
+        run: |
+          curl -sSL https://install.python-poetry.org | python3 -
+          echo "${{ github.workspace }}/.local/bin" >> $GITHUB_PATH
 
       - name: Install dependencies
         run: make install && make install-pre-commit
