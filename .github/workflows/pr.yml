@@ -36,3 +36,4 @@ jobs:
         env:
           CORESETTING_DATABASES: '{"default":{"HOST":"db"}}'
           CORESETTING_LOCAL_SETTINGS_PATH: "./erp/core/settings/templates/settings.github.py"
+          SECRET_KEY: ${{ secrets.SECRET_KEY }}
