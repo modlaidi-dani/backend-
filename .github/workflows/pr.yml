@@ -23,7 +23,7 @@ jobs:
           poetry-version: 1.8.3
           
       - name: Install Dependencies
-        run: poetry install --with dev && poetry run pre-commit install
+        run: make install && make install-pre-commit
 
 
       - name: Lint
