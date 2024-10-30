@@ -24,6 +24,8 @@ jobs:
         uses: abatilo/actions-poetry@v2
         with:
           poetry-version: 1.8.3
+      - name: Install Pre-commit Hooks
+        run: poetry run pre-commit install
 
       - name: Install Dependencies
         run: make install && make install-pre-commit
