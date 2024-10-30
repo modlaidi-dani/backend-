@@ -27,8 +27,15 @@ jobs:
           curl -sSL https://install.python-poetry.org | python3 -
           echo "${{ github.workspace }}/.local/bin" >> $GITHUB_PATH
 
+      - name: Add Poetry to PATH
+        run: echo "${{ github.workspace }}/.local/bin" >> $GITHUB_PATH
+
       - name: Install dependencies
-        run: make install && make install-pre-commit
+        run: |
+          # Ensure the correct path for Poetry is used
+          source $GITHUB_PATH
+          poetry install
+          make install-pre-commit
 
       - name: Lint
         run: make lint
