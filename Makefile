@@ -8,7 +8,7 @@ run-server:
 
 .PHONY: install
 install:
-	poetry install
+	poetry install --no-root
 .PHONY: migrations
 migrations:
 	poetry run python3 -m erp.manage makemigrations
