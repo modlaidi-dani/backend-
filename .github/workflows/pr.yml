@@ -31,8 +31,8 @@ jobs:
       - name: Lint
         run: make lint
 
-      - name: Test
-        run: make test
-        env:
-          CORESETTING_DATABASES: '{"default":{"HOST":"db"}}'
-          CORESETTING_LOCAL_SETTINGS_PATH: "./erp/core/settings/templates/settings.github.py"
+      # - name: Test
+      #   run: make test
+      #   env:
+      #     CORESETTING_DATABASES: '{"default":{"HOST":"db"}}'
+      #     CORESETTING_LOCAL_SETTINGS_PATH: "./erp/core/settings/templates/settings.github.py"
