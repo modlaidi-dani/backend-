@@ -2,8 +2,9 @@ from django.contrib.auth import get_user_model
 from rest_framework import generics, status
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
+from rest_framework_simplejwt.views import TokenObtainPairView
 
-from .serializers import LoginSerializer, RegisterSerializer, UserSerializer
+from .serializers import LoginSerializer, MyTokenObtainPairSerializer, RegisterSerializer, UserSerializer
 
 User = get_user_model()
 
@@ -29,10 +30,14 @@ class LoginView(generics.GenericAPIView):
     def post(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
-        user = serializer.validated_data
-        token = serializer.data['token']
+        user = serializer.validated_data['user']
+        token = serializer.validated_data['token']
 
         return Response({
             "user": UserSerializer(user).data,
             "token": token
         }, status=status.HTTP_200_OK)
+
+
+class CustomTokenObtainPairView(TokenObtainPairView):
+    serializer_class = MyTokenObtainPairSerializer

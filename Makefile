@@ -8,7 +8,7 @@ run-server:
 
 .PHONY: install
 install:
-	poetry install
+	poetry install --no-root
 .PHONY: migrations
 migrations:
 	poetry run python3 -m erp.manage makemigrations
@@ -37,6 +37,10 @@ update: install migrate install-pre-commit ;
 up-dependencies-only:
 	test -f .env || touch .env
 	docker compose  -f docker-compose.dev.yml up --force-recreate db
+.PHONY: test
+test:
+	poetry run pytest -v -rs -n auto --show-capture=no
+
 
 export PYTHONPATH=/home/divatech/Desktop/new-erp/backend-/
 export PYTHONPATH=./backend-/erp

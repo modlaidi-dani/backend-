@@ -5,21 +5,29 @@ on: [pull_request]
 jobs:
   build:
     runs-on: ubuntu-latest
+    container: python:3.12
+    services:
+      db:
+        image: postgres:latest
+        env:
+          POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
+          POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
+          POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
 
     steps:
-    - uses: actions/checkout@v4
-    - name: Set up Python
-      uses: actions/setup-python@v3
-      with:
-          python-version: "3.12"
+      - uses: actions/checkout@v4
 
-    - name: Run Poetry image
-      uses: abatilo/actions-poetry@v2
-      with:
+      - name: Run Poetry image
+        uses: abatilo/actions-poetry@v2
+        with:
           poetry-version: 1.8.3
-
-    - name: Install
-      run: make install && make install-pre-commit
-
-    - name: Lint
-      run: make lint
+          
+      - name: Install dependencies
+        run: make install 
+        
+      - name: Test
+        run: make test
+        env:
+          CORESETTING_DATABASES: '{"default":{"HOST":"db"}}'
+          CORESETTING_LOCAL_SETTINGS_PATH: "./erp/core/settings/templates/settings.github.py"
+          SECRET_KEY: ${{ secrets.SECRET_KEY }}
