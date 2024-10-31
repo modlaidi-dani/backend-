@@ -21,13 +21,13 @@ jobs:
         uses: abatilo/actions-poetry@v2
         with:
           poetry-version: 1.8.3
-          
+
       - name: Install dependencies
-        run: make install 
-        
+        run: make install
+
       - name: Test
         run: make test
         env:
           CORESETTING_DATABASES: '{"default":{"HOST":"db"}}'
           CORESETTING_LOCAL_SETTINGS_PATH: "./erp/core/settings/templates/settings.github.py"
-          SECRET_KEY: ${{ secrets.SECRET_KEY }}
+          # SECRET_KEY: ${{ secrets.SECRET_KEY }}
