@@ -26,7 +26,8 @@ include(
     optional(LOCAL_SETTINGS_PATH),
     'envvars.py',
     'logging.py',
-    'rest_framework.py'
+    'rest_framework.py',
+    'celery.py'
 )
 if not is_pytest_running():
     assert SECRET_KEY is not NotImplemented  # type: ignore # noqa: F821
