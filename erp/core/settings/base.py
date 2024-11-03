@@ -1,3 +1,4 @@
+from typing import List
 
 from decouple import config  # type: ignore
 
@@ -5,7 +6,7 @@ SECRET_KEY = NotImplemented
 
 DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS: List[str] = []
 
 INSTALLED_APPS = [
     "django.contrib.admin",
@@ -16,7 +17,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "rest_framework_simplejwt.token_blacklist",
     "rest_framework",
-    "erp.user"
+    "erp.user",
 ]
 
 MIDDLEWARE = [
@@ -56,12 +57,11 @@ WSGI_APPLICATION = "erp.core.wsgi.application"
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql_psycopg2",
-        'NAME': 'erp',
-        'USER': 'erp',
-        'PASSWORD': 'erpPassword',
-        'HOST': config('POSTGRES_HOST', default='localhost'),
-        'PORT': config('POSTGRES_PORT', default='5432'),
-
+        "NAME": "erp",
+        "USER": "erp",
+        "PASSWORD": "erpPassword",
+        "HOST": config("POSTGRES_HOST", default="localhost"),
+        "PORT": config("POSTGRES_PORT", default="5432"),
     }
 }
 
@@ -107,30 +107,30 @@ STATIC_URL = "static/"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-AUTH_USER_MODEL = 'user.User'
+AUTH_USER_MODEL = "user.User"
 
 LOGGING = {
-    'version': 1,
-    'disable_existing_loggers': False,
-    'handlers': {
-        'console': {
-            'class': 'logging.StreamHandler',
+    "version": 1,
+    "disable_existing_loggers": False,
+    "handlers": {
+        "console": {
+            "class": "logging.StreamHandler",
         },
     },
-    'loggers': {
-        'django': {
-            'handlers': ['console'],
-            'level': 'DEBUG',
+    "loggers": {
+        "django": {
+            "handlers": ["console"],
+            "level": "DEBUG",
         },
     },
 }
 
 CACHES = {
-    'default': {
-        'BACKEND': 'django_redis.cache.RedisCache',
-        'LOCATION': 'redis://127.0.0.1:6379/1',
-        'OPTIONS': {
-            'CLIENT_CLASS': 'django_redis.client.DefaultClient',
-        }
+    "default": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": "redis://127.0.0.1:6379/1",
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+        },
     }
 }

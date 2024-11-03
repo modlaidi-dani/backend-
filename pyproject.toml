@@ -32,6 +32,9 @@ flake8 = "^7.1.1"
 pre-commit = "^4.0.1"
 colorlog = "^6.8.2"
 
+[tool.poetry.group.dev.dependencies]
+isort = "^5.13.2"
+
 [tool.isort]
 multi_line_output = 5
 line_length = 119

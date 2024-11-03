@@ -21,10 +21,10 @@ jobs:
         uses: abatilo/actions-poetry@v2
         with:
           poetry-version: 1.8.3
-          
+
       - name: Install dependencies
-        run: make install 
-        
+        run: make install
+
       - name: Test
         run: make test
         env:
