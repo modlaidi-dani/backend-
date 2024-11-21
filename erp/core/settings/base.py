@@ -1,12 +1,13 @@
 from typing import List
 
-from decouple import config  # type: ignore
+# The lines `# from decouple import config  # type: ignore` and `# SECRET_KEY = NotImplemented` are
 
-SECRET_KEY = NotImplemented
+
+# SECRET_KEY = NotImplemented
 
 DEBUG = False
 
-ALLOWED_HOSTS: List[str] = []
+ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     "django.contrib.admin",
@@ -18,6 +19,20 @@ INSTALLED_APPS = [
     "rest_framework_simplejwt.token_blacklist",
     "rest_framework",
     "erp.user",
+    "erp.clientInfo",
+    "erp.tiers",
+    "erp.produits",
+    "erp.inventory",
+    "erp.ventes",
+    "erp.achats",
+    "erp.reglements",
+    # "erp.heroicons",
+    "erp.comptoire",
+    # "erp.target",
+    # "erp.statistiques",
+    "erp.logistique",
+    # "erp.production",
+    "erp.gestionRH",
 ]
 
 MIDDLEWARE = [
@@ -49,21 +64,26 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = "erp.core.wsgi.application"
-
-
+SECRET_KEY = 'django-insecure-h&jx_x7ba#4(^cbd86+9dftdl4x(s^9^hr#r8h3jw3fu_m8$'
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
+}
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
-DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.postgresql_psycopg2",
-        "NAME": "erp",
-        "USER": "erp",
-        "PASSWORD": "erpPassword",
-        "HOST": config("POSTGRES_HOST", default="localhost"),
-        "PORT": config("POSTGRES_PORT", default="5432"),
-    }
-}
+# DATABASES = {
+#     "default": {
+#         "ENGINE": "django.db.backends.postgresql_psycopg2",
+#         "NAME": "erp",
+#         "USER": "erp",
+#         "PASSWORD": "erpPassword",
+#         "HOST": config("POSTGRES_HOST", default="localhost"),
+#         "PORT": config("POSTGRES_PORT", default="5432"),
+#     }
+# }
 
 
 # Password validation
@@ -107,7 +127,7 @@ STATIC_URL = "static/"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-AUTH_USER_MODEL = "user.User"
+# AUTH_USER_MODEL = "user.User"
 
 LOGGING = {
     "version": 1,
@@ -125,12 +145,12 @@ LOGGING = {
     },
 }
 
-CACHES = {
-    "default": {
-        "BACKEND": "django_redis.cache.RedisCache",
-        "LOCATION": "redis://localhost:6379/0",
-        "OPTIONS": {
-            "CLIENT_CLASS": "django_redis.client.DefaultClient",
-        },
-    }
-}
+# CACHES = {
+#     "default": {
+#         "BACKEND": "django_redis.cache.RedisCache",
+#         "LOCATION": "redis://localhost:6379/0",
+#         "OPTIONS": {
+#             "CLIENT_CLASS": "django_redis.client.DefaultClient",
+#         },
+#     }
+# }

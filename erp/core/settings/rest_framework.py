@@ -1,6 +1,6 @@
 from datetime import timedelta
 
-from decouple import config  # type: ignore
+# from decouple import config  # type: ignore
 
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": (
@@ -15,7 +15,9 @@ SIMPLE_JWT = {
     "ROTATE_REFRESH_TOKENS": True,
     "BLACKLIST_AFTER_ROTATION": True,
     "ALGORITHM": "HS256",
-    "SIGNING_KEY": config("SECRET_KEY"),
+    # "SIGNING_KEY": config("SECRET_KEY"),
+    "SIGNING_KEY": 'django-insecure-h&jx_x7ba#4(^cbd86+9dftdl4x(s^9^hr#r8h3jw3fu_m8$',
+    
     # "UPDATE_LAST_LOGIN": True,
     # "TEST_REQUEST_DEFAULT_FORMAT": "json",
     # "AUDIENCE": None,

@@ -1,47 +1,30 @@
-from django.contrib.auth import get_user_model
-from rest_framework import generics, status
-from rest_framework.permissions import AllowAny
+
+from django.shortcuts import render
+from .models import * 
+from .serializers import * 
+# from permissions import *
+from rest_framework import viewsets
 from rest_framework.response import Response
-
-from .serializers import LoginSerializer, RegisterSerializer, UserSerializer
-
-User = get_user_model()
-
-
-class RegisterView(generics.CreateAPIView):
-    queryset = User.objects.all()
-    permission_classes = (AllowAny,)
-    serializer_class = RegisterSerializer
-
-    def post(self, request, *args, **kwargs):
-        serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        user = serializer.save()
-
-        return Response(
-            {
-                "user": UserSerializer(user).data,
-                "message": "User registered successfully",
-            },
-            status=status.HTTP_201_CREATED,
-        )
+from rest_framework.permissions import IsAuthenticated, AllowAny,IsAdminUser
+from rest_framework import response,status
+from rest_framework_simplejwt.authentication import JWTAuthentication
+# from permissions import IsManager
 
 
-class LoginView(generics.GenericAPIView):
-    permission_classes = (AllowAny,)
-    serializer_class = LoginSerializer
+class CustomGroupViewset(viewsets.ModelViewSet):
+    queryset=CustomGroup.objects.all()
+    serializer_class=CustomGroupSerializer
+    authentication_classes=[JWTAuthentication] 
+    permission_classes=[IsAuthenticated]
+class CustomUserViewset(viewsets.ModelViewSet):
+    queryset=CustomUser.objects.all()
+    serializer_class=CustomUserSerializer
+    authentication_classes=[JWTAuthentication] 
+    permission_classes=[IsAuthenticated]
+    
 
-    def post(self, request, *args, **kwargs):
-        serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        user = serializer.validated_data["user"]
-        token = serializer.validated_data["token"]
-
-        return Response(
-            {"user": UserSerializer(user).data, "token": token},
-            status=status.HTTP_200_OK,
-        )
-
-# Uncomment and implement this class if needed
-# class CustomTokenObtainPairView(TokenObtainPairView):
-#     serializer_class = MyTokenObtainPairSerializer
+class EquipeViewset(viewsets.ModelViewSet):
+    queryset=Equipe.objects.all()
+    serializer_class=EquipeSerializer
+    authentication_classes=[JWTAuthentication] 
+    permission_classes=[IsAuthenticated]
