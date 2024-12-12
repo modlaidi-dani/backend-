@@ -1,11 +1,10 @@
 from typing import List
-
 # The lines `# from decouple import config  # type: ignore` and `# SECRET_KEY = NotImplemented` are
 
 
 # SECRET_KEY = NotImplemented
 
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = []
 
@@ -33,6 +32,7 @@ INSTALLED_APPS = [
     "erp.logistique",
     # "erp.production",
     "erp.gestionRH",
+    'django_filters',
 ]
 
 MIDDLEWARE = [
@@ -104,6 +104,17 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+REST_FRAMEWORK = {
+    'DEFAULT_PAGINATION_CLASS': 'erp.core.pagination.PageNumberPagination',
+    'PAGE_SIZE': 10,
+    'DEFAULT_PERMISSION_CLASSES': [
+        'erp.core.permission.DynamicPermission',
+    ],
+    'DEFAULT_FILTER_BACKENDS': [
+        'erp.core.filters.UserFilterBackend',
+        'django_filters.rest_framework.DjangoFilterBackend',
+    ],
+}
 
 # Internationalization
 # https://docs.djangoproject.com/en/5.1/topics/i18n/

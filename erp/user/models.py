@@ -9,12 +9,20 @@ from rest_framework.authtoken.models import Token
 from django.db import models
 
 
-class userCustomPermission(Permission):
-    class Meta:
-        verbose_name = 'Custom Permission'
-        verbose_name_plural = 'Custom Permissions'
-        
+class UserCustomPermission(models.Model):
+    CHOICES = [
+        ("get", "get"),
+        ("add", "add"),     
+        ("delete", "delete"),
+        ("update", "update"),     
+             
+    ]
+    view=models.CharField(null=True, max_length=50)
+    name=models.CharField(null=True, max_length=100)
+    action=models.CharField(default="get",choices=CHOICES, max_length=50)
+
 class CustomUser(User):
+    permission=models.ManyToManyField(UserCustomPermission,null=True, blank=True)
     role = models.CharField(max_length=100, null=True, blank=True, default='')
     group = models.ForeignKey('CustomGroup', on_delete=models.SET_NULL, related_name="group_user", null=True, blank=True, default=None)
     EmployeeAt = models.ForeignKey('clientInfo.store', on_delete=models.CASCADE, related_name="mes_employees", null=True, blank=True)
@@ -47,7 +55,7 @@ class CustomGroup(Group):
     label = models.CharField(max_length=100, unique=False)
     description = models.TextField(max_length=2500)
     store = models.ForeignKey('clientInfo.store', on_delete=models.CASCADE, related_name="mes_groupes", null=True, blank=True, default=None)
-    custom_permissions = models.ManyToManyField(Permission, blank=True)
+    custom_permissions = models.ManyToManyField(UserCustomPermission, blank=True)
     
     def __str__(self) :
         return self.label

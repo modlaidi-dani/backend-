@@ -9,7 +9,13 @@ from rest_framework.permissions import IsAuthenticated, AllowAny,IsAdminUser
 from rest_framework import response,status
 from rest_framework_simplejwt.authentication import JWTAuthentication
 # from permissions import IsManager
+from core.permission import DynamicPermission
 
+class UserCustomPermissionViewset(viewsets.ModelViewSet):
+    queryset=UserCustomPermission.objects.all()
+    serializer_class=UserCustomPermissionSerializer
+    authentication_classes=[JWTAuthentication] 
+    permission_classes=[IsAuthenticated]
 
 class CustomGroupViewset(viewsets.ModelViewSet):
     queryset=CustomGroup.objects.all()
@@ -28,3 +34,9 @@ class EquipeViewset(viewsets.ModelViewSet):
     serializer_class=EquipeSerializer
     authentication_classes=[JWTAuthentication] 
     permission_classes=[IsAuthenticated]
+class cordinatesViewset(viewsets.ModelViewSet):
+    queryset=cordinates.objects.all()
+    serializer_class=cordinatesSerializer
+    authentication_classes=[JWTAuthentication] 
+    permission_classes=[IsAuthenticated,DynamicPermission]
+    
