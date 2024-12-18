@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from .models import *
 from clientInfo.serializers import *
-from inventory.serializers import * 
+from inventory.serializers import *
 
 class UserCustomPermissionSerializer(serializers.ModelSerializer):
     class Meta:
@@ -24,7 +24,7 @@ class CustomUserSerializer(serializers.ModelSerializer):
     permission=UserCustomPermissionSerializer()
     group=CustomGroupSerializer()
     EmployeeAt=StoreSerializer()
-    entrepots_responsible=EntrepotSerializer()
+    # entrepots_responsible=EntrepotSerializer()
     equipe_affiliated=EquipeSerializer()
     class Meta:
         model=CustomUser
