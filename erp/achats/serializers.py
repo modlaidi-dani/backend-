@@ -43,7 +43,7 @@ class ProduitsEnBonAchatSerializer(serializers.ModelSerializer):
         model=ProduitsEnBonAchat
         fields="__all__"
 class BonAchatSerializer(serializers.ModelSerializer):
-    produit=ProduitsEnBonAchatSerializer(many=True)
+    produit=ProduitsEnBonAchatSerializer(many=True,source='produits_en_bon_achat')
     fournisseur=FournisseurSerializer()
     entrepot=EntrepotSerializer()
     monnaie=ValeurDeviseSerializer()

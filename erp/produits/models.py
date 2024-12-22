@@ -28,14 +28,14 @@ class Category(models.Model):
 class Product(models.Model):
     reference = models.CharField( ("Référence du produit"), help_text=("Référence interne pour ce produit"),
           max_length=120,
-          blank=False,
+           
           null=False,
           unique=False
     )
     parent_product = models.ForeignKey('Product', on_delete=models.CASCADE, related_name="myvariants",default=None, null=True, blank=True)
     name = models.CharField( ("Désignation"), help_text=("La désignation du produit"),
         max_length=200,
-        blank=False,
+         
         null=True
     )
     category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name="products", blank=True, null=True)

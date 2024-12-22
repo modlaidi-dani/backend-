@@ -15,17 +15,16 @@ class UserCustomPermission(models.Model):
         ("add", "add"),     
         ("delete", "delete"),
         ("update", "update"),     
-             
     ]
     view=models.CharField(null=True, max_length=50)
     name=models.CharField(null=True, max_length=100)
     action=models.CharField(default="get",choices=CHOICES, max_length=50)
 
 class CustomUser(User):
-    permission=models.ManyToManyField(UserCustomPermission,null=True, blank=True)
-    role = models.CharField(max_length=100, null=True, blank=True, default='')
-    group = models.ForeignKey('CustomGroup', on_delete=models.SET_NULL, related_name="group_user", null=True, blank=True, default=None)
+    permission=models.ManyToManyField(UserCustomPermission,null=True)
     EmployeeAt = models.ForeignKey('clientInfo.store', on_delete=models.CASCADE, related_name="mes_employees", null=True, blank=True)
+    group = models.ForeignKey('CustomGroup', on_delete=models.SET_NULL, related_name="group_user", null=True, blank=True, default=None)
+    role = models.CharField(max_length=100, null=True, blank=True, default='')
     entrepots_responsible = models.ForeignKey('inventory.Entrepot', on_delete=models.SET_NULL, related_name="responsables" ,default=None, null=True, blank=True)
     equipe_affiliated = models.ForeignKey('Equipe', on_delete=models.SET_NULL, related_name="mes_membres" ,default=None, null=True, blank=True)
     adresse_ip = models.GenericIPAddressField(default='127.0.0.1', blank=True, null=True)

@@ -41,7 +41,7 @@ class BonComptoire(models.Model):
     idBon = models.CharField(
           ("id Bon"), 
           max_length=200,
-          blank=False,
+           
           null=False,
           unique=True
     )    
@@ -66,7 +66,7 @@ class BonRectification(models.Model):
     idBon = models.CharField(
           ("id Bon"), 
           max_length=200,
-          blank=False,
+           
           null=False,
           unique=True
     )    
@@ -104,7 +104,7 @@ class BonRetourComptoir(models.Model):
     idBon = models.CharField(
           ("id Bon"), 
           max_length=200,
-          blank=False,
+           
           null=False,
           unique=True
     )    
@@ -113,7 +113,7 @@ class BonRetourComptoir(models.Model):
     user = models.ForeignKey(CustomUser, on_delete = models.CASCADE, related_name='mes_bons_retourcomptoire', blank=True, null=True, default=None)
     bon_comptoir_associe = models.ForeignKey(BonComptoire, on_delete = models.CASCADE, related_name='bons_retour_compt', blank=True, null=True, default=None)
     bon_rectification_associe = models.ForeignKey(BonRectification, on_delete = models.CASCADE, related_name='bons_retour_compt', blank=True, null=True, default=None)
-    decision = models.CharField( max_length=200,blank=False,null=False, default='')
+    decision = models.CharField( max_length=200, null=False, default='')
 
     
 

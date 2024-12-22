@@ -38,7 +38,7 @@ class BonRetourAncien(models.Model):
     idBon = models.CharField(
           ("id Bon"), 
           max_length=200,
-          blank=False,
+           
           null=False,
           unique=True
     )    
@@ -95,7 +95,7 @@ class BonTransfertMagasin(models.Model):
     idBon = models.CharField(
           ("id Bon"), 
           max_length=200,
-          blank=False,
+           
           null=False,
           unique=True
     )    
@@ -107,7 +107,7 @@ class BonTransfertMagasin(models.Model):
     automatiquement = models.BooleanField(blank=True, null=True,default=False)
     valide = models.BooleanField(blank=True, null=True, default=False)
     user = models.ForeignKey(CustomUser,on_delete = models.CASCADE, related_name='mes_bons_transfert_mag', blank=True, null=True, default=None)
-    store = models.ForeignKey(store, on_delete=models.CASCADE,blank=True , null=True, default=None)
+    store = models.ForeignKey(store, on_delete=models.CASCADE,  null=True, default=None)
         
     def __str__(self):
 	    return "Bon no: " + str(self.idBon)
@@ -125,7 +125,7 @@ class BonRetour(models.Model):
     idBon = models.CharField(
           ("id Bon"), 
           max_length=200,
-          blank=False,
+           
           null=False,
           unique=True
     )    
@@ -145,7 +145,7 @@ class BonEchange(models.Model):
     idBon = models.CharField(
           ("id Bon"), 
           max_length=200,
-          blank=False,
+           
           null=False,
           unique=True
     )    
@@ -165,7 +165,7 @@ class BonMaintenance(models.Model):
     idBon = models.CharField(
           ("id Bon"), 
           max_length=200,
-          blank=False,
+           
           null=False,
           unique=True
     )    
@@ -212,7 +212,7 @@ class BonReforme(models.Model):
     idBon = models.CharField(
           ("id Bon"), 
           max_length=200,
-          blank=False,
+           
           null=False,
           unique=True
     )    
@@ -236,15 +236,15 @@ class BonEntry(models.Model):
     idBon = models.CharField(
           ("id Bon"), 
           max_length=200,
-          blank=False,
+           
           null=False,
           unique=True
     )    
     dateBon =models.DateField()
     user =models.ForeignKey(CustomUser,on_delete = models.CASCADE, related_name='mes_bons_entry', blank=True, null=True, default=None)
-    fournisseur = models.ForeignKey('tiers.Fournisseur', on_delete = models.CASCADE, related_name='fournisseurs_bons_entry', blank=True , null=True, default=None)
-    entrepot = models.ForeignKey(Entrepot, on_delete = models.CASCADE, related_name='Entrepots_bons_entry', blank=True , null=True, default=None)
-    store = models.ForeignKey(store, on_delete=models.CASCADE,blank=True , null=True, default=None)
+    fournisseur = models.ForeignKey('tiers.Fournisseur', on_delete = models.CASCADE, related_name='fournisseurs_bons_entry',   null=True, default=None)
+    entrepot = models.ForeignKey(Entrepot, on_delete = models.CASCADE, related_name='Entrepots_bons_entry',   null=True, default=None)
+    store = models.ForeignKey(store, on_delete=models.CASCADE,  null=True, default=None)
     def __str__(self):
 	    return "Bon no: " + str(self.idBon)
  
@@ -252,15 +252,15 @@ class BonReintegration(models.Model):
     idBon = models.CharField(
           ("id Bon"), 
           max_length=200,
-          blank=False,
+           
           null=False,
           unique=True
     )    
     dateBon =models.DateField()
     user =models.ForeignKey(CustomUser,on_delete = models.CASCADE, related_name='mes_bons_reintegration', blank=True, null=True, default=None)
-    bonRetour = models.ForeignKey(BonRetour, on_delete = models.CASCADE, related_name='bonretour_bons_reintegration', blank=True , null=True, default=None)
-    entrepot = models.ForeignKey(Entrepot, on_delete = models.CASCADE, related_name='Entrepots_bons_reintegration', blank=True , null=True, default=None)
-    store = models.ForeignKey(store, on_delete=models.CASCADE,blank=True , null=True, default=None)   
+    bonRetour = models.ForeignKey(BonRetour, on_delete = models.CASCADE, related_name='bonretour_bons_reintegration',   null=True, default=None)
+    entrepot = models.ForeignKey(Entrepot, on_delete = models.CASCADE, related_name='Entrepots_bons_reintegration',   null=True, default=None)
+    store = models.ForeignKey(store, on_delete=models.CASCADE,  null=True, default=None)   
     def __str__(self):
 	    return "Bon no: " + str(self.idBon)
 
@@ -268,16 +268,16 @@ class Bonsortiedestock(models.Model):
     idBon = models.CharField(
           ("id Bon"), 
           max_length=200,
-          blank=False,
+           
           null=False,
           unique=True
     )    
     dateBon =models.DateField()
     user = models.ForeignKey(CustomUser,on_delete = models.CASCADE, related_name='mes_bons_sortiesstock',blank=True, null=True, default=None)
-    bonL = models.ForeignKey('ventes.BonSortie',on_delete = models.CASCADE, related_name='bonsBl_sortiesstock',blank=True , null=True, default=None)
-    entrepot = models.ForeignKey(Entrepot, on_delete = models.CASCADE, related_name='Entrepots_bons_sortiesstock', blank=True , null=True, default=None)
-    store = models.ForeignKey(store, on_delete=models.CASCADE,blank=True , null=True, default=None)
-    Client =models.ForeignKey(Client, on_delete=models.CASCADE,blank=True , null=True, default=None)
+    bonL = models.ForeignKey('ventes.BonSortie',on_delete = models.CASCADE, related_name='bonsBl_sortiesstock',  null=True, default=None)
+    entrepot = models.ForeignKey(Entrepot, on_delete = models.CASCADE, related_name='Entrepots_bons_sortiesstock',   null=True, default=None)
+    store = models.ForeignKey(store, on_delete=models.CASCADE,  null=True, default=None)
+    Client =models.ForeignKey(Client, on_delete=models.CASCADE,  null=True, default=None)
     num_doc = models.CharField(max_length=100, null=True, blank=True, default="")
     Date_doc_Sortie = models.DateField(null=True, blank=True)
     num_constat	= models.CharField(max_length=100, null=True, blank=True, default="")
@@ -291,7 +291,7 @@ class BonTransfert(models.Model):
     idBon = models.CharField(
           ("id Bon"), 
           max_length=200,
-          blank=False,
+           
           null=False,
           unique=True
     )    
@@ -303,7 +303,7 @@ class BonTransfert(models.Model):
     validation_recu = models.BooleanField(blank=True, null=True, default=True) 
     annule = models.BooleanField(blank=True, null=True, default=False) 
     user = models.ForeignKey(CustomUser,on_delete = models.CASCADE, related_name='mes_bons_transfert', blank=True, null=True, default=None)
-    store = models.ForeignKey(store, on_delete=models.CASCADE,blank=True , null=True, default=None)
+    store = models.ForeignKey(store, on_delete=models.CASCADE,  null=True, default=None)
 
     def __str__(self):
 	    return "Bon no: " + str(self.idBon)

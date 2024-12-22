@@ -17,21 +17,21 @@ class UserCustomPermissionViewset(viewsets.ModelViewSet):
     queryset=UserCustomPermission.objects.all()
     serializer_class=UserCustomPermissionSerializer
     authentication_classes=[JWTAuthentication] 
-    permission_classes=[IsAuthenticated,DynamicPermission]
+    permission_classes=[IsAuthenticated]
     filterset_class=[UserFilterBackend]
 
 
 class CustomGroupViewset(viewsets.ModelViewSet):
     queryset=CustomGroup.objects.all()
     serializer_class=CustomGroupSerializer
-    authentication_classes=[JWTAuthentication,DynamicPermission]
+    authentication_classes=[JWTAuthentication]
     filterset_class=[UserFilterBackend]
 
     permission_classes=[IsAuthenticated]
 class CustomUserViewset(viewsets.ModelViewSet):
     queryset=CustomUser.objects.all()
     serializer_class=CustomUserSerializer
-    authentication_classes=[JWTAuthentication,DynamicPermission]
+    authentication_classes=[JWTAuthentication]
     filterset_class=[UserFilterBackend]
 
     permission_classes=[IsAuthenticated]
@@ -41,14 +41,14 @@ class EquipeViewset(viewsets.ModelViewSet):
     queryset=Equipe.objects.all()
     serializer_class=EquipeSerializer
     authentication_classes=[JWTAuthentication] 
-    permission_classes=[IsAuthenticated,DynamicPermission]
+    permission_classes=[IsAuthenticated]
     filterset_class=[UserFilterBackend]
 
 class cordinatesViewset(viewsets.ModelViewSet):
     queryset=cordinates.objects.all()
     serializer_class=cordinatesSerializer
     authentication_classes=[JWTAuthentication] 
-    permission_classes=[IsAuthenticated,DynamicPermission]
+    permission_classes=[IsAuthenticated]
     filterset_class=[UserFilterBackend]
 
     

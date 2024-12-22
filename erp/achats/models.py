@@ -14,7 +14,7 @@ class BonCommandeAchat(models.Model):
     idBon = models.CharField(
           ("id Bon"), 
           max_length=200,
-          blank=False,
+           
           null=False,
           unique=True
     )    
@@ -59,7 +59,7 @@ class DossierAchat(models.Model):
     idDossier = models.CharField(
           ("id Bon"), 
           max_length=200,
-          blank=False,
+           
           null=False,
           unique=True
     )    
@@ -86,7 +86,7 @@ class BonAchat(models.Model):
     idBon = models.CharField(
           ("id Bon"), 
           max_length=200,
-          blank=False,
+           
           null=False,
           unique=True
     )    
@@ -102,18 +102,18 @@ class BonAchat(models.Model):
    
  
 class FactureAchat(models.Model):
-    codeFacture = models.CharField( max_length=200,blank=False,null=False,unique=True)  
+    codeFacture = models.CharField( max_length=200, null=False,unique=True)  
     date_facture = models.DateField()
     fournisseur = models.ForeignKey('tiers.Fournisseur',on_delete = models.CASCADE, related_name='client_facture_achat', default=None, blank=True, null=True)
     livraison = models.ForeignKey('inventory.Entrepot', on_delete = models.CASCADE, default=None, null=True, blank=True)
-    BonAchat = models.ForeignKey(BonAchat,on_delete = models.CASCADE, related_name='bonsachat_facture',blank=True , null=True, default=None)
+    BonAchat = models.ForeignKey(BonAchat,on_delete = models.CASCADE, related_name='bonsachat_facture',  null=True, default=None)
     mode_reglement = models.ForeignKey('reglements.ModeReglement', on_delete = models.CASCADE, related_name='factureachat_reglements_type')
     echeance_reglement = models.ForeignKey('reglements.EcheanceReglement', on_delete = models.CASCADE, related_name='factureachat_reglements_echeance', null=True, blank=True, default=None)
     monnaie = models.ForeignKey('clientInfo.ValeurDevise' , on_delete = models.CASCADE, default=None, null=True, blank=True)
     user =models.ForeignKey(CustomUser,on_delete = models.CASCADE, related_name='mes_facture_achat', default=None, blank=True, null=True)
     store = models.ForeignKey('clientInfo.store',on_delete = models.CASCADE, related_name='store_bons_factureachat', default=None, blank=True, null=True)
     Remise = models.DecimalField(max_digits=15, decimal_places=2)
-    etat_reglement = models.CharField( max_length=250,blank=False,null=False) 
+    etat_reglement = models.CharField( max_length=250, null=False) 
     shippingCost = models.DecimalField(max_digits=15, decimal_places=2 , null=True, blank=True)
     totalPrice = models.IntegerField(default=0)
     valide = models.BooleanField(default=False)
@@ -143,36 +143,36 @@ class ProduitsEnBonAchat(models.Model):
 
 class AvoirAchat(models.Model):
     BonSortieAssocie = models.ForeignKey(BonAchat, on_delete = models.CASCADE, related_name='avoirs_bonachat')
-    fournisseur = models.ForeignKey('tiers.Fournisseur', on_delete = models.CASCADE, related_name='avoirs_fournisseur', blank=True , null=True, default=None)
-    codeAvoir = models.CharField(  max_length=200,blank=False,null=False)   
+    fournisseur = models.ForeignKey('tiers.Fournisseur', on_delete = models.CASCADE, related_name='avoirs_fournisseur',   null=True, default=None)
+    codeAvoir = models.CharField(  max_length=200, null=False)   
     dateEmission = models.DateField(default=datetime.now)
-    motif =  models.CharField(  max_length=200,blank=False,null=False, default="")
-    montant = models.CharField(  max_length=200,blank=False,null=False, default="")
-    store = models.ForeignKey('clientInfo.store', on_delete=models.CASCADE,blank=True , null=True, default=None) 
+    motif =  models.CharField(  max_length=200, null=False, default="")
+    montant = models.CharField(  max_length=200, null=False, default="")
+    store = models.ForeignKey('clientInfo.store', on_delete=models.CASCADE,  null=True, default=None) 
 
 class BonReception(models.Model):
     idBon = models.CharField(
           ("id Bon"), 
           max_length=200,
-          blank=False,
+           
           null=False,
           unique=True
     )    
     dateBon =models.DateField()
-    BonAchat = models.ForeignKey(BonAchat,on_delete = models.CASCADE, related_name='bonsachat_bonreception',blank=True , null=True, default=None)
-    entrepot = models.ForeignKey('inventory.Entrepot', on_delete=models.CASCADE, related_name='entrepot_bonreception',blank=True , null=True, default=None)
-    expedition = models.ForeignKey('Expedition', on_delete=models.CASCADE, related_name='expedition_bonreception',blank=True , null=True, default=None)
+    BonAchat = models.ForeignKey(BonAchat,on_delete = models.CASCADE, related_name='bonsachat_bonreception',  null=True, default=None)
+    entrepot = models.ForeignKey('inventory.Entrepot', on_delete=models.CASCADE, related_name='entrepot_bonreception',  null=True, default=None)
+    expedition = models.ForeignKey('Expedition', on_delete=models.CASCADE, related_name='expedition_bonreception',  null=True, default=None)
     chauffeur = models.CharField(max_length=100, blank=True, null=True, default="")
     immatriculation = models.CharField(max_length=100, blank=True, null=True, default="")
-    unite_monitaire = models.ForeignKey('clientInfo.ValeurDevise',on_delete=models.CASCADE, related_name='unitemonitaire_bonreception',blank=True , null=True, default=None)
-    store = models.ForeignKey('clientInfo.store', on_delete=models.CASCADE,blank=True , null=True, default=None)  
+    unite_monitaire = models.ForeignKey('clientInfo.ValeurDevise',on_delete=models.CASCADE, related_name='unitemonitaire_bonreception',  null=True, default=None)
+    store = models.ForeignKey('clientInfo.store', on_delete=models.CASCADE,  null=True, default=None)  
     user =models.ForeignKey(CustomUser,on_delete = models.CASCADE, related_name='mes_bons_reception', blank=True, default=None, null=True)
     
 class Expedition(models.Model):
     code_bon = models.CharField(
           ("id Bon"), 
           max_length=200,
-          blank=False,
+           
           null=False,
           default='',
     )    
@@ -188,8 +188,8 @@ class Expedition(models.Model):
     date_conaissement = models.DateField()
     banque_domiciliation = models.ForeignKey('tiers.Banque', on_delete = models.CASCADE, related_name='expedition_banque', blank=True, null=True, default=None)
     nbr_jours_port =models.IntegerField(default=0)
-    store = models.ForeignKey('clientInfo.store', on_delete=models.CASCADE, blank=True , null=True, default=None)  
-    user =models.ForeignKey(CustomUser,on_delete = models.CASCADE, related_name='mes_expedition', blank=True , null=True, default=None)
+    store = models.ForeignKey('clientInfo.store', on_delete=models.CASCADE,   null=True, default=None)  
+    user =models.ForeignKey(CustomUser,on_delete = models.CASCADE, related_name='mes_expedition',   null=True, default=None)
 
 class ProduitsEnBonReception(models.Model):
     BonNo = models.ForeignKey(BonReception, on_delete = models.CASCADE, related_name='produits_en_bon_reception')
@@ -208,8 +208,8 @@ class ProjetCredit(models.Model):
     designation = models.CharField(max_length=200, default='', blank=True, null=True) 
     cnn = models.CharField(max_length=200, default='', blank=True, null=True) 
     FichierProjet = models.FileField(upload_to="media/document")
-    store = models.ForeignKey('clientInfo.store', on_delete=models.CASCADE, blank=True , null=True, default=None)  
-    user =models.ForeignKey(CustomUser,on_delete = models.CASCADE, related_name='mes_projets', blank=True , null=True, default=None)
+    store = models.ForeignKey('clientInfo.store', on_delete=models.CASCADE,   null=True, default=None)  
+    user =models.ForeignKey(CustomUser,on_delete = models.CASCADE, related_name='mes_projets',   null=True, default=None)
     
 class CreditNote(models.Model):
     dateEmission = models.DateField() 
@@ -219,8 +219,8 @@ class CreditNote(models.Model):
     totalUsd = models.DecimalField(max_digits=15, decimal_places=2)   
     totalDZ = models.DecimalField(max_digits=15, decimal_places=2)   
     tauxChange = models.DecimalField(max_digits=15, decimal_places=2)   
-    store = models.ForeignKey('clientInfo.store', on_delete=models.CASCADE, blank=True , null=True, default=None)  
-    user =models.ForeignKey(CustomUser,on_delete = models.CASCADE, related_name='mes_creditd', blank=True , null=True, default=None)
+    store = models.ForeignKey('clientInfo.store', on_delete=models.CASCADE,   null=True, default=None)  
+    user =models.ForeignKey(CustomUser,on_delete = models.CASCADE, related_name='mes_creditd',   null=True, default=None)
     
 class ProduitsEnCreditNote(models.Model):
     Credit = models.ForeignKey(CreditNote, on_delete = models.CASCADE, related_name='produits_en_bon_creditNote')

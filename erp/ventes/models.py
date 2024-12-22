@@ -34,7 +34,7 @@ class BonSortie(models.Model):
     idBon = models.CharField(
           ("id Bon"), 
           max_length=200,
-          blank=False,
+           
           null=False,
           unique=False
     )    
@@ -95,7 +95,7 @@ class BonGarantie(models.Model):
     idBon = models.CharField(
           ("id Bon"), 
           max_length=200,
-          blank=False,
+           
           null=False,
           unique=True
     )    
@@ -129,7 +129,7 @@ class BonDevis(models.Model):
     idBon = models.CharField(
           ("id Bon"), 
           max_length=200,
-          blank=False,
+           
           null=False,
           unique=True
     )    
@@ -157,7 +157,7 @@ class BonCommande(models.Model):
     idBon = models.CharField(
           ("id Bon"), 
           max_length=200,
-          blank=False,
+           
           null=False,
           unique=True
     )    
@@ -190,7 +190,7 @@ class Facture(models.Model):
         ("Facture", "Facture"),
         ("Facture Comptabilisé", "Facture Comptabilisé"),
     ]
-    codeFacture = models.CharField( max_length=200,blank=False,null=False,unique=True)  
+    codeFacture = models.CharField( max_length=200, null=False,unique=True)  
     date_facture = models.DateField()
     date_reglement = models.DateField(default=datetime.now)
     client = models.ForeignKey('tiers.Client', on_delete = models.CASCADE, related_name='client_facture')
@@ -212,11 +212,11 @@ class Facture(models.Model):
 class AvoirVente(models.Model):
     BonSortieAssocie = models.ForeignKey(BonSortie, on_delete = models.CASCADE, related_name='avoirs_bonsortie')
     client = models.ForeignKey('tiers.Client', on_delete = models.CASCADE, related_name='avoirs_client')
-    codeAvoir = models.CharField(  max_length=200,blank=False,null=False)   
+    codeAvoir = models.CharField(  max_length=200, null=False)   
     dateEmission = models.DateField(default=datetime.now)
-    motif =  models.CharField(  max_length=200,blank=False,null=False, default="")
-    montant = models.CharField(  max_length=200,blank=False,null=False, default="")
-    store = models.ForeignKey('clientInfo.store', on_delete=models.CASCADE,blank=True , null=True, default=None)  
+    motif =  models.CharField(  max_length=200, null=False, default="")
+    montant = models.CharField(  max_length=200, null=False, default="")
+    store = models.ForeignKey('clientInfo.store', on_delete=models.CASCADE,  null=True, default=None)  
 
 class ProduitsEnFacture(models.Model):
     FactureNo = models.ForeignKey(Facture, on_delete = models.CASCADE, related_name='produits_en_facture')
