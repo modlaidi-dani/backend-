@@ -10,6 +10,7 @@ from rest_framework_simplejwt.authentication import JWTAuthentication
 # from permissions import IsManager
 from core.permission import DynamicPermission
 from core.filters import UserFilterBackend
+from core.pagination import PageNumberPagination
 
 
 class EntrepotViewset(viewsets.ModelViewSet):
@@ -18,6 +19,8 @@ class EntrepotViewset(viewsets.ModelViewSet):
     authentication_classes=[JWTAuthentication] 
     permission_classes=[IsAuthenticated]
     filterset_class=[UserFilterBackend]
+    pagination_class = PageNumberPagination 
+
 
     
 class InventaireAnnuelViewset(viewsets.ModelViewSet):
@@ -26,6 +29,8 @@ class InventaireAnnuelViewset(viewsets.ModelViewSet):
     authentication_classes=[JWTAuthentication] 
     permission_classes=[IsAuthenticated]
     filterset_class=[UserFilterBackend]
+    pagination_class = PageNumberPagination 
+    
 
 class equipeInventaireViewset(viewsets.ModelViewSet):
     queryset=equipeInventaire.objects.all()
@@ -33,6 +38,8 @@ class equipeInventaireViewset(viewsets.ModelViewSet):
     authentication_classes=[JWTAuthentication] 
     permission_classes=[IsAuthenticated]
     filterset_class=[UserFilterBackend]
+    pagination_class = PageNumberPagination 
+    
 
 class BonRetourAncienViewset(viewsets.ModelViewSet):
     queryset=BonRetourAncien.objects.all()
@@ -40,6 +47,8 @@ class BonRetourAncienViewset(viewsets.ModelViewSet):
     authentication_classes=[JWTAuthentication] 
     permission_classes=[IsAuthenticated]
     filterset_class=[UserFilterBackend]
+    pagination_class = PageNumberPagination 
+    
 
 class ProduitsEnBonRetourAncienViewset(viewsets.ModelViewSet):
     queryset=ProduitsEnBonRetourAncien.objects.all()
@@ -47,6 +56,8 @@ class ProduitsEnBonRetourAncienViewset(viewsets.ModelViewSet):
     authentication_classes=[JWTAuthentication] 
     permission_classes=[IsAuthenticated]
     filterset_class=[UserFilterBackend]
+    pagination_class = PageNumberPagination 
+    
 
 class produitEnInventaireAnnuelViewset(viewsets.ModelViewSet):
     queryset=produitEnInventaireAnnuel.objects.all()
@@ -54,6 +65,8 @@ class produitEnInventaireAnnuelViewset(viewsets.ModelViewSet):
     authentication_classes=[JWTAuthentication] 
     permission_classes=[IsAuthenticated]
     filterset_class=[UserFilterBackend]
+    pagination_class = PageNumberPagination 
+    
 
 class StockViewset(viewsets.ModelViewSet):
     queryset=Stock.objects.all()
@@ -61,6 +74,8 @@ class StockViewset(viewsets.ModelViewSet):
     authentication_classes=[JWTAuthentication] 
     permission_classes=[IsAuthenticated]
     filterset_class=[UserFilterBackend]
+    pagination_class = PageNumberPagination 
+    
 
 class BonTransfertMagasinViewset(viewsets.ModelViewSet):
     queryset=BonTransfertMagasin.objects.all()
@@ -68,6 +83,8 @@ class BonTransfertMagasinViewset(viewsets.ModelViewSet):
     authentication_classes=[JWTAuthentication] 
     permission_classes=[IsAuthenticated]
     filterset_class=[UserFilterBackend]
+    pagination_class = PageNumberPagination 
+    
 
 class ProduitsEnBonTransfertMagViewset(viewsets.ModelViewSet):
     queryset=ProduitsEnBonTransfertMag.objects.all()
@@ -75,6 +92,8 @@ class ProduitsEnBonTransfertMagViewset(viewsets.ModelViewSet):
     authentication_classes=[JWTAuthentication] 
     permission_classes=[IsAuthenticated]
     filterset_class=[UserFilterBackend]
+    pagination_class = PageNumberPagination 
+    
 
 class BonRetourViewset(viewsets.ModelViewSet):
     queryset=BonRetour.objects.all()
@@ -82,6 +101,8 @@ class BonRetourViewset(viewsets.ModelViewSet):
     authentication_classes=[JWTAuthentication] 
     permission_classes=[IsAuthenticated]
     filterset_class=[UserFilterBackend]
+    pagination_class = PageNumberPagination 
+    
 
 class BonEchangeViewset(viewsets.ModelViewSet):
     queryset=BonEchange.objects.all()
@@ -89,6 +110,8 @@ class BonEchangeViewset(viewsets.ModelViewSet):
     authentication_classes=[JWTAuthentication] 
     permission_classes=[IsAuthenticated]
     filterset_class=[UserFilterBackend]
+    pagination_class = PageNumberPagination 
+    
 
 class BonMaintenanceViewset(viewsets.ModelViewSet):
     queryset=BonMaintenance.objects.all()
@@ -96,6 +119,8 @@ class BonMaintenanceViewset(viewsets.ModelViewSet):
     authentication_classes=[JWTAuthentication] 
     permission_classes=[IsAuthenticated]
     filterset_class=[UserFilterBackend]
+    pagination_class = PageNumberPagination 
+    
 
 class ProduitsEnBonMaintenanceViewset(viewsets.ModelViewSet):
     queryset=ProduitsEnBonMaintenance.objects.all()
@@ -103,6 +128,8 @@ class ProduitsEnBonMaintenanceViewset(viewsets.ModelViewSet):
     authentication_classes=[JWTAuthentication] 
     permission_classes=[IsAuthenticated]
     filterset_class=[UserFilterBackend]
+    pagination_class = PageNumberPagination 
+    
 
 class ProduitsEnBonEchangeViewset(viewsets.ModelViewSet):
     queryset=ProduitsEnBonEchange.objects.all()
@@ -110,6 +137,8 @@ class ProduitsEnBonEchangeViewset(viewsets.ModelViewSet):
     authentication_classes=[JWTAuthentication] 
     permission_classes=[IsAuthenticated]
     filterset_class=[UserFilterBackend]
+    pagination_class = PageNumberPagination 
+    
 
 class BonReformeViewset(viewsets.ModelViewSet):
     queryset=BonReforme.objects.all()
@@ -117,6 +146,8 @@ class BonReformeViewset(viewsets.ModelViewSet):
     authentication_classes=[JWTAuthentication] 
     permission_classes=[IsAuthenticated]
     filterset_class=[UserFilterBackend]
+    pagination_class = PageNumberPagination 
+    
 
 class ProduitsEnBonReformeViewset(viewsets.ModelViewSet):
     queryset=ProduitsEnBonReforme.objects.all()
@@ -124,6 +155,8 @@ class ProduitsEnBonReformeViewset(viewsets.ModelViewSet):
     authentication_classes=[JWTAuthentication] 
     permission_classes=[IsAuthenticated]
     filterset_class=[UserFilterBackend]
+    pagination_class = PageNumberPagination 
+    
 
 class BonEntryViewset(viewsets.ModelViewSet):
     queryset=BonEntry.objects.all()
@@ -131,6 +164,8 @@ class BonEntryViewset(viewsets.ModelViewSet):
     authentication_classes=[JWTAuthentication] 
     permission_classes=[IsAuthenticated]
     filterset_class=[UserFilterBackend]
+    pagination_class = PageNumberPagination 
+    
 
 class BonReintegrationViewset(viewsets.ModelViewSet):
     queryset=BonReintegration.objects.all()
@@ -138,6 +173,8 @@ class BonReintegrationViewset(viewsets.ModelViewSet):
     authentication_classes=[JWTAuthentication] 
     permission_classes=[IsAuthenticated]
     filterset_class=[UserFilterBackend]
+    pagination_class = PageNumberPagination 
+    
 
 class BonsortiedestockViewset(viewsets.ModelViewSet):
     queryset=Bonsortiedestock.objects.all()
@@ -145,6 +182,8 @@ class BonsortiedestockViewset(viewsets.ModelViewSet):
     authentication_classes=[JWTAuthentication] 
     permission_classes=[IsAuthenticated]
     filterset_class=[UserFilterBackend]
+    pagination_class = PageNumberPagination 
+    
 
 class BonTransfertViewset(viewsets.ModelViewSet):
     queryset=BonTransfert.objects.all()
@@ -152,6 +191,8 @@ class BonTransfertViewset(viewsets.ModelViewSet):
     authentication_classes=[JWTAuthentication] 
     permission_classes=[IsAuthenticated]
     filterset_class=[UserFilterBackend]
+    pagination_class = PageNumberPagination 
+    
 
 class ProduitsEnBonRetourViewset(viewsets.ModelViewSet):
     queryset=ProduitsEnBonRetour.objects.all()
@@ -159,6 +200,8 @@ class ProduitsEnBonRetourViewset(viewsets.ModelViewSet):
     authentication_classes=[JWTAuthentication] 
     permission_classes=[IsAuthenticated]
     filterset_class=[UserFilterBackend]
+    pagination_class = PageNumberPagination 
+    
 
 class ProduitsEnBonTransfertViewset(viewsets.ModelViewSet):
     queryset=ProduitsEnBonTransfert.objects.all()
@@ -166,6 +209,8 @@ class ProduitsEnBonTransfertViewset(viewsets.ModelViewSet):
     authentication_classes=[JWTAuthentication] 
     permission_classes=[IsAuthenticated]
     filterset_class=[UserFilterBackend]
+    pagination_class = PageNumberPagination 
+    
 
 class ProduitsEnBonEntryViewset(viewsets.ModelViewSet):
     queryset=ProduitsEnBonEntry.objects.all()
@@ -173,6 +218,8 @@ class ProduitsEnBonEntryViewset(viewsets.ModelViewSet):
     authentication_classes=[JWTAuthentication] 
     permission_classes=[IsAuthenticated]
     filterset_class=[UserFilterBackend]
+    pagination_class = PageNumberPagination 
+    
 
 class ProduitsEnBonReintegrationViewset(viewsets.ModelViewSet):
     queryset=ProduitsEnBonReintegration.objects.all()
@@ -180,6 +227,8 @@ class ProduitsEnBonReintegrationViewset(viewsets.ModelViewSet):
     authentication_classes=[JWTAuthentication] 
     permission_classes=[IsAuthenticated]
     filterset_class=[UserFilterBackend]
+    pagination_class = PageNumberPagination 
+    
 
 class ProduitsEnBonSortieStockViewset(viewsets.ModelViewSet):
     queryset=ProduitsEnBonSortieStock.objects.all()
@@ -187,5 +236,7 @@ class ProduitsEnBonSortieStockViewset(viewsets.ModelViewSet):
     authentication_classes=[JWTAuthentication] 
     permission_classes=[IsAuthenticated]
     filterset_class=[UserFilterBackend]
+    pagination_class = PageNumberPagination 
+    
 
 

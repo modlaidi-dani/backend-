@@ -66,7 +66,14 @@ class BonSortie(models.Model):
     
     def __str__(self):
 	    return "Bon no: " + str(self.idBon) + "CLient store: " + str(self.client.store.id) +  "BL Store : " + str(self.store.id)
-    
+class AvoirVente(models.Model):
+    BonSortieAssocie = models.ForeignKey(BonSortie, on_delete = models.CASCADE, related_name='avoirs_bonsortie')
+    client = models.ForeignKey('tiers.Client', on_delete = models.CASCADE, related_name='avoirs_client')
+    codeAvoir = models.CharField(  max_length=200, null=False)   
+    dateEmission = models.DateField(default=datetime.now)
+    motif =  models.CharField(  max_length=200, null=False, default="")
+    montant = models.CharField(  max_length=200, null=False, default="")
+    store = models.ForeignKey('clientInfo.store', on_delete=models.CASCADE,  null=True, default=None)  
 
 class DemandeTransfert(models.Model):
     BonSNo = models.ForeignKey(BonSortie, on_delete = models.CASCADE, related_name='demande_sortie_transfert')
@@ -204,14 +211,7 @@ class Facture(models.Model):
     regle = models.BooleanField(default=False)
 
 
-class AvoirVente(models.Model):
-    BonSortieAssocie = models.ForeignKey(BonSortie, on_delete = models.CASCADE, related_name='avoirs_bonsortie')
-    client = models.ForeignKey('tiers.Client', on_delete = models.CASCADE, related_name='avoirs_client')
-    codeAvoir = models.CharField(  max_length=200, null=False)   
-    dateEmission = models.DateField(default=datetime.now)
-    motif =  models.CharField(  max_length=200, null=False, default="")
-    montant = models.CharField(  max_length=200, null=False, default="")
-    store = models.ForeignKey('clientInfo.store', on_delete=models.CASCADE,  null=True, default=None)  
+
 
 class ProduitsEnFacture(models.Model):
     FactureNo = models.ForeignKey(Facture, on_delete = models.CASCADE, related_name='produits_en_facture')
@@ -222,3 +222,28 @@ class ProduitsEnFacture(models.Model):
 
     def __str__(self):
 	    return "Facture no: " + str(self.FactureNo.codeFacture) + ", Item = " + self.stock.name
+
+class AvoirVenteAncien(models.Model):
+    bonsortie = models.CharField(max_length=200,blank=False,null=False)
+    client = models.ForeignKey('tiers.Client', on_delete = models.CASCADE, related_name='avoirsA_client')
+    codeAvoir = models.CharField(  max_length=200,blank=False,null=False) 
+    bonretour= models.CharField(  max_length=200,blank=True,null=True)       
+    dateEmission = models.DateField(default=datetime.now)
+    motif =  models.CharField(  max_length=200,blank=False,null=False, default="")
+    montant = models.CharField(  max_length=200,blank=False,null=False, default="")
+    store = models.ForeignKey('clientInfo.store', on_delete=models.CASCADE,blank=True , null=True, default=None)
+    
+class produitsEnAvoir(models.Model):
+    produit=models.ForeignKey(ProduitsEnBonSortie, on_delete=models.CASCADE, null=True)
+    avoir=models.ForeignKey(AvoirVente, on_delete=models.CASCADE, null=True, related_name='produits_en_avoir')
+    quantity= models.IntegerField(null=True)
+    UnitPrice= models.DecimalField(max_digits=15, decimal_places=2,default=0,null=True)
+    totalPrice= models.DecimalField(max_digits=15, decimal_places=2,default=0,null=True)
+
+class produitsEnAvoirA(models.Model):
+    referance=models.CharField(max_length=200,blank=False,null=False)
+    avoir=models.ForeignKey(AvoirVenteAncien, on_delete=models.CASCADE, null=True, related_name='produits_en_avoirA')
+    quantity= models.IntegerField(null=True)
+    UnitPrice= models.DecimalField(max_digits=15, decimal_places=2,default=0,null=True)
+    totalPrice= models.DecimalField(max_digits=15, decimal_places=2,default=0,null=True)
+    name = models.CharField(max_length=200, null=True)

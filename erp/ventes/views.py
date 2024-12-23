@@ -36,7 +36,27 @@ class AvoirVenteViewset(viewsets.ModelViewSet):
     permission_classes=[IsAuthenticated ]
     filterset_class=[UserFilterBackend]
     pagination_class = PageNumberPagination 
-    
+class AvoirVenteAncienViewset(viewsets.ModelViewSet):
+    queryset=AvoirVenteAncien.objects.all()
+    serializer_class=AvoirVenteAncienSerializer
+    authentication_classes=[JWTAuthentication] 
+    permission_classes=[IsAuthenticated ]
+    filterset_class=[UserFilterBackend]
+    pagination_class = PageNumberPagination 
+class produitsEnAvoirViewset(viewsets.ModelViewSet):
+    queryset=produitsEnAvoir.objects.all()
+    serializer_class=produitsEnAvoirSerializer
+    authentication_classes=[JWTAuthentication] 
+    permission_classes=[IsAuthenticated ]
+    filterset_class=[UserFilterBackend]
+    pagination_class = PageNumberPagination 
+class produitsEnAvoirAViewset(viewsets.ModelViewSet):
+    queryset=produitsEnAvoirA.objects.all()
+    serializer_class=produitsEnAvoirASerializer
+    authentication_classes=[JWTAuthentication] 
+    permission_classes=[IsAuthenticated ]
+    filterset_class=[UserFilterBackend]
+    pagination_class = PageNumberPagination 
 
 class validationBlViewset(viewsets.ModelViewSet):
     queryset=validationBl.objects.all()

@@ -59,15 +59,15 @@ class BonRetourAncienSerializer(serializers.ModelSerializer):
 
 class StockSerializer(serializers.ModelSerializer):
     product=ProductSerializer()
-    entrepot=EntrepotSerializer()
+    # entrepot=EntrepotSerializer()
     quantity_detailed=serializers.SerializerMethodField()
     quantity=serializers.SerializerMethodField()
     historical_entered_quantity=serializers.SerializerMethodField()
     historical_received_quantity=serializers.SerializerMethodField()
     historical_transfered_quantity=serializers.SerializerMethodField()
-    product_sold_quantity=serializers.SerializerMethodField()
-    product_returned_quantity=serializers.SerializerMethodField()
-    quantity_expected=serializers.SerializerMethodField()
+    # product_sold_quantity=serializers.SerializerMethodField()
+    # product_returned_quantity=serializers.SerializerMethodField()
+    # quantity_expected=serializers.SerializerMethodField()
     class Meta:
         model=Stock
         fields="__all__"
@@ -107,50 +107,50 @@ class StockSerializer(serializers.ModelSerializer):
         return transfer_departed_quantity + transfert_mag
     
     
-    def get_product_sold_quantity(self,obj):
-        produits_en_bon_comptoir = ProduitsEnBonComptoir.objects.filter(
-                    stock=obj.product,
-                )
-           # Filter the instances based on the condition specified in monentrepot
-        filtered_produits = [produit for produit in produits_en_bon_comptoir if produit.BonNo.monentrepot == obj.entrepot.name]
+    # def get_product_sold_quantity(self,obj):
+    #     produits_en_bon_comptoir = ProduitsEnBonComptoir.objects.filter(
+    #                 stock=obj.product,
+    #             )
+    #        # Filter the instances based on the condition specified in monentrepot
+    #     filtered_produits = [produit for produit in produits_en_bon_comptoir if produit.BonNo.entrepo.name == obj.entrepot.name]
         
-                # Sum up the quantities from the filtered instances
-        comptoir_quantity = sum(produit.quantity for produit in filtered_produits)
-        produits_en_bon_sortie_list = ProduitsEnBonSortie.objects.filter(
-            stock=obj.product,
-            BonNo__entrepot=obj.entrepot
-        )
+    #             # Sum up the quantities from the filtered instances
+    #     comptoir_quantity = sum(produit.quantity for produit in filtered_produits)
+    #     produits_en_bon_sortie_list = ProduitsEnBonSortie.objects.filter(
+    #         stock=obj.product,
+    #         BonNo__entrepot=obj.entrepot
+    #     )
 
-        filtered_produits_en_bon_sortie = [
-            produit_en_bon_sortie for produit_en_bon_sortie in produits_en_bon_sortie_list
-            if produit_en_bon_sortie.BonNo.get_etat_transfert == True
-        ]
+    #     filtered_produits_en_bon_sortie = [
+    #         produit_en_bon_sortie for produit_en_bon_sortie in produits_en_bon_sortie_list
+    #         if produit_en_bon_sortie.BonNo.get_etat_transfert == True
+    #     ]
         
-        # Calculate the sum of quantities for the filtered objects
-        sold_quantity = sum(produit_en_bon_sortie.quantity for produit_en_bon_sortie in filtered_produits_en_bon_sortie)
-        return sold_quantity + comptoir_quantity
+    #     # Calculate the sum of quantities for the filtered objects
+    #     sold_quantity = sum(produit_en_bon_sortie.quantity for produit_en_bon_sortie in filtered_produits_en_bon_sortie)
+    #     return sold_quantity + comptoir_quantity
         
     
-    def get_product_returned_quantity(self,obj):
-        produits_en_bon_comptoir = ProduitsEnBonRetourComptoir.objects.filter(
-                    produit=obj.product,
-                )
-           # Filter the instances based on the condition specified in monentrepot
-        filtered_produits = [produit for produit in produits_en_bon_comptoir if produit.BonNo.bon_comptoir_associe.monentrepot == obj.entrepot.name ]
-        produits_en_bon_retour= ProduitsEnBonRetour.objects.filter(
-                    produit=obj.product,
-                )
-        filtered_retour_produits = [produit for produit in produits_en_bon_retour if produit.BonNo.bonL.entrepot == obj.entrepot and produit.reintegrated and produit.BonNo.valide]
-        comptoir_returned_quantity = sum(produit.quantity for produit in filtered_produits)   
-        returned_quantity = sum(produit.quantity for produit in filtered_retour_produits)   
+    # def get_product_returned_quantity(self,obj):
+    #     produits_en_bon_comptoir = ProduitsEnBonRetourComptoir.objects.filter(
+    #                 produit=obj.product,
+    #             )
+    #        # Filter the instances based on the condition specified in monentrepot
+    #     filtered_produits = [produit for produit in produits_en_bon_comptoir if produit.BonNo.bon_comptoir_associe.pointVente.entrepot.name == obj.entrepot.name ]
+    #     produits_en_bon_retour= ProduitsEnBonRetour.objects.filter(
+    #                 produit=obj.product,
+    #             )
+    #     filtered_retour_produits = [produit for produit in produits_en_bon_retour if produit.BonNo.bonL.entrepot == obj.entrepot and produit.reintegrated and produit.BonNo.valide]
+    #     comptoir_returned_quantity = sum(produit.quantity for produit in filtered_produits)   
+    #     returned_quantity = sum(produit.quantity for produit in filtered_retour_produits)   
 
-        return comptoir_returned_quantity + returned_quantity
+    #     return comptoir_returned_quantity + returned_quantity
 
     
-    def get_quantity_expected(self,obj):
-        total_entered_quantity = obj.historical_entered_quantity + obj.historical_received_quantity + obj.product_returned_quantity
-        total_out_quantity = obj.product_sold_quantity + obj.historical_transfered_quantity
-        return total_entered_quantity - total_out_quantity  
+    # def get_quantity_expected(self,obj):
+    #     total_entered_quantity =self.get_historical_entered_quantity(obj) + self.get_historical_received_quantity(obj) + self.get_product_returned_quantity(obj)
+    #     total_out_quantity = self.get_product_sold_quantity(obj) + self.get_historical_transfered_quantity(obj)
+    #     return total_entered_quantity - total_out_quantity  
 class ProduitsEnBonTransfertMagSerializer(serializers.ModelSerializer):
     stock_dep=StockSerializer()
     stock_arr=StockSerializer()
