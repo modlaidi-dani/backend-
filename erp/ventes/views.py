@@ -10,7 +10,7 @@ from rest_framework_simplejwt.authentication import JWTAuthentication
 # from permissions import IsManager
 from core.permission import DynamicPermission
 from core.filters import UserFilterBackend
-
+from core.pagination import PageNumberPagination
 
 class ProduitsEnBonCommandeViewset(viewsets.ModelViewSet):
     queryset=ProduitsEnBonCommande.objects.all()
@@ -18,6 +18,8 @@ class ProduitsEnBonCommandeViewset(viewsets.ModelViewSet):
     authentication_classes=[JWTAuthentication] 
     permission_classes=[IsAuthenticated ]
     filterset_class=[UserFilterBackend]
+    pagination_class = PageNumberPagination 
+    
 
 class FactureViewset(viewsets.ModelViewSet):
     queryset=Facture.objects.all()
@@ -25,6 +27,7 @@ class FactureViewset(viewsets.ModelViewSet):
     authentication_classes=[JWTAuthentication] 
     permission_classes=[IsAuthenticated ]
     filterset_class=[UserFilterBackend]
+    pagination_class = PageNumberPagination 
 
 class AvoirVenteViewset(viewsets.ModelViewSet):
     queryset=AvoirVente.objects.all()
@@ -32,6 +35,8 @@ class AvoirVenteViewset(viewsets.ModelViewSet):
     authentication_classes=[JWTAuthentication] 
     permission_classes=[IsAuthenticated ]
     filterset_class=[UserFilterBackend]
+    pagination_class = PageNumberPagination 
+    
 
 class validationBlViewset(viewsets.ModelViewSet):
     queryset=validationBl.objects.all()
@@ -39,6 +44,8 @@ class validationBlViewset(viewsets.ModelViewSet):
     authentication_classes=[JWTAuthentication] 
     permission_classes=[IsAuthenticated ]
     filterset_class=[UserFilterBackend]
+    pagination_class = PageNumberPagination 
+    
 
 class BonSortieViewset(viewsets.ModelViewSet):
     queryset=BonSortie.objects.all()
@@ -46,6 +53,8 @@ class BonSortieViewset(viewsets.ModelViewSet):
     authentication_classes=[JWTAuthentication] 
     permission_classes=[IsAuthenticated ]
     filterset_class=[UserFilterBackend]
+    pagination_class = PageNumberPagination 
+    
 
 class DemandeTransfertViewset(viewsets.ModelViewSet):
     queryset=DemandeTransfert.objects.all()
@@ -60,6 +69,8 @@ class ConfirmationBlViewset(viewsets.ModelViewSet):
     authentication_classes=[JWTAuthentication] 
     permission_classes=[IsAuthenticated ]
     filterset_class=[UserFilterBackend]
+    pagination_class = PageNumberPagination 
+    
 
 class ProduitsEnBonSortieViewset(viewsets.ModelViewSet):
     queryset=ProduitsEnBonSortie.objects.all()
@@ -67,6 +78,8 @@ class ProduitsEnBonSortieViewset(viewsets.ModelViewSet):
     authentication_classes=[JWTAuthentication] 
     permission_classes=[IsAuthenticated ]
     filterset_class=[UserFilterBackend]
+    pagination_class = PageNumberPagination 
+    
 
 class BonGarantieViewset(viewsets.ModelViewSet):
     queryset=BonGarantie.objects.all()
@@ -74,6 +87,8 @@ class BonGarantieViewset(viewsets.ModelViewSet):
     authentication_classes=[JWTAuthentication] 
     permission_classes=[IsAuthenticated ]
     filterset_class=[UserFilterBackend]
+    pagination_class = PageNumberPagination 
+    
 
 class ProduitsEnBonGarantieViewset(viewsets.ModelViewSet):
     queryset=ProduitsEnBonGarantie.objects.all()
@@ -81,6 +96,8 @@ class ProduitsEnBonGarantieViewset(viewsets.ModelViewSet):
     authentication_classes=[JWTAuthentication] 
     permission_classes=[IsAuthenticated ]
     filterset_class=[UserFilterBackend]
+    pagination_class = PageNumberPagination 
+    
 
 class BonDevisViewset(viewsets.ModelViewSet):
     queryset=BonDevis.objects.all()
@@ -88,6 +105,8 @@ class BonDevisViewset(viewsets.ModelViewSet):
     authentication_classes=[JWTAuthentication] 
     permission_classes=[IsAuthenticated ]
     filterset_class=[UserFilterBackend]
+    pagination_class = PageNumberPagination 
+    
 
 class ProduitsEnBonDevisViewset(viewsets.ModelViewSet):
     queryset=ProduitsEnBonDevis.objects.all()
@@ -95,6 +114,8 @@ class ProduitsEnBonDevisViewset(viewsets.ModelViewSet):
     authentication_classes=[JWTAuthentication] 
     permission_classes=[IsAuthenticated ]
     filterset_class=[UserFilterBackend]
+    pagination_class = PageNumberPagination 
+    
 
 class BonCommandeViewset(viewsets.ModelViewSet):
     queryset=BonCommande.objects.all()
@@ -102,6 +123,8 @@ class BonCommandeViewset(viewsets.ModelViewSet):
     authentication_classes=[JWTAuthentication] 
     permission_classes=[IsAuthenticated ]
     filterset_class=[UserFilterBackend]
+    pagination_class = PageNumberPagination 
+    
 
 class ProduitsEnFactureViewset(viewsets.ModelViewSet):
     queryset=ProduitsEnFacture.objects.all()
@@ -109,4 +132,6 @@ class ProduitsEnFactureViewset(viewsets.ModelViewSet):
     authentication_classes=[JWTAuthentication] 
     permission_classes=[IsAuthenticated ]
     filterset_class=[UserFilterBackend]
+    pagination_class = PageNumberPagination 
+    
 

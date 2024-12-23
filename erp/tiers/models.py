@@ -78,10 +78,10 @@ class Client(models.Model):
     store = models.ForeignKey(store, on_delete=models.CASCADE, related_name='client_store', blank=True, null=True, default=None)
     user = models.ForeignKey(CustomUser,on_delete = models.CASCADE, related_name='mes_clients', blank=True, null=True, default=None)
     valide  = models.BooleanField(default=True)
-    NisDoc = models.FileField(upload_to="media/document")
-    NifDoc = models.FileField(upload_to="media/document")
-    RCDoc = models.FileField(upload_to="media/document")
-    AIDoc = models.FileField(upload_to="media/document")
+    NisDoc = models.FileField(upload_to="media/document",null=True)
+    NifDoc = models.FileField(upload_to="media/document",null=True)
+    RCDoc = models.FileField(upload_to="media/document",null=True)
+    AIDoc = models.FileField(upload_to="media/document",null=True)
     def __str__(self):
 	    return "CLient : " + str(self.name) +  "Store : " + str(self.store.id)
 

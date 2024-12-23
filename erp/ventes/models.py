@@ -105,11 +105,6 @@ class BonGarantie(models.Model):
     client = models.ForeignKey('tiers.Client', on_delete=models.CASCADE, null=True, blank=True, default=None)
     user = models.ForeignKey(CustomUser, on_delete = models.CASCADE, related_name='mes_bons_garantie', blank=True, null=True, default=None)
     tps_ecoule =   models.CharField( max_length=200, blank=True, null=True, default="" )    
-    def get_mystore(self):
-        my_products= self.produits_en_bon_garantie.all()
-        for product in my_products:
-            store= product.stock_dep.entrepot.store
-            return store
         
     def __str__(self):
 	    return "Bon no: " + str(self.idBon)
