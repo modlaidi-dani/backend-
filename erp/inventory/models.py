@@ -22,8 +22,7 @@ class Entrepot(models.Model):
    ville = models.CharField(max_length=100)
    codePostal = models.CharField(max_length=100 , default="", null=True, blank=True)
    phone = models.CharField(max_length=100, default="", null=True, blank=True)
-   def __str__(self) :
-         return self.name
+
 
 
 class InventaireAnnuel(models.Model):
@@ -52,8 +51,7 @@ class BonRetourAncien(models.Model):
     user =models.ForeignKey(CustomUser,on_delete = models.CASCADE, related_name='mes_bons_retour_ancien', blank=True, null=True, default=None)
     regler_valide=models.BooleanField(blank=True, null=True, default=False)
     
-    def __str__(self):
-	    return "Bon no: " + str(self.idBon)
+
 
 class ProduitsEnBonRetourAncien(models.Model):
     BonNo = models.ForeignKey(BonRetourAncien, on_delete = models.CASCADE, related_name='produits_en_bon_retourancien')
@@ -72,8 +70,7 @@ class ProduitsEnBonRetourAncien(models.Model):
     )    
     quantity = models.IntegerField(default=1)
   
-    def __str__(self):
-	    return "Bon no: " + str(self.BonNo.idBon) + ", Item = " + self.nomproduit  	    
+ 	    
 
 class equipeInventaire(models.Model):
     inv_annuel = models.ForeignKey(InventaireAnnuel, on_delete=models.CASCADE, related_name="inventaire_assosiated", blank =False, null = False)
@@ -110,9 +107,7 @@ class BonTransfertMagasin(models.Model):
     valide = models.BooleanField(blank=True, null=True, default=False)
     user = models.ForeignKey(CustomUser,on_delete = models.CASCADE, related_name='mes_bons_transfert_mag', blank=True, null=True, default=None)
     store = models.ForeignKey(store, on_delete=models.CASCADE,  null=True, default=None)
-        
-    def __str__(self):
-	    return "Bon no: " + str(self.idBon)
+
 	    
 class ProduitsEnBonTransfertMag(models.Model):
     BonNo = models.ForeignKey(BonTransfertMagasin, on_delete = models.CASCADE, related_name='produits_en_bon_transfertMag')
@@ -120,8 +115,7 @@ class ProduitsEnBonTransfertMag(models.Model):
     stock_arr = models.ForeignKey(Stock, on_delete = models.CASCADE, related_name='bons_transfertmag_recu')
     quantity = models.IntegerField(default=1)
   
-    def __str__(self):
-	    return "Bon no: " + str(self.BonNo.idBon) + ",from  Item = " + self.stock_dep.entrepot.name+ ",to   Item = " + self.stock_arr.entrepot.name
+
 	    
 class BonRetour(models.Model):
     idBon = models.CharField(
@@ -139,8 +133,7 @@ class BonRetour(models.Model):
     reception_valide = models.BooleanField(blank=True, null=True, default=False)
     store =models.ForeignKey(store,on_delete = models.CASCADE, related_name='store_bons_retour')
     user =models.ForeignKey(CustomUser,on_delete = models.CASCADE, related_name='mes_bons_retour', blank=True, null=True, default=None)        
-    def __str__(self):
-	    return "Bon no: " + str(self.idBon)
+
 
  
 class BonEchange(models.Model):
@@ -160,8 +153,7 @@ class BonEchange(models.Model):
     user =models.ForeignKey(CustomUser,on_delete = models.CASCADE, related_name='mes_bons_echange', blank=True, null=True, default=None)
     entrepot = models.ForeignKey('inventory.Entrepot', on_delete = models.CASCADE, related_name='entrepot_bonsechange', default=None, blank=True, null=True)
         
-    def __str__(self):
-	    return "Bon no: " + str(self.idBon)
+
  
 class BonMaintenance(models.Model):
     idBon = models.CharField(
@@ -185,8 +177,6 @@ class BonMaintenance(models.Model):
     entrepot = models.ForeignKey('inventory.Entrepot', on_delete = models.CASCADE, related_name='entrepot_bonsmaintenance', default=None, blank=True, null=True)
     observation = models.TextField(blank=True, null=True, default="")
         
-    def __str__(self):
-	    return "Bon no: " + str(self.idBon)
 
 class ProduitsEnBonMaintenance(models.Model):
     BonNo = models.ForeignKey(BonMaintenance, on_delete = models.CASCADE, related_name='produits_en_bon_maintenance')
@@ -206,8 +196,7 @@ class ProduitsEnBonEchange(models.Model):
     unitprice = models.DecimalField(max_digits=15, decimal_places=2)
     totalprice = models.DecimalField(max_digits=15, decimal_places=2)   
     
-    def __str__(self):
-	    return "Bon no: " + str(self.BonNo.idBon) + ", Item = " + self.stock.name
+
  
   
 class BonReforme(models.Model):
@@ -223,16 +212,14 @@ class BonReforme(models.Model):
     bonretour = models.ForeignKey(BonRetour, on_delete=models.CASCADE, related_name='bonretour_bon_reforme', blank=True, default=None, null=False)
     store =models.ForeignKey(store,on_delete = models.CASCADE, related_name='store_bons_reforme')
     user =models.ForeignKey(CustomUser,on_delete = models.CASCADE, related_name='mes_bons_reforme', blank=True, null=True, default=None)
-    def __str__(self):
-	    return "Bon no: " + str(self.idBon)
+
 
 class ProduitsEnBonReforme(models.Model):
     BonNo = models.ForeignKey(BonReforme, on_delete = models.CASCADE, related_name='produits_en_bon_reforme')
     produit = models.ForeignKey('produits.Product', on_delete = models.CASCADE, related_name='mes_bons_reforme')
     quantity = models.IntegerField(default=0) 
     observation = models.TextField(blank=True, null=True, default="")
-    def __str__(self):
-	    return "Bon no: " + str(self.BonNo.idBon) + ", Item = " + self.produit.name 
+
  
 class BonEntry(models.Model):
     idBon = models.CharField(
@@ -247,8 +234,7 @@ class BonEntry(models.Model):
     fournisseur = models.ForeignKey('tiers.Fournisseur', on_delete = models.CASCADE, related_name='fournisseurs_bons_entry',   null=True, default=None)
     entrepot = models.ForeignKey(Entrepot, on_delete = models.CASCADE, related_name='Entrepots_bons_entry',   null=True, default=None)
     store = models.ForeignKey(store, on_delete=models.CASCADE,  null=True, default=None)
-    def __str__(self):
-	    return "Bon no: " + str(self.idBon)
+
  
 class BonReintegration(models.Model):
     idBon = models.CharField(
@@ -263,8 +249,7 @@ class BonReintegration(models.Model):
     bonRetour = models.ForeignKey(BonRetour, on_delete = models.CASCADE, related_name='bonretour_bons_reintegration',   null=True, default=None)
     entrepot = models.ForeignKey(Entrepot, on_delete = models.CASCADE, related_name='Entrepots_bons_reintegration',   null=True, default=None)
     store = models.ForeignKey(store, on_delete=models.CASCADE,  null=True, default=None)   
-    def __str__(self):
-	    return "Bon no: " + str(self.idBon)
+
 
 class Bonsortiedestock(models.Model):
     idBon = models.CharField(
@@ -286,8 +271,7 @@ class Bonsortiedestock(models.Model):
     Date_constat= models.DateField(null=True, blank=True)
     note = models.TextField( null=True, blank=True, default="")
     
-    def __str__(self):
-	    return "Bon no: " + str(self.idBon)
+
  
 class BonTransfert(models.Model):
     idBon = models.CharField(
@@ -307,8 +291,7 @@ class BonTransfert(models.Model):
     user = models.ForeignKey(CustomUser,on_delete = models.CASCADE, related_name='mes_bons_transfert', blank=True, null=True, default=None)
     store = models.ForeignKey(store, on_delete=models.CASCADE,  null=True, default=None)
 
-    def __str__(self):
-	    return "Bon no: " + str(self.idBon)
+
     
 class ProduitsEnBonRetour(models.Model):
     BonNo = models.ForeignKey(BonRetour, on_delete = models.CASCADE, related_name='produits_en_bon_retour')
@@ -332,8 +315,7 @@ class ProduitsEnBonRetour(models.Model):
     )    
     quantity = models.IntegerField(default=1)
   
-    def __str__(self):
-	    return "Bon no: " + str(self.BonNo.idBon) + ", Item = " + self.produit.name   
+
    
 class ProduitsEnBonTransfert(models.Model):
     BonNo = models.ForeignKey(BonTransfert, on_delete = models.CASCADE, related_name='produits_en_bon_transfert')
@@ -341,16 +323,14 @@ class ProduitsEnBonTransfert(models.Model):
     stock_arr = models.ForeignKey(Stock, on_delete = models.CASCADE, related_name='bons_transfert_recu')
     quantity = models.IntegerField(default=1)
   
-    def __str__(self):
-	    return "Bon no: " + str(self.BonNo.idBon) + ",from  Item = " + self.stock_dep.entrepot.name+ ",to   Item = " + self.stock_arr.entrepot.name
+
    
 class ProduitsEnBonEntry(models.Model):
     BonNo = models.ForeignKey(BonEntry, on_delete = models.CASCADE, related_name='produits_en_bon_entry')
     stock = models.ForeignKey('produits.Product', on_delete = models.CASCADE, related_name='bons_entry')
     quantity = models.IntegerField(default=1)
 
-    def __str__(self):
-	    return "Bon no: " + str(self.BonNo.idBon) + ", Item = " + self.stock.name
+
  
 class ProduitsEnBonReintegration(models.Model):
     BonNo = models.ForeignKey(BonReintegration, on_delete = models.CASCADE, related_name='produits_en_bon_reintegration')
@@ -358,8 +338,7 @@ class ProduitsEnBonReintegration(models.Model):
     quantity = models.IntegerField(default=1)
 
     
-    def __str__(self):
-	    return "Bon no: " + str(self.BonNo.idBon) + ", Item = " + self.stock.name
+
  
 class ProduitsEnBonSortieStock(models.Model):
     BonNo = models.ForeignKey(Bonsortiedestock, on_delete = models.CASCADE, related_name='produits_en_bon_sortie_stock')
@@ -367,5 +346,3 @@ class ProduitsEnBonSortieStock(models.Model):
     quantity = models.IntegerField(default=1)
 
     
-    def __str__(self):
-	    return "Bon no: " + str(self.BonNo.idBon) + ", Item = " + self.stock.name

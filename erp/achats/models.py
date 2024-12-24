@@ -52,8 +52,7 @@ class ProduitsEnBonCommandesAchat(models.Model):
     DroitRealisation = models.DecimalField(max_digits=15, decimal_places=2)
     quantity = models.IntegerField(default=1)
   
-    def __str__(self):
-	    return "Bon no: " + str(self.BonNo.idBon) + ", Item = " + self.produit.name   
+  
 
 class DossierAchat(models.Model):
     idDossier = models.CharField(
@@ -128,8 +127,7 @@ class ProduitsEnFactureAchat(models.Model):
     unitprice = models.DecimalField(max_digits=15, decimal_places=2,default=0,null=True)
     totalprice = models.DecimalField(max_digits=15, decimal_places=2 ,default=0,null=True)  
 
-    def __str__(self):
-	    return "Facture no: " + str(self.FactureNo.codeFacture) + ", Item = " + self.stock.name    
+ 
  
 class ProduitsEnBonAchat(models.Model):
     BonNo = models.ForeignKey(BonAchat, on_delete = models.CASCADE, related_name='produits_en_bon_achat')
@@ -198,8 +196,7 @@ class ProduitsEnBonReception(models.Model):
     totalPrice = models.DecimalField(max_digits=15, decimal_places=2)
     quantity = models.IntegerField(default=0)
   
-    def __str__(self):
-	    return "Bon no: " + str(self.BonNo.idBon) + ", Item = " + self.produit.name  
+
 
 class ProjetCredit(models.Model):
     codeProjet = models.CharField(max_length=200, default='', blank=True, null=True) 
@@ -229,6 +226,4 @@ class ProduitsEnCreditNote(models.Model):
     puDaAchat = models.DecimalField(max_digits=15, decimal_places=2, default=0)
     totalPrice = models.DecimalField(max_digits=15, decimal_places=2)
     quantityAchete = models.IntegerField(default=0)
-
-    def __str__(self):
-	    return "Bon no: " + str(self.Credit.idBon) + ", Item = " + self.produit.name  	    
+   

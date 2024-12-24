@@ -29,8 +29,7 @@ class Event(models.Model):
         help_text="Number of days before the event to send a reminder."
     )
 
-    def __str__(self):
-        return f"{self.name} on {self.event_date}"
+
 
         
 class Salarie(models.Model):
@@ -71,8 +70,7 @@ class Conge(models.Model):
     nbrJourPris = models.IntegerField(default='0')
 
         
-    def __str__(self):
-        return f'Salarie {self.salarie.nom} - Date: {self.dateDebut.strftime("%Y-%m-%d")}'
+
     
     
 class Pointage(models.Model):
@@ -81,8 +79,7 @@ class Pointage(models.Model):
     temps_arrive = models.TimeField(default='09:00:00')
     temps_depart = models.TimeField(default='17:00:00')
     
-    def __str__(self):
-        return f'Salarie {self.salarie.nom} - Date: {self.date.strftime("%Y-%m-%d")}'
+
 
 class AvanceSalaire(models.Model):
     date = models.DateTimeField(auto_now_add=False)

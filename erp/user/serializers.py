@@ -21,11 +21,11 @@ class cordinatesSerializer(serializers.ModelSerializer):
         model=cordinates
         fields="__all__"
 class CustomUserSerializer(serializers.ModelSerializer):
-    permission=UserCustomPermissionSerializer()
-    group=CustomGroupSerializer()
-    EmployeeAt=StoreSerializer()
-    # entrepots_responsible=EntrepotSerializer()
-    equipe_affiliated=EquipeSerializer()
+    # permission=UserCustomPermissionSerializer()
+    # group=CustomGroupSerializer()
+    # EmployeeAt=StoreSerializer()
+    # # entrepots_responsible=EntrepotSerializer()
+    # equipe_affiliated=EquipeSerializer()
     class Meta:
         model=CustomUser
         fields="__all__"

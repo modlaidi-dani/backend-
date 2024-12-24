@@ -39,8 +39,7 @@ class store(models.Model):
     capitaleSocial =models.CharField(max_length=250, null=True, blank=True, default="")   
     product_variant =models.BooleanField(default=False, null=True, blank=True) 
     
-    def __str__(self) :
-         return self.location
+
      
 
   
@@ -50,16 +49,13 @@ class Journal(models.Model):
 class PlanComptableClass(models.Model):
     name = models.CharField(max_length=100)
 
-    def __str__(self):
-        return self.name
     
 class PlanComptableAccount(models.Model):
     code = models.CharField(max_length=10)
     name = models.CharField(max_length=100)
     comptable_class = models.ForeignKey(PlanComptableClass, on_delete=models.CASCADE)
     
-    def __str__(self):
-        return f"{self.code} - {self.name}"
+
  
 class CompteEntreprise(models.Model):
     Nature_Compte_CHOICES = [
@@ -98,8 +94,7 @@ class Devise(models.Model):
     symbole = models.CharField(max_length=2500 , default="", null=True, blank =True)
     actif = models.BooleanField(default=True)
     store =models.ForeignKey(store,on_delete = models.CASCADE, related_name='entreprise_devise', default=None, null=True, blank =True)
-    def __str__(self):
-	    return "Devis : " + str(self.reference) 
+
  
 class ValeurDevise(models.Model):
     Devise = models.ForeignKey(Devise,on_delete = models.CASCADE, null=True, blank=True,default=None)
@@ -113,5 +108,3 @@ class typeClient(models.Model):
     montant_min = models.DecimalField(max_digits=150, decimal_places=2, default=0)
     percent =  models.DecimalField(max_digits=3, decimal_places=2, default=0)
     store =models.ForeignKey(store,on_delete = models.CASCADE, related_name='entreprise_typeClient', default=None, null=True, blank =True)
-    def __str__(self):
-	    return self.type_desc

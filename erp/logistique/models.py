@@ -71,9 +71,7 @@ class ProduitsEnBonTransport(models.Model):
     produit = models.ForeignKey('produits.Product', on_delete = models.CASCADE, related_name='mes_bons_transport')    
     quantity = models.IntegerField(default=1)
     livre = models.BooleanField(default=False)
-  
-    def __str__(self):
-	    return "Bon no: " + str(self.BonNo.idBon) + ", Item = " + self.produit.name  
+    
             
 class ReglementTransport(models.Model):
     montant = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)

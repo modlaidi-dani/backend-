@@ -53,8 +53,7 @@ class Product(models.Model):
     reforme = models.BooleanField(default=False)
     fournisseur = models.CharField(max_length=100, default='', blank=True)
     store = models.ForeignKey(store, on_delete=models.CASCADE, default=None, null=True, blank=True)
-    def __str__(self):
-	    return f"Name: {self.name}, ID: {self.id}"
+
                
 
 

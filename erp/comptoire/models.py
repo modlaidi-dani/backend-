@@ -95,8 +95,7 @@ class verssement(models.Model):
     bon_rectification_associe = models.ForeignKey(BonRectification, on_delete = models.CASCADE,  blank=True, null=True, default=None ,related_name='verssements')
     store= models.ForeignKey('clientInfo.store',on_delete=models.CASCADE, blank=True, null=True, default=None)
     
-    def __str__(self):
-	    return "Verssement de : " + str(self.montant) + ", POUR BON NO: = " + str(self.bon_comptoir_associe.idBon)
+
 	    
 
             

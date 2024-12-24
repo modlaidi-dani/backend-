@@ -44,8 +44,7 @@ class MyLogEntry(models.Model):
     description = models.TextField()  # Store the description of the event or change
     timestamp = models.DateTimeField(auto_now_add=True)  # Record the timestamp when the log entry is created
     store =models.ForeignKey('clientInfo.store', on_delete=models.CASCADE, related_name="ma_tracabilte", null=True, blank=True)
-    def __str__(self):
-        return f"Log Entry by {self.author.username} - {self.timestamp}"
+
 
     class Meta:
         ordering = ['-timestamp']  # Display log entries in descending order of timestamp
@@ -56,5 +55,4 @@ class CustomGroup(Group):
     store = models.ForeignKey('clientInfo.store', on_delete=models.CASCADE, related_name="mes_groupes", null=True, blank=True, default=None)
     custom_permissions = models.ManyToManyField(UserCustomPermission, blank=True)
     
-    def __str__(self) :
-        return self.label
+

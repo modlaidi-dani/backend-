@@ -63,9 +63,6 @@ class BonSortie(models.Model):
     store = models.ForeignKey('clientInfo.store', on_delete = models.CASCADE, related_name='bonL_store', null=True, blank=True, default=None)
     
 
-    
-    def __str__(self):
-	    return "Bon no: " + str(self.idBon) + "CLient store: " + str(self.client.store.id) +  "BL Store : " + str(self.store.id)
 class AvoirVente(models.Model):
     BonSortieAssocie = models.ForeignKey(BonSortie, on_delete = models.CASCADE, related_name='avoirs_bonsortie')
     client = models.ForeignKey('tiers.Client', on_delete = models.CASCADE, related_name='avoirs_client')
