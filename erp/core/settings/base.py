@@ -113,7 +113,7 @@ REST_FRAMEWORK = {
         'erp.core.permission.DynamicPermission',
     ],
     'DEFAULT_FILTER_BACKENDS': [
-        'erp.core.filters.UserFilterBackend',
+        'erp.core.filters. UserFilterBackend, StoreFilter',
         'django_filters.rest_framework.DjangoFilterBackend',
     ],
 }

@@ -9,7 +9,7 @@ from rest_framework import response,status
 from rest_framework_simplejwt.authentication import JWTAuthentication
 # from permissions import IsManager
 from core.permission import DynamicPermission
-from core.filters import UserFilterBackend
+from core.filters import  UserFilterBackend, StoreFilter
 from core.pagination import PageNumberPagination
 
 class ProduitsEnBonCommandeViewset(viewsets.ModelViewSet):
@@ -17,7 +17,7 @@ class ProduitsEnBonCommandeViewset(viewsets.ModelViewSet):
     serializer_class=ProduitsEnBonCommandeSerializer
     authentication_classes=[JWTAuthentication] 
     permission_classes=[IsAuthenticated ]
-    filterset_class=[UserFilterBackend]
+    filter_backends=[ UserFilterBackend, StoreFilter]
     pagination_class = PageNumberPagination 
     
 
@@ -26,7 +26,7 @@ class FactureViewset(viewsets.ModelViewSet):
     serializer_class=FactureSerializer
     authentication_classes=[JWTAuthentication] 
     permission_classes=[IsAuthenticated ]
-    filterset_class=[UserFilterBackend]
+    filter_backends=[ UserFilterBackend, StoreFilter]
     pagination_class = PageNumberPagination 
 
 class AvoirVenteViewset(viewsets.ModelViewSet):
@@ -34,28 +34,28 @@ class AvoirVenteViewset(viewsets.ModelViewSet):
     serializer_class=AvoirVenteSerializer
     authentication_classes=[JWTAuthentication] 
     permission_classes=[IsAuthenticated ]
-    filterset_class=[UserFilterBackend]
+    filter_backends=[ UserFilterBackend, StoreFilter]
     pagination_class = PageNumberPagination 
 class AvoirVenteAncienViewset(viewsets.ModelViewSet):
     queryset=AvoirVenteAncien.objects.all()
     serializer_class=AvoirVenteAncienSerializer
     authentication_classes=[JWTAuthentication] 
     permission_classes=[IsAuthenticated ]
-    filterset_class=[UserFilterBackend]
+    filter_backends=[ UserFilterBackend, StoreFilter]
     pagination_class = PageNumberPagination 
 class produitsEnAvoirViewset(viewsets.ModelViewSet):
     queryset=produitsEnAvoir.objects.all()
     serializer_class=produitsEnAvoirSerializer
     authentication_classes=[JWTAuthentication] 
     permission_classes=[IsAuthenticated ]
-    filterset_class=[UserFilterBackend]
+    filter_backends=[ UserFilterBackend, StoreFilter]
     pagination_class = PageNumberPagination 
 class produitsEnAvoirAViewset(viewsets.ModelViewSet):
     queryset=produitsEnAvoirA.objects.all()
     serializer_class=produitsEnAvoirASerializer
     authentication_classes=[JWTAuthentication] 
     permission_classes=[IsAuthenticated ]
-    filterset_class=[UserFilterBackend]
+    filter_backends=[ UserFilterBackend, StoreFilter]
     pagination_class = PageNumberPagination 
 
 class validationBlViewset(viewsets.ModelViewSet):
@@ -63,7 +63,7 @@ class validationBlViewset(viewsets.ModelViewSet):
     serializer_class=validationBlSerializer
     authentication_classes=[JWTAuthentication] 
     permission_classes=[IsAuthenticated ]
-    filterset_class=[UserFilterBackend]
+    filter_backends=[ UserFilterBackend, StoreFilter]
     pagination_class = PageNumberPagination 
     
 
@@ -72,7 +72,7 @@ class BonSortieViewset(viewsets.ModelViewSet):
     serializer_class=BonSortieSerializer
     authentication_classes=[JWTAuthentication] 
     permission_classes=[IsAuthenticated ]
-    filterset_class=[UserFilterBackend]
+    filter_backends=[ UserFilterBackend, StoreFilter]
     pagination_class = PageNumberPagination 
     
 
@@ -81,14 +81,14 @@ class DemandeTransfertViewset(viewsets.ModelViewSet):
     serializer_class=DemandeTransfertSerializer
     authentication_classes=[JWTAuthentication] 
     permission_classes=[IsAuthenticated ]
-    filterset_class=[UserFilterBackend]
+    filter_backends=[ UserFilterBackend, StoreFilter]
 
 class ConfirmationBlViewset(viewsets.ModelViewSet):
     queryset=ConfirmationBl.objects.all()
     serializer_class=ConfirmationBlSerializer
     authentication_classes=[JWTAuthentication] 
     permission_classes=[IsAuthenticated ]
-    filterset_class=[UserFilterBackend]
+    filter_backends=[ UserFilterBackend, StoreFilter]
     pagination_class = PageNumberPagination 
     
 
@@ -97,7 +97,7 @@ class ProduitsEnBonSortieViewset(viewsets.ModelViewSet):
     serializer_class=ProduitsEnBonSortieSerializer
     authentication_classes=[JWTAuthentication] 
     permission_classes=[IsAuthenticated ]
-    filterset_class=[UserFilterBackend]
+    filter_backends=[ UserFilterBackend, StoreFilter]
     pagination_class = PageNumberPagination 
     
 
@@ -106,7 +106,7 @@ class BonGarantieViewset(viewsets.ModelViewSet):
     serializer_class=BonGarantieSerializer
     authentication_classes=[JWTAuthentication] 
     permission_classes=[IsAuthenticated ]
-    filterset_class=[UserFilterBackend]
+    filter_backends=[ UserFilterBackend, StoreFilter]
     pagination_class = PageNumberPagination 
     
 
@@ -115,7 +115,7 @@ class ProduitsEnBonGarantieViewset(viewsets.ModelViewSet):
     serializer_class=ProduitsEnBonGarantieSerializer
     authentication_classes=[JWTAuthentication] 
     permission_classes=[IsAuthenticated ]
-    filterset_class=[UserFilterBackend]
+    filter_backends=[ UserFilterBackend, StoreFilter]
     pagination_class = PageNumberPagination 
     
 
@@ -124,7 +124,7 @@ class BonDevisViewset(viewsets.ModelViewSet):
     serializer_class=BonDevisSerializer
     authentication_classes=[JWTAuthentication] 
     permission_classes=[IsAuthenticated ]
-    filterset_class=[UserFilterBackend]
+    filter_backends=[ UserFilterBackend, StoreFilter]
     pagination_class = PageNumberPagination 
     
 
@@ -133,7 +133,7 @@ class ProduitsEnBonDevisViewset(viewsets.ModelViewSet):
     serializer_class=ProduitsEnBonDevisSerializer
     authentication_classes=[JWTAuthentication] 
     permission_classes=[IsAuthenticated ]
-    filterset_class=[UserFilterBackend]
+    filter_backends=[ UserFilterBackend, StoreFilter]
     pagination_class = PageNumberPagination 
     
 
@@ -142,7 +142,7 @@ class BonCommandeViewset(viewsets.ModelViewSet):
     serializer_class=BonCommandeSerializer
     authentication_classes=[JWTAuthentication] 
     permission_classes=[IsAuthenticated ]
-    filterset_class=[UserFilterBackend]
+    filter_backends=[ UserFilterBackend, StoreFilter]
     pagination_class = PageNumberPagination 
     
 
@@ -151,7 +151,7 @@ class ProduitsEnFactureViewset(viewsets.ModelViewSet):
     serializer_class=ProduitsEnFactureSerializer
     authentication_classes=[JWTAuthentication] 
     permission_classes=[IsAuthenticated ]
-    filterset_class=[UserFilterBackend]
+    filter_backends=[ UserFilterBackend, StoreFilter]
     pagination_class = PageNumberPagination 
     
 

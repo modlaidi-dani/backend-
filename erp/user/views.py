@@ -10,7 +10,7 @@ from rest_framework import response,status
 from rest_framework_simplejwt.authentication import JWTAuthentication
 # from permissions import IsManager
 from core.permission import DynamicPermission
-from core.filters import UserFilterBackend
+from core.filters import  UserFilterBackend, StoreFilter
 
 
 class UserCustomPermissionViewset(viewsets.ModelViewSet):
@@ -18,21 +18,21 @@ class UserCustomPermissionViewset(viewsets.ModelViewSet):
     serializer_class=UserCustomPermissionSerializer
     authentication_classes=[JWTAuthentication] 
     permission_classes=[IsAuthenticated]
-    filterset_class=[UserFilterBackend]
+    filter_backends=[ UserFilterBackend, StoreFilter]
 
 
 class CustomGroupViewset(viewsets.ModelViewSet):
     queryset=CustomGroup.objects.all()
     serializer_class=CustomGroupSerializer
     authentication_classes=[JWTAuthentication]
-    filterset_class=[UserFilterBackend]
+    filter_backends=[ UserFilterBackend, StoreFilter]
 
     permission_classes=[IsAuthenticated]
 class CustomUserViewset(viewsets.ModelViewSet):
     queryset=CustomUser.objects.all()
     serializer_class=CustomUserSerializer
     authentication_classes=[JWTAuthentication]
-    filterset_class=[UserFilterBackend]
+    filter_backends=[ UserFilterBackend, StoreFilter]
 
     permission_classes=[IsAuthenticated]
     
@@ -42,13 +42,13 @@ class EquipeViewset(viewsets.ModelViewSet):
     serializer_class=EquipeSerializer
     authentication_classes=[JWTAuthentication] 
     permission_classes=[IsAuthenticated]
-    filterset_class=[UserFilterBackend]
+    filter_backends=[ UserFilterBackend, StoreFilter]
 
 class cordinatesViewset(viewsets.ModelViewSet):
     queryset=cordinates.objects.all()
     serializer_class=cordinatesSerializer
     authentication_classes=[JWTAuthentication] 
     permission_classes=[IsAuthenticated]
-    filterset_class=[UserFilterBackend]
+    filter_backends=[ UserFilterBackend, StoreFilter]
 
     

@@ -9,7 +9,7 @@ from rest_framework import response,status
 from rest_framework_simplejwt.authentication import JWTAuthentication
 # from permissions import IsManager
 from core.permission import DynamicPermission
-from core.filters import UserFilterBackend
+from core.filters import  UserFilterBackend, StoreFilter
 
 
 class ordreFabricationViewset(viewsets.ModelViewSet):
@@ -17,7 +17,7 @@ class ordreFabricationViewset(viewsets.ModelViewSet):
     serializer_class=ordreFabricationSerializer
     authentication_classes=[JWTAuthentication] 
     permission_classes=[IsAuthenticated ]
-    filterset_class=[UserFilterBackend]
+    filter_backends=[ UserFilterBackend, StoreFilter]
 
 
 class ProduitsEnOrdreFabricationViewset(viewsets.ModelViewSet):
@@ -25,7 +25,7 @@ class ProduitsEnOrdreFabricationViewset(viewsets.ModelViewSet):
     serializer_class=ProduitsEnOrdreFabricationSerializer
     authentication_classes=[JWTAuthentication] 
     permission_classes=[IsAuthenticated ]
-    filterset_class=[UserFilterBackend]
+    filter_backends=[ UserFilterBackend, StoreFilter]
 
 
 class ProduitProductionBLViewset(viewsets.ModelViewSet):
@@ -33,7 +33,7 @@ class ProduitProductionBLViewset(viewsets.ModelViewSet):
     serializer_class=ProduitProductionBLSerializer
     authentication_classes=[JWTAuthentication] 
     permission_classes=[IsAuthenticated ]
-    filterset_class=[UserFilterBackend]
+    filter_backends=[ UserFilterBackend, StoreFilter]
 
 
 class ProduitProductionFacViewset(viewsets.ModelViewSet):
@@ -41,4 +41,4 @@ class ProduitProductionFacViewset(viewsets.ModelViewSet):
     serializer_class=ProduitProductionFacSerializer
     authentication_classes=[JWTAuthentication] 
     permission_classes=[IsAuthenticated ]
-    filterset_class=[UserFilterBackend]
+    filter_backends=[ UserFilterBackend, StoreFilter]

@@ -9,7 +9,7 @@ from rest_framework import response,status
 from rest_framework_simplejwt.authentication import JWTAuthentication
 # from permissions import IsManager
 from core.permission import DynamicPermission
-from core.filters import UserFilterBackend
+from core.filters import  UserFilterBackend, StoreFilter
 from core.pagination import PageNumberPagination
 
 class storeViewset(viewsets.ModelViewSet):
@@ -17,7 +17,7 @@ class storeViewset(viewsets.ModelViewSet):
     serializer_class=StoreSerializer
     authentication_classes=[JWTAuthentication] 
     permission_classes=[IsAuthenticated ]
-    filterset_class=[UserFilterBackend]
+    filter_backends=[ UserFilterBackend, StoreFilter]
     pagination_class = PageNumberPagination 
     
 
@@ -28,7 +28,7 @@ class JournalViewset(viewsets.ModelViewSet):
     serializer_class=JournalSerializer
     authentication_classes=[JWTAuthentication] 
     permission_classes=[IsAuthenticated ]
-    filterset_class=[UserFilterBackend]
+    filter_backends=[ UserFilterBackend, StoreFilter]
     pagination_class = PageNumberPagination 
     
 
@@ -37,7 +37,7 @@ class PlanComptableClassViewset(viewsets.ModelViewSet):
     serializer_class=PlanComptableClassSerializer
     authentication_classes=[JWTAuthentication] 
     permission_classes=[IsAuthenticated ]
-    filterset_class=[UserFilterBackend]
+    filter_backends=[ UserFilterBackend, StoreFilter]
     pagination_class = PageNumberPagination 
     
 
@@ -46,7 +46,7 @@ class PlanComptableAccountViewset(viewsets.ModelViewSet):
     serializer_class=PlanComptableAccountSerializer
     authentication_classes=[JWTAuthentication] 
     permission_classes=[IsAuthenticated ]
-    filterset_class=[UserFilterBackend]
+    filter_backends=[ UserFilterBackend, StoreFilter]
     pagination_class = PageNumberPagination 
     
 
@@ -55,7 +55,7 @@ class CompteEntrepriseViewset(viewsets.ModelViewSet):
     serializer_class=CompteEntrepriseSerializer
     authentication_classes=[JWTAuthentication] 
     permission_classes=[IsAuthenticated ]
-    filterset_class=[UserFilterBackend]
+    filter_backends=[ UserFilterBackend, StoreFilter]
     pagination_class = PageNumberPagination 
     
 
@@ -64,7 +64,7 @@ class TaxesViewset(viewsets.ModelViewSet):
     serializer_class=TaxesSerializer
     authentication_classes=[JWTAuthentication] 
     permission_classes=[IsAuthenticated ]
-    filterset_class=[UserFilterBackend]
+    filter_backends=[ UserFilterBackend, StoreFilter]
     pagination_class = PageNumberPagination 
     
 
@@ -73,7 +73,7 @@ class ValeurDeviseViewset(viewsets.ModelViewSet):
     serializer_class=ValeurDeviseSerializer
     authentication_classes=[JWTAuthentication] 
     permission_classes=[IsAuthenticated ]
-    filterset_class=[UserFilterBackend]
+    filter_backends=[ UserFilterBackend, StoreFilter]
     pagination_class = PageNumberPagination 
     
 
@@ -82,7 +82,7 @@ class typeClientViewset(viewsets.ModelViewSet):
     serializer_class=typeClientSerializer
     authentication_classes=[JWTAuthentication] 
     permission_classes=[IsAuthenticated ]
-    filterset_class=[UserFilterBackend]
+    filter_backends=[ UserFilterBackend, StoreFilter]
     pagination_class = PageNumberPagination 
     
 
@@ -91,7 +91,7 @@ class DeviseViewset(viewsets.ModelViewSet):
     serializer_class=DeviseSerializer
     authentication_classes=[JWTAuthentication] 
     permission_classes=[IsAuthenticated ]
-    filterset_class=[UserFilterBackend]
+    filter_backends=[ UserFilterBackend, StoreFilter]
     pagination_class = PageNumberPagination 
     
 
