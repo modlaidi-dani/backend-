@@ -50,6 +50,6 @@ class CustomUserSerializer(serializers.ModelSerializer):
             # Hacher le mot de passe
             user = User(**datauser)
             user.set_password(password)
-            datauser['password'] = user.password  # Conserver le mot de passe haché
+            internal_value['password'] = user.password  # Conserver le mot de passe haché
         return internal_value    
     
