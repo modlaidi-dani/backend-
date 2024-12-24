@@ -2,7 +2,7 @@ from rest_framework import serializers
 from .models import *
 from clientInfo.serializers import *
 from user.serializers import *
-from produits.serializers import * 
+# from produits.serializers import * 
 from ventes.serializers import *
 from tiers.serializers import *
 from comptoire.serializers import *
@@ -57,7 +57,7 @@ class BonRetourAncienSerializer(serializers.ModelSerializer):
 
 
 class StockSerializer(serializers.ModelSerializer):
-    product=ProductSerializer()
+    # product=ProductSerializer()
     # entrepot=EntrepotSerializer()
     quantity_detailed=serializers.SerializerMethodField()
     quantity=serializers.SerializerMethodField()

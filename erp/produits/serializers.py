@@ -1,7 +1,6 @@
 from rest_framework import serializers
 from .models import *
 from clientInfo.serializers import *
-from produits.serializers import *
 
 class CategorySerializer(serializers.ModelSerializer):
     store=StoreSerializer()
@@ -11,9 +10,14 @@ class CategorySerializer(serializers.ModelSerializer):
 class ProductSerializer(serializers.ModelSerializer):
     category=CategorySerializer()
     store=StoreSerializer()
+    stock=serializers.SerializerMethodField()
     class Meta:
         model=Product
         fields="__all__"
+    def get_stock(self,obj):
+        from inventory.serializers import StockSerializer
+        return StockSerializer(obj.mon_stock.all(),many=True).data
+        
 class HistoriqueAchatProduitSerializer(serializers.ModelSerializer):
     produit=ProductSerializer()
     class Meta:

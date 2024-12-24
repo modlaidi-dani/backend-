@@ -50,6 +50,8 @@ class BonRetourAncien(models.Model):
     valide = models.BooleanField(blank=True, null=True, default=False)
     store =models.ForeignKey(store,on_delete = models.CASCADE, related_name='store_bons_retour_ancien')
     user =models.ForeignKey(CustomUser,on_delete = models.CASCADE, related_name='mes_bons_retour_ancien', blank=True, null=True, default=None)
+    regler_valide=models.BooleanField(blank=True, null=True, default=False)
+    
     def __str__(self):
 	    return "Bon no: " + str(self.idBon)
 
