@@ -11,12 +11,20 @@ class ProductSerializer(serializers.ModelSerializer):
     category=CategorySerializer()
     store=StoreSerializer()
     stock=serializers.SerializerMethodField()
+    quantity_globale=serializers.SerializerMethodField()
     class Meta:
         model=Product
         fields="__all__"
     def get_stock(self,obj):
         from inventory.serializers import StockSerializer
         return StockSerializer(obj.mon_stock.all(),many=True).data
+    def get_quantity_globale(self,obj):
+        stocks=self.get_stock(obj)
+        quantity_globale=0
+        for stock in stocks:
+            quantity = stock.get('quantity', 0)  
+            quantity_globale += quantity 
+        return quantity_globale
         
 class HistoriqueAchatProduitSerializer(serializers.ModelSerializer):
     produit=ProductSerializer()
