@@ -9,7 +9,7 @@ from comptoire.serializers import *
 
 class EntrepotSerializer(serializers.ModelSerializer):
     responsables=serializers.SerializerMethodField()
-    stocks=serializers.SerializerMethodField()
+    # stocks=serializers.SerializerMethodField()
     store=StoreSerializer()
     class Meta:
         model=Entrepot
@@ -20,8 +20,7 @@ class EntrepotSerializer(serializers.ModelSerializer):
        for user in users :
            list_responsables.append(user.username)
        return list_responsables
-    def get_stocks(self,obj):
-       return obj.inventories.all()
+
 
 class equipeInventaireSerializer(serializers.ModelSerializer):
     class Meta:
@@ -158,7 +157,7 @@ class ProduitsEnBonTransfertMagSerializer(serializers.ModelSerializer):
         model=ProduitsEnBonTransfertMag
         fields="__all__"
 class BonTransfertMagasinSerializer(serializers.ModelSerializer):
-    produits=ProduitsEnBonTransfertMag()
+    produits=ProduitsEnBonTransfertMagSerializer(many=True, source="produits_en_bon_transfertMag")
     store_depart=StoreSerializer()
     entrepot_depart=EntrepotSerializer()
     store_arrive=StoreSerializer()
