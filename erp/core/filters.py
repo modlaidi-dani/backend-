@@ -17,8 +17,10 @@ class StoreFilter(DjangoFilterBackend):
     def filter_queryset(self, request, queryset, view):
         user=request.user
         costumeruser=CustomUser.objects.get(username=user)
-        if costumeruser.EmployeeAt:
-            return queryset.filter(store=costumeruser.EmployeeAt)
-        else:
-            return queryset.filter(store=request.session.get('store'))
-        return queryset
+        try:
+            if costumeruser.EmployeeAt:
+                return queryset.filter(store=costumeruser.EmployeeAt)
+            else:
+                return queryset.filter(store=request.session.get('store'))
+        except:
+            return queryset
