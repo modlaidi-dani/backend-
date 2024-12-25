@@ -14,7 +14,7 @@ from rest_framework_simplejwt.authentication import JWTAuthentication
 from core.permission import DynamicPermission
 from core.filters import  UserFilterBackend, StoreFilter
 from core.pagination import PageNumberPagination
-
+from .filters import *
 
 class CategoryViewset(viewsets.ModelViewSet):
     queryset=Category.objects.all()
@@ -31,6 +31,7 @@ class ProductViewset(viewsets.ModelViewSet):
     permission_classes=[IsAuthenticated ]
     filter_backends=[ UserFilterBackend,  StoreFilter]
     pagination_class = PageNumberPagination 
+    filterset_class=ProduitFilter
 
 class HistoriqueAchatProduitViewset(viewsets.ModelViewSet):
     queryset=HistoriqueAchatProduit.objects.all()
