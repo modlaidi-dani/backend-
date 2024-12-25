@@ -3,7 +3,6 @@ from .models import *
 from clientInfo.serializers import *
 
 class CategorySerializer(serializers.ModelSerializer):
-    store=StoreSerializer()
     class Meta:
         model=Category
         fields="__all__"
