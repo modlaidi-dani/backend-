@@ -11,6 +11,8 @@ from rest_framework_simplejwt.authentication import JWTAuthentication
 from core.permission import DynamicPermission
 from core.filters import  UserFilterBackend, StoreFilter
 from core.pagination import PageNumberPagination
+from django_filters.rest_framework import DjangoFilterBackend
+from .filters import *
 
 class ProduitsEnBonCommandeViewset(viewsets.ModelViewSet):
     queryset=ProduitsEnBonCommande.objects.all()
@@ -72,8 +74,9 @@ class BonSortieViewset(viewsets.ModelViewSet):
     serializer_class=BonSortieSerializer
     authentication_classes=[JWTAuthentication] 
     permission_classes=[IsAuthenticated ]
-    filter_backends=[ UserFilterBackend, StoreFilter]
-    pagination_class = PageNumberPagination 
+    filter_backends=[ DjangoFilterBackend, UserFilterBackend, StoreFilter]
+    pagination_class = PageNumberPagination
+    filterset_class=BonSortieFilter 
     
 
 class DemandeTransfertViewset(viewsets.ModelViewSet):
