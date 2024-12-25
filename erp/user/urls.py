@@ -8,8 +8,7 @@ router.register('equipe',EquipeViewset,basename='equipe')
 router.register('permission',UserCustomPermissionViewset,basename='permission')
 router.register('cordinates',cordinatesViewset,basename='cordinates')
 
-
-
 urlpatterns = [
     path('',include(router.urls)),
+    path('UserActuel', UserActuel.as_view(), name='UserActuel'),
 ]

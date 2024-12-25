@@ -3,7 +3,7 @@ from django.shortcuts import render
 from .models import * 
 from .serializers import * 
 # from permissions import *
-from rest_framework import viewsets
+from rest_framework import viewsets,views
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated, AllowAny,IsAdminUser
 from rest_framework import response,status
@@ -11,10 +11,17 @@ from rest_framework_simplejwt.authentication import JWTAuthentication
 # from permissions import IsManager
 from core.permission import DynamicPermission
 from core.filters import  UserFilterBackend, StoreFilter
-
+class UserActuel(views.APIView):
+    authentication_classes = [JWTAuthentication] 
+    permission_classes = [IsAuthenticated]
+    def get(self, request, *args, **kwargs):
+        user = request.user  
+        serializer = CustomUserSerializer(user)  
+        return Response(serializer.data, status=status.HTTP_200_OK)
+        
 
 class UserCustomPermissionViewset(viewsets.ModelViewSet):
-    queryset=UserCustomPermission.objects.all()
+    queryset=CustomUser.objects.all()
     serializer_class=UserCustomPermissionSerializer
     authentication_classes=[JWTAuthentication] 
     permission_classes=[IsAuthenticated]
