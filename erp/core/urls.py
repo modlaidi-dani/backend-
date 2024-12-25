@@ -20,5 +20,8 @@ urlpatterns = [
     path('tiers/', include('tiers.urls')),
     path('user/', include('user.urls')),
     path('ventes/', include('ventes.urls')),
-    path('reglements/', include('reglements.urls')),    
+    path('reglements/', include('reglements.urls')),   
+    path('archivage/', include('archivage.urls')),   
+    
+     
 ]

@@ -3,7 +3,7 @@ from user.models import *
 class  UserFilterBackend(DjangoFilterBackend):
     def filter_queryset(self, request, queryset, view):
         user = request.user
-        user_fields = ['user','User', 'utilisateur', 'chauffeur', 'author']
+        user_fields = ['user','User', 'utilisateur', 'chauffeur', 'author','user_update']
         for field in user_fields:
             if hasattr(queryset.model, field):
                 costumeruser=CustomUser.objects.get(username=user)

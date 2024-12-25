@@ -34,6 +34,7 @@ INSTALLED_APPS = [
     "erp.logistique",
     # "erp.production",
     "erp.gestionRH",
+    "archivage",
     
 ]
 

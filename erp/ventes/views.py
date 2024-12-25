@@ -13,7 +13,8 @@ from core.filters import  UserFilterBackend, StoreFilter
 from core.pagination import PageNumberPagination
 from django_filters.rest_framework import DjangoFilterBackend
 from .filters import *
-
+from archivage.models import *
+from datetime import datetime
 class ProduitsEnBonCommandeViewset(viewsets.ModelViewSet):
     queryset=ProduitsEnBonCommande.objects.all()
     serializer_class=ProduitsEnBonCommandeSerializer
@@ -77,7 +78,53 @@ class BonSortieViewset(viewsets.ModelViewSet):
     filter_backends=[ DjangoFilterBackend, UserFilterBackend, StoreFilter]
     pagination_class = PageNumberPagination
     filterset_class=BonSortieFilter 
-    
+    def perform_update(self, serializer):
+        instance = self.get_object()
+        user = self.request.user
+        produits=isinstance.produits_en_bon_sorties.all()
+        bon_archiv=ArchivageBonSortie.objects.create(
+            bon_sortie=instance,  
+            idBon=instance.idBon,
+            dateBon=instance.dateBon,
+            client=instance.client,
+            totalPrice=instance.totalPrice,
+            user=instance.user,
+            entrepot=instance.entrepot,
+            mode_reglement=instance.mode_reglement,
+            echeance_reglement=instance.echeance_reglement,
+            banque_Reglement=instance.banque_Reglement,
+            num_cheque_reglement=instance.num_cheque_reglement,
+            Remise=instance.Remise,
+            agenceLivraison=instance.agenceLivraison,
+            fraisLivraison=instance.fraisLivraison,
+            fraisLivraisonexterne=instance.fraisLivraisonexterne,
+            note=instance.note,
+            valide=instance.valide,
+            ferme=instance.ferme,
+            modifiable=instance.modifiable,
+            confirmed=instance.confirmed,
+            livre=instance.livre,
+            typebl=instance.typebl,
+            reference_pc=instance.reference_pc,
+            name_pc=instance.name_pc,
+            store=instance.store,
+            user_update=user,
+            date_update=datetime.now()
+        )
+        for produit in produits:
+            ArchivageProduitsEnBonSortie.objects.create(
+                produitsenbs=produit,  
+                bon_archiv=bon_archiv,
+                bon_sortie=produit.BonNo,  
+                stock=produit.stock,  
+                kit=produit.kit,
+                quantity=produit.quantity,
+                unitprice=produit.unitprice,
+                totalprice=produit.totalprice,
+                entrepot=produit.entrepot,
+            )
+        serializer.save()
+        
 
 class DemandeTransfertViewset(viewsets.ModelViewSet):
     queryset=DemandeTransfert.objects.all()
@@ -101,7 +148,7 @@ class ProduitsEnBonSortieViewset(viewsets.ModelViewSet):
     authentication_classes=[JWTAuthentication] 
     permission_classes=[IsAuthenticated ]
     filter_backends=[ UserFilterBackend, StoreFilter]
-    pagination_class = PageNumberPagination 
+    pagination_class = PageNumberPagination
     
 
 class BonGarantieViewset(viewsets.ModelViewSet):

@@ -11,6 +11,7 @@ from rest_framework.permissions import IsAuthenticated, AllowAny,IsAdminUser
 from rest_framework import response,status
 from rest_framework_simplejwt.authentication import JWTAuthentication
 # from permissions import IsManager
+from rest_framework.filters import SearchFilter
 from core.permission import DynamicPermission
 from core.filters import  UserFilterBackend, StoreFilter
 from core.pagination import PageNumberPagination
@@ -29,9 +30,11 @@ class ProductViewset(viewsets.ModelViewSet):
     serializer_class=ProductSerializer
     authentication_classes=[JWTAuthentication] 
     permission_classes=[IsAuthenticated ]
-    filter_backends=[DjangoFilterBackend, UserFilterBackend,  StoreFilter]
+    filter_backends=[SearchFilter,DjangoFilterBackend, UserFilterBackend,  StoreFilter]
     pagination_class = PageNumberPagination 
-    filterset_class=ProduitFilter
+    filterset_class=ProduitFiltercategory
+    search_fields = ['name', 'reference']
+    
 
 class HistoriqueAchatProduitViewset(viewsets.ModelViewSet):
     queryset=HistoriqueAchatProduit.objects.all()
