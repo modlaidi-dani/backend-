@@ -17,3 +17,14 @@ class ArchivageBonSortieSerializer(serializers.ModelSerializer):
     class Meta:
         model=ArchivageBonSortie
         fields="__all__"
+class ArchivageProduitsEnFactureSerializer(serializers.ModelSerializer):
+    stock=ProductSerializer()
+    # entrepot=EntrepotSerializer()
+    class Meta:
+        model=ArchivageProduitsEnFacture
+        fields="__all__"
+class ArchivageFactureSerializer(serializers.ModelSerializer):
+    produits=ArchivageProduitsEnBonSortieSerializer(many=True, source='produits_archivageBL')
+    class Meta:
+        model=ArchivageFacture
+        fields="__all__"

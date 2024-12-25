@@ -30,7 +30,44 @@ class FactureViewset(viewsets.ModelViewSet):
     authentication_classes=[JWTAuthentication] 
     permission_classes=[IsAuthenticated ]
     filter_backends=[ UserFilterBackend, StoreFilter]
-    pagination_class = PageNumberPagination 
+    pagination_class = PageNumberPagination
+    def perform_update(self, serializer):
+        instance = self.get_object()
+        user = self.request.user
+        produits=isinstance.produits_en_facture.all()
+        bon_archiv=ArchivageFacture.objects.create(
+            facture=instance,  
+            codeFacture=instance.codeFacture,
+            date_facture=instance.date_facture,
+            client=instance.client,
+            BonS=instance.BonS,
+            user=instance.user,
+            mode_reglement=instance.mode_reglement,
+            echeance_reglement=instance.echeance_reglement,
+            banque_Reglement=instance.banque_Reglement,
+            num_cheque_reglement=instance.num_cheque_reglement,
+            Remise=instance.Remise,
+            etat_reglement=instance.etat_reglement,
+            shippingCost=instance.shippingCost,
+            totalPrice=instance.totalPrice,
+            valide=instance.valide,
+            ferme=instance.ferme,
+            regle=instance.regle,
+            store=instance.store,
+            user_update=user,
+            date_update=datetime.now()
+        )
+        for produit in produits:
+            ArchivageProduitsEnFacture.objects.create(
+                facture_archiv=bon_archiv,  
+                produitsfacture=produit,
+                FactureNo=produit.FactureNo,  
+                stock=produit.stock,  
+                quantity=produit.quantity,
+                unitprice=produit.unitprice,
+                totalprice=produit.totalprice,
+            )
+        serializer.save() 
 
 class AvoirVenteViewset(viewsets.ModelViewSet):
     queryset=AvoirVente.objects.all()
@@ -95,10 +132,8 @@ class BonSortieViewset(viewsets.ModelViewSet):
             banque_Reglement=instance.banque_Reglement,
             num_cheque_reglement=instance.num_cheque_reglement,
             Remise=instance.Remise,
-            agenceLivraison=instance.agenceLivraison,
-            fraisLivraison=instance.fraisLivraison,
-            fraisLivraisonexterne=instance.fraisLivraisonexterne,
-            note=instance.note,
+            etat_reglement=instance.etat_reglement,
+            shippingCost=instance.shippingCost,
             valide=instance.valide,
             ferme=instance.ferme,
             modifiable=instance.modifiable,
