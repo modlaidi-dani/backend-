@@ -17,6 +17,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "rest_framework_simplejwt.token_blacklist",
+    'django_filters',
     "rest_framework",
     "erp.user",
     "erp.clientInfo",
@@ -33,7 +34,7 @@ INSTALLED_APPS = [
     "erp.logistique",
     # "erp.production",
     "erp.gestionRH",
-    'django_filters',
+    
 ]
 
 MIDDLEWARE = [

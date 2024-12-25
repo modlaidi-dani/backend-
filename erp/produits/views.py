@@ -15,7 +15,7 @@ from core.permission import DynamicPermission
 from core.filters import  UserFilterBackend, StoreFilter
 from core.pagination import PageNumberPagination
 from .filters import *
-
+from django_filters.rest_framework import DjangoFilterBackend
 class CategoryViewset(viewsets.ModelViewSet):
     queryset=Category.objects.all()
     serializer_class=CategorySerializer
@@ -29,7 +29,7 @@ class ProductViewset(viewsets.ModelViewSet):
     serializer_class=ProductSerializer
     authentication_classes=[JWTAuthentication] 
     permission_classes=[IsAuthenticated ]
-    filter_backends=[ UserFilterBackend,  StoreFilter]
+    filter_backends=[DjangoFilterBackend, UserFilterBackend,  StoreFilter]
     pagination_class = PageNumberPagination 
     filterset_class=ProduitFilter
 
