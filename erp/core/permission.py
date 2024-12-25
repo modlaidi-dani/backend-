@@ -4,8 +4,7 @@ class DynamicPermission(BasePermission):
     def has_permission(self, request, view):
         if not request.user.is_authenticated:
             return False
-        view_name = view.__class__.__name__
-        
+        view_name = view.__class__.__name__   
         action = request.method.lower()
         if action=='post':
             action='add'

@@ -18,7 +18,7 @@ class UserCustomPermission(models.Model):
         ("delete", "delete"),
         ("update", "update"),     
     ]
-    groupe=models.ForeignKey(GroupePermission, on_delete=models.CASCADE,related_name="users_permissions")
+    groupe=models.ForeignKey(GroupePermission, on_delete=models.CASCADE,related_name="users_permissions",null=True)
     name=models.CharField(null=True, max_length=100)
     action=models.CharField(default="get",choices=CHOICES, max_length=50)
 
@@ -55,6 +55,6 @@ class CustomGroup(Group):
     label = models.CharField(max_length=100, unique=False)
     description = models.TextField(max_length=2500)
     store = models.ForeignKey('clientInfo.store', on_delete=models.CASCADE, related_name="mes_groupes", null=True, blank=True, default=None)
-    permissions=models.ManyToManyField(GroupePermission,null=True)
+    permissions_groupe=models.ManyToManyField(GroupePermission,null=True)
     
 
