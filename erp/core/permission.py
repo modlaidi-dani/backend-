@@ -5,13 +5,16 @@ class DynamicPermission(BasePermission):
         if not request.user.is_authenticated:
             return False
         view_name = view.__class__.__name__
+        
         action = request.method.lower()
         if action=='post':
             action='add'
         if action in ['put', 'patch']:
             action="update" 
         user=CustomUser.objects.get(username=request.user)
-        permission = user.permission.filter(action=action, view=view_name).first()
-        if permission:
+        group=user.group
+        for permission_groupe in group.permissions:
+            permission = user.permission.filter(action=action, groupe=permission_groupe).first()
+            if permission_groupe.view_name==view_name and permission.action==action:
                 return True
         return False

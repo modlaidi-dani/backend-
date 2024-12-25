@@ -8,7 +8,9 @@ from clientInfo.models import store
 from rest_framework.authtoken.models import Token
 from django.db import models
 
-
+class GroupePermission(models.Model):
+    views=models.CharField(null=True, max_length=50)
+    name=models.CharField(null=True, max_length=100)
 class UserCustomPermission(models.Model):
     CHOICES = [
         ("get", "get"),
@@ -16,7 +18,7 @@ class UserCustomPermission(models.Model):
         ("delete", "delete"),
         ("update", "update"),     
     ]
-    view=models.CharField(null=True, max_length=50)
+    groupe=models.ForeignKey(GroupePermission, on_delete=models.CASCADE,related_name="users_permissions")
     name=models.CharField(null=True, max_length=100)
     action=models.CharField(default="get",choices=CHOICES, max_length=50)
 
@@ -53,6 +55,6 @@ class CustomGroup(Group):
     label = models.CharField(max_length=100, unique=False)
     description = models.TextField(max_length=2500)
     store = models.ForeignKey('clientInfo.store', on_delete=models.CASCADE, related_name="mes_groupes", null=True, blank=True, default=None)
-    custom_permissions = models.ManyToManyField(UserCustomPermission, blank=True)
+    permissions=models.ManyToManyField(GroupePermission,null=True)
     
 

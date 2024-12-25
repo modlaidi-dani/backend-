@@ -7,8 +7,6 @@ class CategorySerializer(serializers.ModelSerializer):
         model=Category
         fields="__all__"
 class ProductSerializer(serializers.ModelSerializer):
-    category=CategorySerializer()
-    store=StoreSerializer()
     stock=serializers.SerializerMethodField()
     quantity_globale=serializers.SerializerMethodField()
     class Meta:
@@ -26,29 +24,22 @@ class ProductSerializer(serializers.ModelSerializer):
         return quantity_globale
         
 class HistoriqueAchatProduitSerializer(serializers.ModelSerializer):
-    produit=ProductSerializer()
     class Meta:
         model=HistoriqueAchatProduit
         fields="__all__"
 class codeEASerializer(serializers.ModelSerializer):
-    produit=ProductSerializer()
     class Meta:
         model=codeEA
         fields="__all__"
 class NumSeriesSerializer(serializers.ModelSerializer):
-    produit=ProductSerializer()
     class Meta:
         model=NumSeries
         fields="__all__"
 class variantsPrixClientSerializer(serializers.ModelSerializer):
-    produit=ProductSerializer()
-    type_client=typeClientSerializer()
     class Meta:
         model=variantsPrixClient
         fields="__all__"
 class PromotionSerializer(serializers.ModelSerializer):
-    produit=ProductSerializer()
-    type_client=typeClientSerializer()
     class Meta:
         model=Promotion
         fields="__all__"

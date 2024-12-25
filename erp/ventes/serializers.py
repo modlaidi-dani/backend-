@@ -19,12 +19,6 @@ class ProduitsEnBonSortieSerializer(serializers.ModelSerializer):
         fields="__all__"
 class BonSortieSerializer(serializers.ModelSerializer):
     produits=ProduitsEnBonSortieSerializer(many=True, source='produits_en_bon_sorties')
-    client=ClientSerializer()
-    mode_reglement=ModeReglementSerializer()
-    echeance_reglement=EcheanceReglementSerializer()
-    # entrepot=EntrepotSerializer()
-    banque_Reglement=BanqueSerializer()
-    store=StoreSerializer()
     confirmationFile=serializers.SerializerMethodField()
     confirmationDateTime=serializers.SerializerMethodField()
     ValidatePar=serializers.SerializerMethodField()
@@ -193,7 +187,6 @@ class BonSortieSerializer(serializers.ModelSerializer):
         return round(margin, 2)
     
 class ProduitsEnFactureSerializer(serializers.ModelSerializer):
-    stock=ProductSerializer()
     class Meta:
         model=ProduitsEnFacture
         fields="__all__"
