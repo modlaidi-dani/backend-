@@ -17,27 +17,27 @@ class ArchivageBonSortieViewset(viewsets.ModelViewSet):
     queryset=ArchivageBonSortie.objects.all()
     serializer_class=ArchivageBonSortieSerializer
     authentication_classes=[JWTAuthentication] 
-    permission_classes=[IsAuthenticated ]
+    permission_classes=[IsAuthenticated, DynamicPermission ]
     filter_backends=[ UserFilterBackend, StoreFilter]
     pagination_class = PageNumberPagination
 class ArchivageProduitsEnBonSortieViewset(viewsets.ModelViewSet):
     queryset=ArchivageProduitsEnBonSortie.objects.all()
     serializer_class=ArchivageProduitsEnBonSortieSerializer
     authentication_classes=[JWTAuthentication] 
-    permission_classes=[IsAuthenticated ]
+    permission_classes=[IsAuthenticated, DynamicPermission ]
     filter_backends=[ UserFilterBackend, StoreFilter]
     pagination_class = PageNumberPagination
 class ArchivageFactureViewset(viewsets.ModelViewSet):
     queryset=ArchivageFacture.objects.all()
     serializer_class=ArchivageFactureSerializer
     authentication_classes=[JWTAuthentication] 
-    permission_classes=[IsAuthenticated ]
+    permission_classes=[IsAuthenticated, DynamicPermission ]
     filter_backends=[ UserFilterBackend, StoreFilter]
     pagination_class = PageNumberPagination
 class ArchivageProduitsEnFactureViewset(viewsets.ModelViewSet):
     queryset=ArchivageProduitsEnFacture.objects.all()
     serializer_class=ArchivageProduitsEnFactureSerializer
     authentication_classes=[JWTAuthentication] 
-    permission_classes=[IsAuthenticated ]
+    permission_classes=[IsAuthenticated, DynamicPermission ]
     filter_backends=[ UserFilterBackend, StoreFilter]
     pagination_class = PageNumberPagination

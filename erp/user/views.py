@@ -13,7 +13,7 @@ from core.permission import DynamicPermission
 from core.filters import  UserFilterBackend, StoreFilter
 class UserActuel(views.APIView):
     authentication_classes = [JWTAuthentication] 
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated, DynamicPermission]
     def get(self, request, *args, **kwargs):
         user = request.user  
         user = CustomUser.objects.filter(username=user.username).first()
@@ -25,7 +25,7 @@ class UserCustomPermissionViewset(viewsets.ModelViewSet):
     queryset=CustomUser.objects.all()
     serializer_class=UserCustomPermissionSerializer
     authentication_classes=[JWTAuthentication] 
-    permission_classes=[IsAuthenticated]
+    permission_classes=[IsAuthenticated, DynamicPermission]
     filter_backends=[ UserFilterBackend, StoreFilter]
 
 
@@ -35,28 +35,28 @@ class CustomGroupViewset(viewsets.ModelViewSet):
     authentication_classes=[JWTAuthentication]
     filter_backends=[ UserFilterBackend, StoreFilter]
 
-    permission_classes=[IsAuthenticated]
+    permission_classes=[IsAuthenticated, DynamicPermission]
 class CustomUserViewset(viewsets.ModelViewSet):
     queryset=CustomUser.objects.all()
     serializer_class=CustomUserSerializer
     authentication_classes=[JWTAuthentication]
     filter_backends=[ UserFilterBackend, StoreFilter]
 
-    permission_classes=[IsAuthenticated]
+    permission_classes=[IsAuthenticated, DynamicPermission]
     
 
 class EquipeViewset(viewsets.ModelViewSet):
     queryset=Equipe.objects.all()
     serializer_class=EquipeSerializer
     authentication_classes=[JWTAuthentication] 
-    permission_classes=[IsAuthenticated]
+    permission_classes=[IsAuthenticated, DynamicPermission]
     filter_backends=[ UserFilterBackend, StoreFilter]
 
 class cordinatesViewset(viewsets.ModelViewSet):
     queryset=cordinates.objects.all()
     serializer_class=cordinatesSerializer
     authentication_classes=[JWTAuthentication] 
-    permission_classes=[IsAuthenticated]
+    permission_classes=[IsAuthenticated, DynamicPermission]
     filter_backends=[ UserFilterBackend, StoreFilter]
 
     
