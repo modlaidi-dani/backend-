@@ -11,6 +11,9 @@ class DynamicPermission(BasePermission):
         if action in ['put', 'patch']:
             action="update" 
         user=CustomUser.objects.get(username=request.user)
+        if user.rose=="manager":
+            pass
+            
         group=user.group
         for permission_groupe in group.permissions:
             permission = user.permission.filter(action=action, groupe=permission_groupe).first()

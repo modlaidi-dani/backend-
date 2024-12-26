@@ -16,6 +16,7 @@ class UserActuel(views.APIView):
     permission_classes = [IsAuthenticated]
     def get(self, request, *args, **kwargs):
         user = request.user  
+        user = CustomUser.objects.filter(username=user.username).first()
         serializer = CustomUserSerializer(user)  
         return Response(serializer.data, status=status.HTTP_200_OK)
         
