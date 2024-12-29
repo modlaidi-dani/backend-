@@ -116,7 +116,7 @@ class BonSortieViewset(viewsets.ModelViewSet):
     filter_backends=[ SearchFilter,DjangoFilterBackend, UserFilterBackend, StoreFilter]
     pagination_class = PageNumberPagination
     filterset_class=BonSortieFilter
-    search_fields = ['idBon', 'produits_en_bon_sorties__stock__reference','produits_en_bon_sorties__stock__name']
+    search_fields = ['idBon','client__name', 'produits_en_bon_sorties__stock__reference','produits_en_bon_sorties__stock__name']
     def perform_update(self, serializer):
         instance = self.get_object()
         user = self.request.user
