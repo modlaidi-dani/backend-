@@ -12,6 +12,7 @@ from core.permission import DynamicPermission
 from core.filters import  UserFilterBackend, StoreFilter
 from core.pagination import PageNumberPagination
 from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework.filters import SearchFilter
 from .filters import *
 from archivage.models import *
 from datetime import datetime
@@ -112,13 +113,15 @@ class BonSortieViewset(viewsets.ModelViewSet):
     serializer_class=BonSortieSerializer
     authentication_classes=[JWTAuthentication] 
     permission_classes=[IsAuthenticated, DynamicPermission ]
-    filter_backends=[ DjangoFilterBackend, UserFilterBackend, StoreFilter]
+    filter_backends=[ SearchFilter,DjangoFilterBackend, UserFilterBackend, StoreFilter]
     pagination_class = PageNumberPagination
-    filterset_class=BonSortieFilter 
+    filterset_class=BonSortieFilter
+    search_fields = ['idBon', 'produits_en_bon_sorties__stock__reference','produits_en_bon_sorties__stock__name']
     def perform_update(self, serializer):
         instance = self.get_object()
         user = self.request.user
-        produits=isinstance.produits_en_bon_sorties.all()
+        user=CustomUser.objects.get(username=user.username)
+        produits=instance.produits_en_bon_sorties.all()
         bon_archiv=ArchivageBonSortie.objects.create(
             bon_sortie=instance,  
             idBon=instance.idBon,
@@ -132,8 +135,6 @@ class BonSortieViewset(viewsets.ModelViewSet):
             banque_Reglement=instance.banque_Reglement,
             num_cheque_reglement=instance.num_cheque_reglement,
             Remise=instance.Remise,
-            etat_reglement=instance.etat_reglement,
-            shippingCost=instance.shippingCost,
             valide=instance.valide,
             ferme=instance.ferme,
             modifiable=instance.modifiable,
@@ -150,7 +151,7 @@ class BonSortieViewset(viewsets.ModelViewSet):
             ArchivageProduitsEnBonSortie.objects.create(
                 produitsenbs=produit,  
                 bon_archiv=bon_archiv,
-                bon_sortie=produit.BonNo,  
+                BonNo=instance,  
                 stock=produit.stock,  
                 kit=produit.kit,
                 quantity=produit.quantity,
