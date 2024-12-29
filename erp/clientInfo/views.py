@@ -21,14 +21,8 @@ class SelectStoreView(APIView):
     permission_classes=[IsAuthenticated]
     def post(self, request):
         store_id = request.data.get('store_id')
-        storedata = store.objects.get(id=store_id)
-        store_data = StoreSerializer(storedata).data
-        for key, value in store_data.items():
-            if isinstance(value, Decimal):
-                store_data[key] = float(value)
-        
-        request.session["store"] = store_data
-        return Response(store_data, status=status.HTTP_200_OK)
+        request.session["store"] = store_id
+        return Response(store_id, status=status.HTTP_200_OK)
 
 
 
