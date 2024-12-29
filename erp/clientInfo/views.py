@@ -17,6 +17,8 @@ from rest_framework.response import Response
 from rest_framework import status
 
 class SelectStoreView(APIView):
+    authentication_classes=[JWTAuthentication] 
+    permission_classes=[IsAuthenticated]
     def post(self, request):
         store_id = request.data.get('store_id')
         storedata = store.objects.get(id=store_id)
