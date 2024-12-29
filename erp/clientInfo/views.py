@@ -2,7 +2,7 @@ from django.shortcuts import render
 from .models import * 
 from .serializers import * 
 # from permissions import *
-from rest_framework import viewsets
+from rest_framework import viewsets,views
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated, AllowAny,IsAdminUser
 from rest_framework import response,status
@@ -11,6 +11,26 @@ from rest_framework_simplejwt.authentication import JWTAuthentication
 from core.permission import DynamicPermission
 from core.filters import  UserFilterBackend, StoreFilter
 from core.pagination import PageNumberPagination
+
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import status
+
+class SelectStoreView(APIView):
+    def post(self, request):
+        store_id = request.data.get('store_id')
+        storedata = store.objects.get(id=store_id)
+        store_data = StoreSerializer(storedata).data
+        for key, value in store_data.items():
+            if isinstance(value, Decimal):
+                store_data[key] = float(value)
+        
+        request.session["store"] = store_data
+        return Response(store_data, status=status.HTTP_200_OK)
+
+
+
+
 
 class storeViewset(viewsets.ModelViewSet):
     queryset=store.objects.all()

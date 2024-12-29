@@ -17,22 +17,23 @@ class DynamicPermission(BasePermission):
             permission_groupe=group.permissions_groupe.filter(views=view_name).first()
 
             if  not permission_groupe :
-                permission_groupe, created = GroupePermission.objects.get_or_create(
+                permission_groupe = GroupePermission.objects.create(
                     views=view_name,
-                    defaults={'name': f"acces a {view_name}"}
+                    name= f"acces a {view_name}"
                 )
                 group.permissions_groupe.add(permission_groupe)
 
                 actions = ['get', 'post', 'put', 'patch', 'delete']
                 for act in actions:
                     name = f"peut {act} {view_name}"
-                    UserCustomPermission.objects.get_or_create(
+                    permissionuser=UserCustomPermission.objects.create(
                         groupe=permission_groupe,
                         action=act,
-                        defaults={'name': name}
+                        name=name
                     )
+                    user.permission.add(permissionuser)
 
-            permission = permission_groupe.users_permissions.filter(action=action).first()
+            permission = user.permission.filter(action=action,groupe=permission_groupe)
             if permission:
                 return True
 

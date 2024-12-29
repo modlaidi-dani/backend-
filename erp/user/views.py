@@ -16,18 +16,23 @@ class UserActuel(views.APIView):
     permission_classes = [IsAuthenticated, DynamicPermission]
     def get(self, request, *args, **kwargs):
         user = request.user  
-        user = CustomUser.objects.filter(username=user.username).first()
+        user = CustomUserCustomPermissionUser.objects.filter(username=user.username).first()
         serializer = CustomUserSerializer(user)  
         return Response(serializer.data, status=status.HTTP_200_OK)
         
 
 class UserCustomPermissionViewset(viewsets.ModelViewSet):
-    queryset=CustomUser.objects.all()
+    queryset=UserCustomPermission.objects.all()
     serializer_class=UserCustomPermissionSerializer
     authentication_classes=[JWTAuthentication] 
     permission_classes=[IsAuthenticated, DynamicPermission]
     filter_backends=[ UserFilterBackend, StoreFilter]
-
+class GroupePermissionViewset(viewsets.ModelViewSet):
+    queryset=GroupePermission.objects.all()
+    serializer_class=GroupePermissionSerializer
+    authentication_classes=[JWTAuthentication] 
+    permission_classes=[IsAuthenticated, DynamicPermission]
+    filter_backends=[ UserFilterBackend, StoreFilter]
 
 class CustomGroupViewset(viewsets.ModelViewSet):
     queryset=CustomGroup.objects.all()

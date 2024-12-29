@@ -14,4 +14,5 @@ router.register('devise',DeviseViewset,basename='devise')
 
 urlpatterns = [
     path('',include(router.urls)),
+    path('selectstore/', SelectStoreView.as_view(), name='selectstore'),
 ]

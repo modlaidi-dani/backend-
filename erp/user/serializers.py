@@ -3,11 +3,14 @@ from .models import *
 from clientInfo.serializers import *
 from inventory.serializers import *
 
+class GroupePermissionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model=GroupePermission
+        fields="__all__"
 class UserCustomPermissionSerializer(serializers.ModelSerializer):
     class Meta:
         model=UserCustomPermission
         fields="__all__"
-        
 class CustomGroupSerializer(serializers.ModelSerializer):
     class Meta:
         model=CustomGroup

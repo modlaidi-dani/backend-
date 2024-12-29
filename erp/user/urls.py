@@ -6,7 +6,10 @@ router.register('costumeruser',CustomUserViewset,basename='costumeruser')
 router.register('costumergroupe',CustomGroupViewset,basename='costumergroupe')
 router.register('equipe',EquipeViewset,basename='equipe')
 router.register('permission',UserCustomPermissionViewset,basename='permission')
+router.register('permissiongroupe',GroupePermissionViewset,basename='permissiongroupe')
+
 router.register('cordinates',cordinatesViewset,basename='cordinates')
+
 
 urlpatterns = [
     path('',include(router.urls)),
