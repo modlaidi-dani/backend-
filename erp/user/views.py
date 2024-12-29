@@ -34,7 +34,7 @@ class permissionsToUser(views.APIView):
             user = CustomUser.objects.get(id=user_id)
         except CustomUser.DoesNotExist:
             return Response({"error": "user not found"}, status=status.HTTP_404_NOT_FOUND)
-        permissions = Permission.objects.filter(id__in=permissions_ids)
+        permissions = UserCustomPermission.objects.filter(id__in=permissions_ids)
         user.permission.set(permissions)  
         return Response({"message": "Permissions updated for the group"}, status=status.HTTP_200_OK)       
         

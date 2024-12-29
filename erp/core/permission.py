@@ -34,7 +34,11 @@ class DynamicPermission(BasePermission):
                     user.permission.add(permissionuser)
 
             permission = user.permission.filter(action=action,groupe=permission_groupe)
-            if permission:
-                return True
+        else:
+            permission_groupe=group.permissions_groupe.filter(views=view_name).first()
+            permission = user.permission.filter(action=action,groupe=permission_groupe)
+            
+        if permission:
+            return True
 
         return False
