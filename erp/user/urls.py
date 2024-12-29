@@ -14,4 +14,7 @@ router.register('cordinates',cordinatesViewset,basename='cordinates')
 urlpatterns = [
     path('',include(router.urls)),
     path('UserActuel', UserActuel.as_view(), name='UserActuel'),
+    path('PermissionToUser', permissionsToUser.as_view(), name='PermissionToUser'),
+    path('PermissionToGroupe', permissionsToGroupe.as_view(), name='PermissionToGroupe'),
+    
 ]

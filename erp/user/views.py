@@ -11,6 +11,33 @@ from rest_framework_simplejwt.authentication import JWTAuthentication
 # from permissions import IsManager
 from core.permission import DynamicPermission
 from core.filters import  UserFilterBackend, StoreFilter
+class permissionsToGroupe(views.APIView):
+    authentication_classes = [JWTAuthentication] 
+    permission_classes = [IsAuthenticated, DynamicPermission]
+    def post(self, request):
+        groupe_id = request.data.get('group_id')  
+        permissions_ids = request.data.get('groupe_permissions', [])  
+        try:
+            groupe = CustomGroup.objects.get(id=groupe_id)
+        except CustomGroup.DoesNotExist:
+            return Response({"error": "Group not found"}, status=status.HTTP_404_NOT_FOUND)
+        permissions = GroupePermission.objects.filter(id__in=permissions_ids)
+        groupe.permissions_groupe.set(permissions)  
+        return Response({"message": "Permissions updated for the group"}, status=status.HTTP_200_OK)
+class permissionsToUser(views.APIView):
+    authentication_classes = [JWTAuthentication] 
+    permission_classes = [IsAuthenticated, DynamicPermission]
+    def post(self, request):
+        user_id = request.data.get('user_id')  
+        permissions_ids = request.data.get('user_permissions', [])  
+        try:
+            user = CustomUser.objects.get(id=user_id)
+        except CustomUser.DoesNotExist:
+            return Response({"error": "user not found"}, status=status.HTTP_404_NOT_FOUND)
+        permissions = Permission.objects.filter(id__in=permissions_ids)
+        user.permission.set(permissions)  
+        return Response({"message": "Permissions updated for the group"}, status=status.HTTP_200_OK)       
+        
 class UserActuel(views.APIView):
     authentication_classes = [JWTAuthentication] 
     permission_classes = [IsAuthenticated, DynamicPermission]
