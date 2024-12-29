@@ -19,6 +19,7 @@ class ProduitsEnBonSortieSerializer(serializers.ModelSerializer):
         fields="__all__"
 class BonSortieSerializer(serializers.ModelSerializer):
     produits=ProduitsEnBonSortieSerializer(many=True, source='produits_en_bon_sorties')
+    entrepot=serializers.SerializerMethodField()
     confirmationFile=serializers.SerializerMethodField()
     confirmationDateTime=serializers.SerializerMethodField()
     ValidatePar=serializers.SerializerMethodField()
@@ -42,6 +43,10 @@ class BonSortieSerializer(serializers.ModelSerializer):
     class Meta:
         model=BonSortie
         fields="__all__"
+    def get_entrepot(self, obj):
+        from inventory.serializers import EntrepotSerializer
+        entrepot= EntrepotSerializer(obj.entrepot).data
+        return entrepot
     def get_confirmationFile(self,obj):
         if len(obj.confrimation_bon.all()) > 0:
             return obj.confrimation_bon.first().fichier_confirmation.url
