@@ -19,6 +19,7 @@ class ProduitsEnBonSortieSerializer(serializers.ModelSerializer):
         fields="__all__"
 class BonSortieSerializer(serializers.ModelSerializer):
     produits=ProduitsEnBonSortieSerializer(many=True, source='produits_en_bon_sorties')
+    user=CustomUserSerializer()
     entrepot=serializers.SerializerMethodField()
     confirmationFile=serializers.SerializerMethodField()
     confirmationDateTime=serializers.SerializerMethodField()
