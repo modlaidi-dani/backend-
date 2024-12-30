@@ -30,8 +30,10 @@ class FactureViewset(viewsets.ModelViewSet):
     serializer_class=FactureSerializer
     authentication_classes=[JWTAuthentication] 
     permission_classes=[IsAuthenticated, DynamicPermission ]
-    filter_backends=[ UserFilterBackend, StoreFilter]
+    filter_backends=[ SearchFilter,DjangoFilterBackend, UserFilterBackend, StoreFilter]
     pagination_class = PageNumberPagination
+    filterset_class=FactureFilter
+    search_fields = ['codeFacture','BonS__idBon','client__name', 'produits_en_facture__stock__reference','produits_en_facture__stock__name']
     def perform_update(self, serializer):
         instance = self.get_object()
         user = self.request.user

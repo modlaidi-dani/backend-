@@ -20,3 +20,16 @@ class BonSortieFilter(django_filters.FilterSet):
     class Meta:
         model = BonSortie
         fields = [ 'user', 'start_date', 'end_date','produit_category']
+class FactureFilter(django_filters.FilterSet):
+
+    start_date = django_filters.DateFilter(field_name="date_facture", lookup_expr="gte", label="Start Date")
+    end_date = django_filters.DateFilter(field_name="date_facture", lookup_expr="lte", label="End Date")
+
+    produit_category = django_filters.ModelChoiceFilter(
+        field_name="produits_en_facture__category",
+        queryset=Category.objects.all(),
+        label="Product Category"
+    )
+    class Meta:
+        model = Facture
+        fields = [ 'start_date', 'end_date','produit_category']
