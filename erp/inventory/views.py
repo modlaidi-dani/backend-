@@ -11,8 +11,9 @@ from rest_framework_simplejwt.authentication import JWTAuthentication
 from core.permission import DynamicPermission
 from core.filters import  UserFilterBackend, StoreFilter
 from core.pagination import PageNumberPagination
-
-
+from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework.filters import SearchFilter
+from .filters import *
 class EntrepotViewset(viewsets.ModelViewSet):
     queryset=Entrepot.objects.all()
     serializer_class=EntrepotSerializer
@@ -100,8 +101,10 @@ class BonRetourViewset(viewsets.ModelViewSet):
     serializer_class=BonRetourSerializer
     authentication_classes=[JWTAuthentication] 
     permission_classes=[IsAuthenticated, DynamicPermission]
-    filter_backends=[ UserFilterBackend, StoreFilter]
-    pagination_class = PageNumberPagination 
+    filter_backends=[ SearchFilter,DjangoFilterBackend, UserFilterBackend, StoreFilter]
+    pagination_class = PageNumberPagination
+    filterset_class=BonRetourFilter
+    search_fields = ['idBon','bonL__idBon','client__name', 'produits_en_bon_retour__produit__reference','produits_en_bon_retour__produit__name']
     
 
 class BonEchangeViewset(viewsets.ModelViewSet):
