@@ -27,19 +27,19 @@ class BonSortieSerializer(serializers.ModelSerializer):
     ValidatePar=serializers.SerializerMethodField()
     statebill=serializers.SerializerMethodField()
     total_price=serializers.SerializerMethodField()
-    total_avoir=serializers.SerializerMethodField()
-    garantieprepared=serializers.SerializerMethodField()
-    my_tax=serializers.SerializerMethodField()
-    references=serializers.SerializerMethodField()
-    designations=serializers.SerializerMethodField()
-    etat_transfert=serializers.SerializerMethodField()
-    price_annule=serializers.SerializerMethodField()
-    total_soldprice=serializers.SerializerMethodField()
-    total_paid_amount=serializers.SerializerMethodField()
-    total_remaining_amount=serializers.SerializerMethodField()
-    regle=serializers.SerializerMethodField()
-    caisseBons=serializers.SerializerMethodField()
-    ma_marge=serializers.SerializerMethodField()
+    # total_avoir=serializers.SerializerMethodField()
+    # garantieprepared=serializers.SerializerMethodField()
+    # my_tax=serializers.SerializerMethodField()
+    # references=serializers.SerializerMethodField()
+    # designations=serializers.SerializerMethodField()
+    # etat_transfert=serializers.SerializerMethodField()
+    # price_annule=serializers.SerializerMethodField()
+    # total_soldprice=serializers.SerializerMethodField()
+    # total_paid_amount=serializers.SerializerMethodField()
+    # total_remaining_amount=serializers.SerializerMethodField()
+    # regle=serializers.SerializerMethodField()
+    # caisseBons=serializers.SerializerMethodField()
+    # ma_marge=serializers.SerializerMethodField()
     
     
     class Meta:
@@ -134,13 +134,13 @@ class BonSortieSerializer(serializers.ModelSerializer):
         else:
             return True
          
-    def get_price_annule(self,obj):
-        if len(obj.MesbonRetours.all())>0:
-            filtered_bons_retour = [bon for bon in obj.MesbonRetours.filter(valide=True) if bon.reintegrated]
-            result_sum = sum(Decimal(bon.total_price_retour) * Decimal(1.19) for bon in filtered_bons_retour)
-            return result_sum
-        else:
-            return 0
+    # def get_price_annule(self,obj):
+    #     if len(obj.MesbonRetours.all())>0:
+    #         filtered_bons_retour = [bon for bon in obj.MesbonRetours.filter(valide=True) if bon.produits_en_bon_retour.first().reintegrated]
+    #         result_sum = sum(Decimal(bon.total_price_retour) * Decimal(1.19) for bon in filtered_bons_retour)
+    #         return result_sum
+    #     else:
+    #         return 0
         
     def get_total_soldprice(self,obj):
         price_part = obj.produits_en_bon_sorties.aggregate(total_price=Sum('totalprice'))['total_price']
