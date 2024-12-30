@@ -128,9 +128,10 @@ class BonRetour(models.Model):
     dateBon = models.DateField()
     totalPrice = models.IntegerField(default=0)
     bonL = models.ForeignKey('ventes.BonSortie', on_delete=models.CASCADE, related_name='MesbonRetours', default=None, null=True, blank=True)
-    client =models.ForeignKey('tiers.Client',on_delete = models.CASCADE, related_name='client_bons_retour')
+    client =models.ForeignKey('tiers.Client',on_delete = models.CASCADE, related_name='client_bons_retour',default=None, null=True, blank=True)
     valide = models.BooleanField(blank=True, null=True, default=False)
     reception_valide = models.BooleanField(blank=True, null=True, default=False)
+    regler_valide=models.BooleanField(blank=True, null=True, default=False)
     store =models.ForeignKey(store,on_delete = models.CASCADE, related_name='store_bons_retour')
     user =models.ForeignKey(CustomUser,on_delete = models.CASCADE, related_name='mes_bons_retour', blank=True, null=True, default=None)        
 
