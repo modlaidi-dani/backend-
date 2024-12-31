@@ -175,7 +175,7 @@ class ProduitsEnBonRetourSerializer(serializers.ModelSerializer):
         fields="__all__"
 class BonRetourSerializer(serializers.ModelSerializer):
     produits=ProduitsEnBonRetourSerializer(source="produits_en_bon_retour",many=True)
-    bonL=BonSortieSerializer()
+    # bonL=BonSortieSerializer()
     client=ClientSerializer()
     user=CustomUserSerializer()
     store=StoreSerializer()
