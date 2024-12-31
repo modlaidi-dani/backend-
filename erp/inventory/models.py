@@ -300,7 +300,7 @@ class ProduitsEnBonRetour(models.Model):
     totalprice = models.DecimalField(max_digits=15, decimal_places=2)
     unitprice = models.DecimalField(max_digits=15, decimal_places=2)
     reintegrated = models.BooleanField(default=False)
-    image = models.FileField(upload_to="media/document") 
+    image = models.FileField(upload_to="media/document",null=True) 
     warranty = models.BooleanField(default=False)
     numseries = models.CharField( 
           max_length=200,
