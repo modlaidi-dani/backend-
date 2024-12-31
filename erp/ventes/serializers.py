@@ -33,7 +33,7 @@ class BonSortieSerializer(serializers.ModelSerializer):
     references=serializers.SerializerMethodField()
     designations=serializers.SerializerMethodField()
     etat_transfert=serializers.SerializerMethodField()
-    price_annule=serializers.SerializerMethodField()
+    # Bonsretour=serializers.SerializerMethodField()
     total_soldprice=serializers.SerializerMethodField()
     total_paid_amount=serializers.SerializerMethodField()
     total_remaining_amount=serializers.SerializerMethodField()
@@ -133,17 +133,26 @@ class BonSortieSerializer(serializers.ModelSerializer):
             return mon_etat.etat.lower() == 'true'
         else:
             return True
-         
-    def get_price_annule(self,obj):
-        if len(obj.MesbonRetours.all())>0:
-            filtered_bons_retour = [
-                bon for bon in obj.MesbonRetours.filter(valide=True)
-                if bon.produits_en_bon_retour.first() and bon.produits_en_bon_retour.first().reintegrated
-                    ]
-            result_sum = sum(Decimal(bon.total_price_retour) * Decimal(1.19) for bon in filtered_bons_retour)
-            return result_sum
-        else:
-            return 0
+    # def get_Bonsretour(self, obj):
+    #     from inventory.serializers import BonRetourSerializer
+    #     bonsretour = BonRetourSerializer(obj.MesbonRetours, many=True).data
+    #     print(bonsretour)
+    #     return bonsretour
+    # def get_price_annule(self, obj):
+    #     from inventory.serializers import BonRetourSerializer
+    #     bonsretour = BonRetourSerializer(obj.MesbonRetours.filter(valide=True), many=True).data
+    #     print(bonsretour)
+    #     filtered_bons_retour = [
+    #     bon for bon in bonsretour
+    #     if bon.get('produits') and bon['produits'][0].get('reintegrated')
+    # ]
+
+        
+    #     result_sum = sum(
+    #         Decimal(bon['total_price_retour']) * Decimal(1.19) for bon in filtered_bons_retour
+    #     )
+        
+    #     return result_sum if result_sum else Decimal(0)
         
     def get_total_soldprice(self,obj):
         price_part = obj.produits_en_bon_sorties.aggregate(total_price=Sum('totalprice'))['total_price']

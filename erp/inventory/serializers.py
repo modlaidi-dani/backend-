@@ -6,6 +6,7 @@ from user.serializers import *
 from ventes.serializers import *
 from tiers.serializers import *
 from comptoire.serializers import *
+from ventes.serializers import *
 
 class EntrepotSerializer(serializers.ModelSerializer):
     responsables=serializers.SerializerMethodField()
@@ -184,8 +185,10 @@ class BonRetourSerializer(serializers.ModelSerializer):
         model=BonRetour
         fields="__all__"
     def get_reintegrated(self,obj):
-        return obj.produits_en_bon_retour.first().reintegrated
-
+        if obj.produits_en_bon_retour.first():
+            return obj.produits_en_bon_retour.first().reintegrated
+        else: 
+            return False
     def get_total_price_retour(self,obj):
         return round(sum(Decimal(product.unitprice) * product.quantity for product in obj.produits_en_bon_retour.all()),2)
 class ProduitsEnBonEchangeSerializer(serializers.ModelSerializer):
