@@ -17,9 +17,12 @@ class RegionSerializer(serializers.ModelSerializer):
         model=Region
         fields="__all__"
 class ClientSerializer(serializers.ModelSerializer):
+    name_user=serializers.SerializerMethodField()
     class Meta:
         model=Client
         fields="__all__"
+    def get_name_user(self,obj):
+        return obj.user.username
 class ProspectionClientSerializer(serializers.ModelSerializer):
     class Meta:
         model=ProspectionClient
