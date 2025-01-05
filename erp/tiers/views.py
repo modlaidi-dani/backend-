@@ -7,9 +7,14 @@ from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated, AllowAny,IsAdminUser
 from rest_framework import response,status
 from rest_framework_simplejwt.authentication import JWTAuthentication
+from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework.filters import SearchFilter
+from core.filters import  UserFilterBackend, StoreFilter
+from core.pagination import PageNumberPagination
 # from permissions import IsManager
 from core.permission import DynamicPermission
 from core.filters import  UserFilterBackend, StoreFilter
+from .filters import ClientFilter
 
 
 class BanqueViewset(viewsets.ModelViewSet):
@@ -45,7 +50,10 @@ class ClientViewset(viewsets.ModelViewSet):
     serializer_class=ClientSerializer
     authentication_classes=[JWTAuthentication] 
     permission_classes=[IsAuthenticated, DynamicPermission ]
-    filter_backends=[ UserFilterBackend, StoreFilter]
+    filter_backends=[ SearchFilter,DjangoFilterBackend, UserFilterBackend, StoreFilter]
+    pagination_class = PageNumberPagination
+    filterset_class=ClientFilter
+    search_fields = ['name']
 
 class ProspectionClientViewset(viewsets.ModelViewSet):
     queryset=ProspectionClient.objects.all()
