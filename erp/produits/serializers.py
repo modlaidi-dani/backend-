@@ -9,6 +9,8 @@ class CategorySerializer(serializers.ModelSerializer):
 class ProductSerializer(serializers.ModelSerializer):
     stock=serializers.SerializerMethodField()
     quantity_globale=serializers.SerializerMethodField()
+    price_revendeur=serializers.SerializerMethodField()
+    price_clientfinal=serializers.SerializerMethodField()
     class Meta:
         model=Product
         fields="__all__"
@@ -22,6 +24,19 @@ class ProductSerializer(serializers.ModelSerializer):
             quantity = stock.get('quantity', 0)  
             quantity_globale += quantity 
         return quantity_globale
+    def get_price_revendeur(self,obj):
+        try:
+            prices= obj.produit_var.filter(type_client__type_desc="Revendeur").first()
+            return prices.prix_vente
+        except:
+            return obj.prix_vente   
+    def get_price_clientfinal(self,obj):
+        try:
+            prices= obj.produit_var.filter(type_client__type_desc="Client Final").first()
+            return prices.prix_vente
+        except:
+            return obj.prix_vente
+        
         
 class HistoriqueAchatProduitSerializer(serializers.ModelSerializer):
     class Meta:
