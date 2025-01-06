@@ -21,6 +21,10 @@ class EntrepotViewset(viewsets.ModelViewSet):
     permission_classes=[IsAuthenticated, DynamicPermission]
     filter_backends=[ UserFilterBackend, StoreFilter]
     pagination_class = PageNumberPagination 
+    def create(self, request):
+        store = request.session["store"] 
+        request.data["store"] = store  
+        return super().create(request) 
 
 
     
