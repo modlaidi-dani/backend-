@@ -23,20 +23,20 @@ class SalarieSerializer(serializers.ModelSerializer):
     user=CustomUserSerializer()
     store=StoreSerializer()
     total_valid_Supphours=serializers.SerializerMethodField()
-    total_late_days=serializers.SerializerMethodField()
+    # total_late_days=serializers.SerializerMethodField()
     total_daysnopoint=serializers.SerializerMethodField()
     total_avances=serializers.SerializerMethodField()
     total_prixsocial=serializers.SerializerMethodField()
-    total_absent_days=serializers.SerializerMethodField()
-    total_absent_Hours=serializers.SerializerMethodField()
+    # total_absent_days=serializers.SerializerMethodField()
+    # total_absent_Hours=serializers.SerializerMethodField()
     class Meta:
         model=Salarie
         fields="__all__"  
     def get_total_valid_Supphours(self,obj):
         return obj.mes_heure_sup.filter(valide=True).aggregate(Sum('nombre_heure'))['nombre_heure__sum'] or 0
     
-    def get_total_late_days(self,obj):
-        return obj.get_late_minutes / 480
+    # def get_total_late_days(self,obj):
+    #     return obj.get_late_minutes / 480
     
     
     def get_total_daysnopoint(self,obj):
@@ -50,15 +50,15 @@ class SalarieSerializer(serializers.ModelSerializer):
         return obj.mes_prox_social.all().aggregate(Sum('montantperMonth'))['montantperMonth__sum'] or 0
     
     
-    def get_total_absent_days(self,obj):
-        return len(obj.mes_absences.filter(date__month=2)) - len(obj.mes_absences.filter(justifie = True, date__month=2))
+    # def get_total_absent_days(self,obj):
+    #     return len(obj.mes_absences.filter(date__month=2)) - len(obj.mes_absences.filter(justifie = True, date__month=2))
     
     
-    def get_total_absent_Hours(self,obj):
-        if obj.get_total_absent_days>0:
-           return  obj.mes_absences.filter(justifie=False, date__month=2).aggregate(Sum('nombre_heure'))['nombre_heure__sum'] or 0
-        else:
-            return 0     
+    # def get_total_absent_Hours(self,obj):
+    #     if obj.get_total_absent_days>0:
+    #        return  obj.mes_absences.filter(justifie=False, date__month=2).aggregate(Sum('nombre_heure'))['nombre_heure__sum'] or 0
+    #     else:
+    #         return 0     
             
 
 class ReglementCompteSerializer(serializers.ModelSerializer):
