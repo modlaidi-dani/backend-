@@ -1,11 +1,20 @@
-from django.urls import path
-from rest_framework_simplejwt.views import TokenObtainPairView
+from django.urls import path,include
+from rest_framework import routers
+from .views import *
+router = routers.DefaultRouter()
+router.register('costumeruser',CustomUserViewset,basename='costumeruser')
+router.register('costumergroupe',CustomGroupViewset,basename='costumergroupe')
+router.register('equipe',EquipeViewset,basename='equipe')
+router.register('permission',UserCustomPermissionViewset,basename='permission')
+router.register('permissiongroupe',GroupePermissionViewset,basename='permissiongroupe')
 
-from .views import CustomTokenObtainPairView, LoginView, RegisterView
+router.register('cordinates',cordinatesViewset,basename='cordinates')
+
 
 urlpatterns = [
-    path('register/', RegisterView.as_view(), name='register'),
-    path('login/', LoginView.as_view(), name='login'),
-    path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
-    path('api/token/refresh/', CustomTokenObtainPairView.as_view(), name='token_refresh'),
+    path('',include(router.urls)),
+    path('UserActuel', UserActuel.as_view(), name='UserActuel'),
+    path('PermissionToUser', permissionsToUser.as_view(), name='PermissionToUser'),
+    path('PermissionToGroupe', permissionsToGroupe.as_view(), name='PermissionToGroupe'),
+    
 ]

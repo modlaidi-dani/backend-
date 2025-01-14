@@ -11,7 +11,7 @@ USER nonroot
 
 RUN set -xe \
     && apt-get update \
-    && apt-get install -y build-essential \
+    && apt --no-install-recommends install -y build-essential \
     && pip install --upgrade pip poetry virtualenvwrapper   \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* \

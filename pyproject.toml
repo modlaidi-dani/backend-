@@ -23,11 +23,18 @@ pytest-xdist = "^3.6.1"
 pytest-django = "^4.9.0"
 model-bakery = "^1.20.0"
 factory-boy = "^3.3.1"
+django-redis = "^5.4.0"
+celery = "^5.4.0"
+redis = "^5.2.0"
+kombu = "^5.4.2"
 
 [tool.poetry.dev-dependencies]
 flake8 = "^7.1.1"
 pre-commit = "^4.0.1"
 colorlog = "^6.8.2"
+
+[tool.poetry.group.dev.dependencies]
+isort = "^5.13.2"
 
 [tool.isort]
 multi_line_output = 5

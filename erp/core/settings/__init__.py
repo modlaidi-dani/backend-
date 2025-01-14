@@ -1,7 +1,7 @@
 import os.path
 from pathlib import Path
 
-from split_settings.tools import include, optional
+from split_settings.tools import include, optional  # type: ignore
 
 from erp.general.utils.pytest import is_pytest_running
 
@@ -12,7 +12,9 @@ ENVVAR_SETTINGS_PREFIX = "CORESETTING_"
 LOCAL_SETTINGS_PATH = os.getenv(f"{ENVVAR_SETTINGS_PREFIX}LOCAL_SETTINGS_PATH")
 if not LOCAL_SETTINGS_PATH:
     # We dedicate local/settings.unittests.py to have reproducible unittest runs
-    LOCAL_SETTINGS_PATH = f'local/settings{".unittests" if is_pytest_running() else ".dev"}.py'
+    LOCAL_SETTINGS_PATH = (
+        f'local/settings{".unittests" if is_pytest_running() else ".dev"}.py'
+    )
 
 if not os.path.isabs(LOCAL_SETTINGS_PATH):
     LOCAL_SETTINGS_PATH = str(BASE_DIR / LOCAL_SETTINGS_PATH)
@@ -24,7 +26,8 @@ include(
     optional(LOCAL_SETTINGS_PATH),
     'envvars.py',
     'logging.py',
-    'rest_framework.py'
+    'rest_framework.py',
+    'celery.py'
 )
 if not is_pytest_running():
     assert SECRET_KEY is not NotImplemented  # type: ignore # noqa: F821
