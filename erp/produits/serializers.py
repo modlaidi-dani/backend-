@@ -20,6 +20,7 @@ class CategorySerializer(serializers.ModelSerializer):
         return number
     def to_representation(self, instance):
         response = super().to_representation(instance)
+        print("hello")
         if response['kit']:
             response['typefamilly']="KIT"
         else:
