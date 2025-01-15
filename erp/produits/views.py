@@ -23,6 +23,7 @@ class CategoryViewset(viewsets.ModelViewSet):
     authentication_classes=[JWTAuthentication] 
     permission_classes=[IsAuthenticated, DynamicPermission ]
     filter_backends=[ UserFilterBackend, StoreFilter]
+    pagination_class = PageNumberPagination 
 
 class ProductViewset(viewsets.ModelViewSet):
     queryset=Product.objects.all()
