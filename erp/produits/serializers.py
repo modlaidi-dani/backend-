@@ -3,9 +3,23 @@ from .models import *
 from clientInfo.serializers import *
 
 class CategorySerializer(serializers.ModelSerializer):
+    numbre_produit=serializers.SerializerMethodField()
+    monkit = models.CharField(max_length=100)
+    
     class Meta:
         model=Category
         fields="__all__"
+    def get_numbre_produit(self,obj):
+        number=obj.products.count()
+        return number
+    def to_representation(self, instance):
+        response = super().to_representation(instance)
+        if response['kit']:
+            response['typefamilly']="KIT"
+        else:
+            response['typefamilly']="DETAIL"
+        return response
+        
 class ProductSerializer(serializers.ModelSerializer):
     stock=serializers.SerializerMethodField()
     quantity_globale=serializers.SerializerMethodField()
