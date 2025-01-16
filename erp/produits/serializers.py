@@ -30,6 +30,8 @@ class ProductSerializer(serializers.ModelSerializer):
     quantity_globale=serializers.SerializerMethodField()
     price_revendeur=serializers.SerializerMethodField()
     price_clientfinal=serializers.SerializerMethodField()
+    PrixConseillé=serializers.DecimalField(max_digits=15, decimal_places=2, default=0)
+    PrixRevendeur=serializers.DecimalField(max_digits=15, decimal_places=2, default=0)
     variants_price=variantsPrixClientSerializer(source="produit_var",many=True)
     class Meta:
         model=Product
@@ -55,7 +57,15 @@ class ProductSerializer(serializers.ModelSerializer):
             prices= obj.produit_var.filter(type_client__type_desc="Client Final").first()
             return prices.prix_vente
         except:
-            return obj.prix_vente                 
+            return obj.prix_vente
+    def to_representation(self, instance):
+        response = super().to_representation(instance)
+        PrixConseillé=(float(response["price_clientfinal"])+float(response["prix_livraison"])+float(response["tva_douan"]))*1.19
+        PrixRevendeur=(float(response["price_revendeur"])+float(response["prix_livraison"])+float(response["tva_douan"]))*1.19
+        response['PrixRevendeur']=PrixRevendeur
+        response['PrixConseillé']=PrixConseillé
+        
+        return response
 
         
 class HistoriqueAchatProduitSerializer(serializers.ModelSerializer):
