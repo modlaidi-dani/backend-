@@ -1,6 +1,11 @@
 from rest_framework import serializers
 from .models import *
 from clientInfo.serializers import *
+class variantsPrixClientSerializer(serializers.ModelSerializer):
+    type_client=typeClientSerializer()
+    class Meta:
+        model=variantsPrixClient
+        fields="__all__"
 
 class CategorySerializer(serializers.ModelSerializer):
     numbre_produit=serializers.SerializerMethodField()
@@ -25,6 +30,7 @@ class ProductSerializer(serializers.ModelSerializer):
     quantity_globale=serializers.SerializerMethodField()
     price_revendeur=serializers.SerializerMethodField()
     price_clientfinal=serializers.SerializerMethodField()
+    variants_price=variantsPrixClientSerializer(source="produit_var",many=True)
     class Meta:
         model=Product
         fields="__all__"
@@ -49,8 +55,8 @@ class ProductSerializer(serializers.ModelSerializer):
             prices= obj.produit_var.filter(type_client__type_desc="Client Final").first()
             return prices.prix_vente
         except:
-            return obj.prix_vente
-        
+            return obj.prix_vente                 
+
         
 class HistoriqueAchatProduitSerializer(serializers.ModelSerializer):
     class Meta:
@@ -64,10 +70,7 @@ class NumSeriesSerializer(serializers.ModelSerializer):
     class Meta:
         model=NumSeries
         fields="__all__"
-class variantsPrixClientSerializer(serializers.ModelSerializer):
-    class Meta:
-        model=variantsPrixClient
-        fields="__all__"
+
 class PromotionSerializer(serializers.ModelSerializer):
     class Meta:
         model=Promotion
