@@ -75,6 +75,8 @@ class StockSerializer(serializers.ModelSerializer):
     # quantity_expected=serializers.SerializerMethodField()
     name=serializers.SerializerMethodField()
     reference=serializers.SerializerMethodField()
+    prix_achat=serializers.SerializerMethodField()
+    
     
     
     class Meta:
@@ -118,6 +120,8 @@ class StockSerializer(serializers.ModelSerializer):
         return obj.product.name
     def get_reference(self,obj):
         return obj.product.reference
+    def get_prix_achat(self,obj):
+        return obj.product.prix_achat
     
     # def get_product_sold_quantity(self,obj):
     #     produits_en_bon_comptoir = ProduitsEnBonComptoir.objects.filter(
