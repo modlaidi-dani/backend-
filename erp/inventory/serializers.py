@@ -10,7 +10,7 @@ from ventes.serializers import *
 
 class EntrepotSerializer(serializers.ModelSerializer):
     responsables=serializers.SerializerMethodField()
-    # stocks=serializers.SerializerMethodField()
+    stocks=serializers.SerializerMethodField()
     store=StoreSerializer()
     class Meta:
         model=Entrepot
@@ -21,6 +21,11 @@ class EntrepotSerializer(serializers.ModelSerializer):
        for user in users :
            list_responsables.append(user.username)
        return list_responsables
+    def get_stocks(self,obj):
+        stocks=obj.inventories.all()
+        serializer=StockSerializer(stocks,many=True)
+        return serializer.data
+       
 
 
 class equipeInventaireSerializer(serializers.ModelSerializer):
@@ -68,6 +73,10 @@ class StockSerializer(serializers.ModelSerializer):
     # product_sold_quantity=serializers.SerializerMethodField()
     # product_returned_quantity=serializers.SerializerMethodField()
     # quantity_expected=serializers.SerializerMethodField()
+    name=serializers.SerializerMethodField()
+    reference=serializers.SerializerMethodField()
+    
+    
     class Meta:
         model=Stock
         fields="__all__"
@@ -105,7 +114,10 @@ class StockSerializer(serializers.ModelSerializer):
         ).aggregate(models.Sum('quantity'))['quantity__sum'] or 0
         transfert_mag = ProduitsEnBonTransfertMag.objects.filter(stock_dep=obj, BonNo__entrepot_depart=obj.entrepot).aggregate(models.Sum('quantity'))['quantity__sum'] or 0
         return transfer_departed_quantity + transfert_mag
-    
+    def get_name(self,obj):
+        return obj.product.name
+    def get_reference(self,obj):
+        return obj.product.reference
     
     # def get_product_sold_quantity(self,obj):
     #     produits_en_bon_comptoir = ProduitsEnBonComptoir.objects.filter(
