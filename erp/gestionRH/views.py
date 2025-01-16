@@ -13,6 +13,7 @@ from core.filters import  UserFilterBackend, StoreFilter
 from core.pagination import PageNumberPagination
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.filters import SearchFilter
+from .filters import *
 
 class RequeteSalarieViewset(viewsets.ModelViewSet):
     queryset=RequeteSalarie.objects.all()
@@ -62,6 +63,7 @@ class PointageViewset(viewsets.ModelViewSet):
     permission_classes=[IsAuthenticated, DynamicPermission ]
     filter_backends = [SearchFilter, DjangoFilterBackend, UserFilterBackend, StoreFilter]
     pagination_class = PageNumberPagination
+    filterset_class=PointageFilter
     search_fields = ['salarie__nom']
 
 class AvanceSalaireViewset(viewsets.ModelViewSet):
@@ -71,6 +73,7 @@ class AvanceSalaireViewset(viewsets.ModelViewSet):
     permission_classes=[IsAuthenticated, DynamicPermission ]
     filter_backends = [SearchFilter, DjangoFilterBackend, UserFilterBackend, StoreFilter]
     pagination_class = PageNumberPagination
+    filterset_class=AvanceSalaireFilter
     search_fields = ['salarie__nom']
 
 class PrixSocialViewset(viewsets.ModelViewSet):
@@ -93,36 +96,41 @@ class HeureSupViewset(viewsets.ModelViewSet):
 class PrimeMotivationViewset(viewsets.ModelViewSet):
     queryset=PrimeMotivation.objects.all()
     serializer_class=PrimeMotivationSerializer
-    authentication_classes=[JWTAuthentication] 
     permission_classes=[IsAuthenticated, DynamicPermission ]
-    filter_backends=[ UserFilterBackend, StoreFilter]
+    filter_backends = [SearchFilter, DjangoFilterBackend, UserFilterBackend, StoreFilter]
+    pagination_class = PageNumberPagination
+    search_fields = ['salarie__nom']
 
 class AbsenceViewset(viewsets.ModelViewSet):
     queryset=Absence.objects.all()
     serializer_class=AbsenceSerializer
-    authentication_classes=[JWTAuthentication] 
     permission_classes=[IsAuthenticated, DynamicPermission ]
-    filter_backends=[ UserFilterBackend, StoreFilter]
+    filter_backends = [SearchFilter, DjangoFilterBackend, UserFilterBackend, StoreFilter]
+    pagination_class = PageNumberPagination
+    search_fields = ['salarie__nom']
 
 class ContratViewset(viewsets.ModelViewSet):
     queryset=Contrat.objects.all()
     serializer_class=ContratSerializer
-    authentication_classes=[JWTAuthentication] 
     permission_classes=[IsAuthenticated, DynamicPermission ]
-    filter_backends=[ UserFilterBackend, StoreFilter]
+    filter_backends = [SearchFilter, DjangoFilterBackend, UserFilterBackend, StoreFilter]
+    pagination_class = PageNumberPagination
+    search_fields = ['salarie__nom']
 
 class RenumerationViewset(viewsets.ModelViewSet):
     queryset=Renumeration.objects.all()
     serializer_class=RenumerationSerializer
-    authentication_classes=[JWTAuthentication] 
     permission_classes=[IsAuthenticated, DynamicPermission ]
-    filter_backends=[ UserFilterBackend, StoreFilter]
+    filter_backends = [SearchFilter, DjangoFilterBackend, UserFilterBackend, StoreFilter]
+    pagination_class = PageNumberPagination
+    search_fields = ['salarie__nom']
 
 class BoiteArchiveViewset(viewsets.ModelViewSet):
     queryset=BoiteArchive.objects.all()
     serializer_class=BoiteArchiveSerializer
-    authentication_classes=[JWTAuthentication] 
     permission_classes=[IsAuthenticated, DynamicPermission ]
-    filter_backends=[ UserFilterBackend, StoreFilter]
+    filter_backends = [SearchFilter, DjangoFilterBackend, UserFilterBackend, StoreFilter]
+    pagination_class = PageNumberPagination
+    search_fields = ['salarie__nom']
 
 
