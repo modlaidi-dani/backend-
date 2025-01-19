@@ -218,6 +218,25 @@ class BonRetourSerializer(serializers.ModelSerializer):
     def get_entrepot(self,obj):
         bonlivraison=obj.bonL
         return bonlivraison.entrepot.name
+    def to_representation(self, instance):
+        ret = super().to_representation(instance)
+        
+        if ret.get("produits"):  # Check if "produits" exists and is not empty
+            etat = "non-reglé"  # Default state
+            for produit in ret["produits"]:
+                if produit.get("reintegrated"):  # If any product is reintegrated
+                    etat = "new"
+                    break
+            else:  # Only if no "break" occurred (no product reintegrated)
+                if ret.get("regler_valide"):  # Check global reintegration status
+                    etat = "reglé"
+                else:
+                    etat = "non-reglé"
+            
+            ret["etat_reglement"] = etat
+        
+        return ret
+                        
 class ProduitsEnBonEchangeSerializer(serializers.ModelSerializer):
     stock=ProductSerializer()
     class Meta:
