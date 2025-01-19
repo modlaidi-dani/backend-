@@ -10,7 +10,7 @@ from ventes.serializers import *
 
 class EntrepotSerializer(serializers.ModelSerializer):
     responsables=serializers.SerializerMethodField()
-    stocks=serializers.SerializerMethodField()
+    # stocks=serializers.SerializerMethodField()
     store=StoreSerializer()
     class Meta:
         model=Entrepot
@@ -21,10 +21,10 @@ class EntrepotSerializer(serializers.ModelSerializer):
        for user in users :
            list_responsables.append(user.username)
        return list_responsables
-    def get_stocks(self,obj):
-        stocks=obj.inventories.all()
-        serializer=StockSerializer(stocks,many=True)
-        return serializer.data
+    # def get_stocks(self,obj):
+    #     stocks=obj.inventories.all()
+    #     serializer=StockSerializer(stocks,many=True)
+    #     return serializer.data
        
 
 
