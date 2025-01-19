@@ -191,12 +191,13 @@ class ProduitsEnBonRetourSerializer(serializers.ModelSerializer):
         fields="__all__"
 class BonRetourSerializer(serializers.ModelSerializer):
     produits=ProduitsEnBonRetourSerializer(source="produits_en_bon_retour",many=True)
-    # bonL=BonSortieSerializer()
-    client=ClientSerializer()
+    # # bonL=BonSortieSerializer()
+    # client=ClientSerializer()
     user=CustomUserSerializer()
     store=StoreSerializer()
     reintegrated=serializers.SerializerMethodField()
     total_price_retour=serializers.SerializerMethodField()
+    idbon_livraison=serializers.SerializerMethodField()
     class Meta:
         model=BonRetour
         fields="__all__"
@@ -207,6 +208,9 @@ class BonRetourSerializer(serializers.ModelSerializer):
             return False
     def get_total_price_retour(self,obj):
         return round(sum(Decimal(product.unitprice) * product.quantity for product in obj.produits_en_bon_retour.all()),2)
+    def get_idbon_livraison(self,obj):
+        bonlivraison=obj.bonL
+        return bonlivraison.idBon
 class ProduitsEnBonEchangeSerializer(serializers.ModelSerializer):
     stock=ProductSerializer()
     class Meta:
