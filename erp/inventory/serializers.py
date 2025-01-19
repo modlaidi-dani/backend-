@@ -198,6 +198,7 @@ class BonRetourSerializer(serializers.ModelSerializer):
     reintegrated=serializers.SerializerMethodField()
     total_price_retour=serializers.SerializerMethodField()
     idbon_livraison=serializers.SerializerMethodField()
+    entrepot=serializers.SerializerMethodField()
     class Meta:
         model=BonRetour
         fields="__all__"
@@ -214,6 +215,9 @@ class BonRetourSerializer(serializers.ModelSerializer):
     def get_client(self,obj):
         bonlivraison=obj.bonL
         return bonlivraison.client.name
+    def get_entrepot(self,obj):
+        bonlivraison=obj.bonL
+        return bonlivraison.entrepot.name
 class ProduitsEnBonEchangeSerializer(serializers.ModelSerializer):
     stock=ProductSerializer()
     class Meta:
