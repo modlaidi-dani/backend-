@@ -60,6 +60,26 @@ class BonRetourAncienSerializer(serializers.ModelSerializer):
         fields="__all__"
     def get_total_price_retour(self,obj):
         return round(sum(Decimal(product.unitprice) * product.quantity for product in obj.produits_en_bon_retourancien.all()),2)
+    def to_representation(self, instance):
+        ret = super().to_representation(instance)
+        
+        if ret.get("produits"):  # Check if "produits" exists and is not empty
+            etat = "non-reglé"  # Default state
+            for produit in ret["produits"]:
+                if produit.get("reintegrated"):  # If any product is reintegrated
+                    etat = "new"
+                
+            else:
+                print(ret.get("regler_valide"))# Only if no "break" occurred (no product reintegrated)
+                if ret.get("regler_valide"):  # Check global reintegration status
+                    etat = "reglé"
+                else:
+                    etat = "non-reglé"
+            
+            ret["etat_reglement"] = etat
+        
+        return ret
+    
 
 
 class StockSerializer(serializers.ModelSerializer):
@@ -76,7 +96,7 @@ class StockSerializer(serializers.ModelSerializer):
     name=serializers.SerializerMethodField()
     reference=serializers.SerializerMethodField()
     prix_achat=serializers.SerializerMethodField()
-    
+    category=serializers.SerializerMethodField()
     
     
     class Meta:
@@ -122,7 +142,15 @@ class StockSerializer(serializers.ModelSerializer):
         return obj.product.reference
     def get_prix_achat(self,obj):
         return obj.product.prix_achat
-    
+    def get_category(self,obj):
+        from produits.serializers import CategorySerializer
+        category= CategorySerializer(obj.product.category).data
+        return category
+    def to_representation(self, instance):
+        respoense = super().to_representation(instance)
+        respoense["montant_total"]=float(respoense["prix_achat"])*float(respoense["quantity"])
+        return respoense
+      
     # def get_product_sold_quantity(self,obj):
     #     produits_en_bon_comptoir = ProduitsEnBonComptoir.objects.filter(
     #                 stock=obj.product,
@@ -191,12 +219,14 @@ class ProduitsEnBonRetourSerializer(serializers.ModelSerializer):
         fields="__all__"
 class BonRetourSerializer(serializers.ModelSerializer):
     produits=ProduitsEnBonRetourSerializer(source="produits_en_bon_retour",many=True)
-    # bonL=BonSortieSerializer()
-    client=ClientSerializer()
+    # # bonL=BonSortieSerializer()
+    client=serializers.SerializerMethodField()
     user=CustomUserSerializer()
     store=StoreSerializer()
     reintegrated=serializers.SerializerMethodField()
     total_price_retour=serializers.SerializerMethodField()
+    idbon_livraison=serializers.SerializerMethodField()
+    entrepot=serializers.SerializerMethodField()
     class Meta:
         model=BonRetour
         fields="__all__"
@@ -207,6 +237,35 @@ class BonRetourSerializer(serializers.ModelSerializer):
             return False
     def get_total_price_retour(self,obj):
         return round(sum(Decimal(product.unitprice) * product.quantity for product in obj.produits_en_bon_retour.all()),2)
+    def get_idbon_livraison(self,obj):
+        bonlivraison=obj.bonL
+        return bonlivraison.idBon
+    def get_client(self,obj):
+        bonlivraison=obj.bonL
+        return bonlivraison.client.name
+    def get_entrepot(self,obj):
+        bonlivraison=obj.bonL
+        return bonlivraison.entrepot.name
+    def to_representation(self, instance):
+        ret = super().to_representation(instance)
+        
+        if ret.get("produits"):  # Check if "produits" exists and is not empty
+            etat = "non-reglé"  # Default state
+            for produit in ret["produits"]:
+                if produit.get("reintegrated"):  # If any product is reintegrated
+                    etat = "new"
+                
+            else:
+                print(ret.get("regler_valide"))# Only if no "break" occurred (no product reintegrated)
+                if ret.get("regler_valide"):  # Check global reintegration status
+                    etat = "reglé"
+                else:
+                    etat = "non-reglé"
+            
+            ret["etat_reglement"] = etat
+        
+        return ret
+                        
 class ProduitsEnBonEchangeSerializer(serializers.ModelSerializer):
     stock=ProductSerializer()
     class Meta:

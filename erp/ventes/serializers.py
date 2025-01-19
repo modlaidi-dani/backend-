@@ -38,7 +38,7 @@ class BonSortieSerializer(serializers.ModelSerializer):
     total_paid_amount=serializers.SerializerMethodField()
     total_remaining_amount=serializers.SerializerMethodField()
     regle=serializers.SerializerMethodField()
-    caisseBons=serializers.SerializerMethodField()
+    # caisseBons=serializers.SerializerMethodField()
     ma_marge=serializers.SerializerMethodField()
     
     
@@ -176,12 +176,12 @@ class BonSortieSerializer(serializers.ModelSerializer):
     def get_regle(self,obj):
        return round(self.get_total_soldprice(obj),0) == round(self.get_total_paid_amount(obj),0)
        
-    def get_caisseBons(self,obj):
-        reglements = sum(reglement.montant for reglement in obj.bonS_reglements.all())
-        caisse = None
-        if reglements != 0 :
-            caisse = obj.bonS_reglements.first().CompteEntreprise
-            return caisse
+    # def get_caisseBons(self,obj):
+    #     reglements = sum(reglement.montant for reglement in obj.bonS_reglements.all())
+    #     caisse = None
+    #     if reglements != 0 :
+    #         caisse = obj.bonS_reglements.first().CompteEntreprise
+    #         return caisse
         
     def get_ma_marge(self,obj):
         # All products in the current BonSortie
