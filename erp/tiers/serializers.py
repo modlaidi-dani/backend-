@@ -23,6 +23,20 @@ class ClientSerializer(serializers.ModelSerializer):
     categorie_client=serializers.SerializerMethodField()
     EtatClient=serializers.SerializerMethodField()
     total_amount=serializers.SerializerMethodField()
+    total_rembourse=serializers.SerializerMethodField()
+    total_annule=serializers.SerializerMethodField()
+    total_avoir=serializers.SerializerMethodField()
+    total_avoir_old=serializers.SerializerMethodField()
+    remaining_amount=serializers.SerializerMethodField()
+    total_paid_amount=serializers.SerializerMethodField()
+    total_amount_facture=serializers.SerializerMethodField()
+    Solde_comptoir=serializers.SerializerMethodField()
+    mon_credit=serializers.SerializerMethodField()
+    NifDoc=serializers.SerializerMethodField()
+    NisDoc=serializers.SerializerMethodField()
+    RCDoc=serializers.SerializerMethodField()
+    AIDoc=serializers.SerializerMethodField()
+    total_paid_amount_facture=serializers.SerializerMethodField()
     class Meta:
         model=Client
         fields="__all__"
@@ -49,7 +63,6 @@ class ClientSerializer(serializers.ModelSerializer):
         for bon in obj.client_bonS.exclude(idBon__startswith='BECH'):
             try:
                 price_part = bon.produits_en_bon_sorties.aggregate(total_price=Sum('totalprice'))['total_price']
-                print(price_part)
                 total+=price_part
             except:
                 total=total
@@ -57,25 +70,29 @@ class ClientSerializer(serializers.ModelSerializer):
         return total
     
     
-    def total_rembourse(self,obj):
+    def get_total_rembourse(self,obj):
         return sum(Decimal(reglement.montant) for reglement in obj.client_reglements.filter(BonS__isnull=False, type_reglement ="Remboursement"))
         
     
-    def total_annule(self,obj):
-        filtered_bons_retour = [bon for bon in obj.client_bons_retour.filter(valide=True) if bon.reintegrated]
-
-        result_sum = sum(Decimal(bon.total_price_retour) * Decimal(1.19) for bon in filtered_bons_retour)
+    def get_total_annule(self,obj):
+        from inventory.serializers import BonRetourSerializer
+        bons_retour=obj.client_bons_retour.filter(valide=True)
+        serializers=BonRetourSerializer(bons_retour, many=True)
+        filtered_bons_retour = [bon for bon in serializers.data if bon["reintegrated"]]
+        result_sum = sum(Decimal(bon["total_price_retour"]) * Decimal(1.19) for bon in filtered_bons_retour)
         return result_sum
 
     
-    def total_avoir(self,obj):
+    def get_total_avoir(self,obj):
         filredbl= obj.client_bonS.all()
         totalavoir = 0
         for bl in filredbl:
-            totalavoir+=bl.get_total_avoir()
+                avoirs=bl.avoirs_bonsortie.all()
+                for avoir in avoirs:
+                    totalavoir += Decimal(avoir.montant) * Decimal('1.19')
         return totalavoir
     
-    def total_avoir_old(self,obj):
+    def get_total_avoir_old(self,obj):
         filredbl= obj.avoirsA_client.all()
         totalavoir = 0
         for avoir in filredbl:
@@ -83,23 +100,23 @@ class ClientSerializer(serializers.ModelSerializer):
         return totalavoir
     
     
-    def remaining_amount(self,obj):
-        return round(obj.total_amount + obj.solde - (obj.total_paid_amount + obj.total_avoir + obj.total_avoir_old + obj.total_rembourse + obj.total_annule),0)
+    def get_remaining_amount(self,obj):
+        return round(self.get_total_amount(obj) + obj.solde - (self.get_total_paid_amount(obj) + self.get_total_avoir(obj)+ self.get_total_avoir_old(obj) + self.get_total_rembourse(obj) + self.get_total_annule(obj)),0)
     
     
-    def total_paid_amount(self,obj):
+    def get_total_paid_amount(self,obj):
         return sum(Decimal(reglement.montant) for reglement in obj.client_reglements.all())
     
     
-    def total_amount_facture(self,obj):
+    def get_total_amount_facture(self,obj):
         return sum(Decimal(bon.get_total_price) for bon in obj.client_facture.all())
     
     
-    def remaining_amount_facture(self,obj):
+    def get_remaining_amount_facture(self,obj):
         return obj.total_amount_facture - obj.total_paid_amount_facture
     
     
-    def total_paid_amount_facture(self,obj):
+    def get_total_paid_amount_facture(self,obj):
         return sum(Decimal(reglement.montant) for reglement in obj.client_reglements.filter(facture__isnull=False))
     
     def get_CA(obj):
@@ -111,14 +128,14 @@ class ClientSerializer(serializers.ModelSerializer):
         return total_CA   
       
     
-    def Solde_comptoir(self,obj):
+    def get_Solde_comptoir(self,obj):
         client_bons = obj.mesbons_comptoir.all()
         bons_retourcompt = obj.bonsretour_compt.all()
         total_CA = sum(bon.totalprice for bon in client_bons) - sum(bon.myTotalPrice for bon in bons_retourcompt)
         return total_CA
         
     
-    def mon_credit(self,obj):
+    def get_mon_credit(self,obj):
         # Create a list to store dictionaries with dateBon and montant
         credit_by_date = []
         for bon in obj.bonsretour_compt.all():
@@ -155,7 +172,7 @@ class ClientSerializer(serializers.ModelSerializer):
                         
         return credit_by_date 
     
-    def myproductssold(self,obj):
+    def get_myproductssold(self,obj):
         # Create a list to store dictionaries with dateBon and montant
         stats = []
         components = ['cpu', 'mb', 'ram', 'cpuc', 'ssd', 'psu', 'gpu', 'case', 'casef' ,'moniteur', 'claviers', 'souris']
@@ -184,7 +201,7 @@ class ClientSerializer(serializers.ModelSerializer):
                         stats.append({'dateBon': date_str, 'composant': comp, 'quantity_sold': qte, 'montant_sold': qte * float(produit_sold.unitprice) * float(1.19)})         
         return stats 
         
-    def mon_debit(self,obj):
+    def get_mon_debit(self,obj):
         # Create a list to store dictionaries with dateBon and prix_payed
         debit_by_date = []
 
@@ -268,7 +285,7 @@ class ClientSerializer(serializers.ModelSerializer):
         return debit_by_date
      
      
-    def margin_total(self,obj):
+    def get_margin_total(self,obj):
         debit_by_date = []
         for bon in obj.client_bonS.exclude(idBon__startswith='BECH'):
                 # Convert datetime.date to string and Decimal to float
@@ -320,33 +337,33 @@ class ClientSerializer(serializers.ModelSerializer):
                     debit_by_date.append({'dateBon': date_str,'entrepot': entrepot_str, 'user': obj.user.username, 'montant': prix_payed_float, 'montantA': float(bon.price_annule)})  
         return debit_by_date      
              
-    def loyalty_points(self,obj):
+    def get_loyalty_points(self,obj):
         client_bonc = obj.mesbons_comptoir.all()
         client_bons = obj.client_bonS.exclude(idBon__startswith='BECH')
         total_CA = obj.Solde_comptoir
         return total_CA // 1000
         
-    def getNifDoc(self,obj):
+    def get_NifDoc(self,obj):
         if obj.NifDoc:
                 return obj.NifDoc.url
         else:
                 return ''
-    def getNisDoc(self,obj):
+    def get_NisDoc(self,obj):
         if obj.NisDoc:
                 return obj.NisDoc.url
         else:
                 return ''
-    def getNifDoc(self,obj):
+    def get_NifDoc(self,obj):
         if obj.NifDoc:
                 return obj.NifDoc.url
         else:
                 return ''
-    def getRCDoc(self,obj):
+    def get_RCDoc(self,obj):
         if obj.RCDoc:
                 return obj.RCDoc.url
         else:
                 return ''
-    def getAIDoc(self,obj):
+    def get_AIDoc(self,obj):
         if obj.AIDoc:
                 return obj.AIDoc.url
         else:

@@ -70,7 +70,8 @@ class AvoirVente(models.Model):
     dateEmission = models.DateField(default=datetime.now)
     motif =  models.CharField(  max_length=200, null=False, default="")
     montant = models.CharField(  max_length=200, null=False, default="")
-    store = models.ForeignKey('clientInfo.store', on_delete=models.CASCADE,  null=True, default=None)  
+    store = models.ForeignKey('clientInfo.store', on_delete=models.CASCADE,  null=True, default=None) 
+    bonretour=models.CharField(max_length=200, null=True) 
 
 class DemandeTransfert(models.Model):
     BonSNo = models.ForeignKey(BonSortie, on_delete = models.CASCADE, related_name='demande_sortie_transfert')
