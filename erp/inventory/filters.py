@@ -20,3 +20,18 @@ class BonRetourFilter(django_filters.FilterSet):
     class Meta:
         model = BonRetour
         fields = [ 'user', 'start_date', 'end_date','produit_category']
+class StockFilter(django_filters.FilterSet):
+
+    category = django_filters.ModelChoiceFilter(
+        field_name="product__category",
+        queryset=Category.objects.all(),
+        label="category"
+    )
+    entrepot = django_filters.ModelChoiceFilter(
+        field_name="entrepot",
+        queryset=Entrepot.objects.all(),
+        label="entrepot"
+    )
+    class Meta:
+        model = Stock
+        fields = ['category','entrepot']    

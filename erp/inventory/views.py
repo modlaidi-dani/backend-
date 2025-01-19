@@ -78,7 +78,8 @@ class StockViewset(viewsets.ModelViewSet):
     serializer_class=StockSerializer
     authentication_classes=[JWTAuthentication] 
     permission_classes=[IsAuthenticated, DynamicPermission]
-    filter_backends=[ UserFilterBackend, StoreFilter]
+    filter_backends=[ SearchFilter,DjangoFilterBackend, UserFilterBackend, StoreFilter]
+    filterset_class=StockFilter
     pagination_class = PageNumberPagination 
     
 
