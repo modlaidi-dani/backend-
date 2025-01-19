@@ -192,7 +192,7 @@ class ProduitsEnBonRetourSerializer(serializers.ModelSerializer):
 class BonRetourSerializer(serializers.ModelSerializer):
     produits=ProduitsEnBonRetourSerializer(source="produits_en_bon_retour",many=True)
     # # bonL=BonSortieSerializer()
-    # client=ClientSerializer()
+    client=serializers.SerializerMethodField()
     user=CustomUserSerializer()
     store=StoreSerializer()
     reintegrated=serializers.SerializerMethodField()
@@ -211,6 +211,9 @@ class BonRetourSerializer(serializers.ModelSerializer):
     def get_idbon_livraison(self,obj):
         bonlivraison=obj.bonL
         return bonlivraison.idBon
+    def get_client(self,obj):
+        bonlivraison=obj.bonL
+        return bonlivraison.client.name
 class ProduitsEnBonEchangeSerializer(serializers.ModelSerializer):
     stock=ProductSerializer()
     class Meta:
