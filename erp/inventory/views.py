@@ -81,6 +81,8 @@ class StockViewset(viewsets.ModelViewSet):
     filter_backends=[ SearchFilter,DjangoFilterBackend, UserFilterBackend, StoreFilter]
     filterset_class=StockFilter
     pagination_class = PageNumberPagination 
+    search_fields = ['product__name', 'product__reference']
+    
     
 
 class BonTransfertMagasinViewset(viewsets.ModelViewSet):
