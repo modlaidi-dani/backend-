@@ -109,7 +109,7 @@ class ClientSerializer(serializers.ModelSerializer):
     
     
     def get_total_amount_facture(self,obj):
-        return sum(Decimal(bon.get_total_price) for bon in obj.client_facture.all())
+        return sum(Decimal(bon.totalPrice) for bon in obj.client_facture.all())
     
     
     def get_remaining_amount_facture(self,obj):
