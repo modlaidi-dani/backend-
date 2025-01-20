@@ -141,7 +141,7 @@ class EtatStockViewset(generics.GenericAPIView):
     def get_queryset(self):
         try:
             selected_store = store.objects.get(pk=self.request.session["store"])
-        except store.DoesNotExist:
+        except:
             selected_store = store.objects.get(pk=1)
         return Product.objects.filter(
             store=selected_store,
