@@ -163,7 +163,7 @@ class EtatStockViewset(generics.GenericAPIView):
             initial_quantity = sum(stock.quantity_initial for stock in product.mon_stock.all())
             current_year = datetime.now().year
             start_date = datetime(current_year, 1, 1)
-            end_date_onyear = datetime(current_year, 12, 31)
+            end_date_onyear = datetime.now()
             total_weeks = (end_date_onyear - start_date).days // 7 + 1
             for week in range(1, total_weeks + 1):
                 end_date = start_date + timedelta(days=6)
