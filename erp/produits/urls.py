@@ -17,6 +17,6 @@ router.register('codeEA',codeEAViewset,basename='codeEA')
 
 
 urlpatterns = [
-    path('EtatStockViewset', EtatStockViewset.as_view(), name='EtatStockViewset'),
+    path('EtatStockViewset/', EtatStockViewset.as_view(), name='EtatStockViewset'),
     path('',include(router.urls)),
 ]
