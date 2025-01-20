@@ -131,16 +131,19 @@ class codeEAViewset(viewsets.ModelViewSet):
     
 
 class EtatStockViewset(generics.GenericAPIView):
+    quereset=Product.objects.all()
     authentication_classes=[JWTAuthentication] 
     permission_classes=[IsAuthenticated, DynamicPermission ]
-    filter_backends=[ UserFilterBackend,  StoreFilter]
-    pagination_class = PageNumberPagination
-    def get(self, request):
+    filter_backends=[SearchFilter,DjangoFilterBackend, UserFilterBackend,  StoreFilter]
+    pagination_class = PageNumberPagination 
+    filterset_class=ProduitFiltercategory
+    search_fields = ['name', 'reference']
+    def get_queryset(self):
         try:
             selected_store = store.objects.get(pk=self.request.session["store"])
-        except:
+        except store.DoesNotExist:
             selected_store = store.objects.get(pk=1)
-        products = Product.objects.filter(
+        return Product.objects.filter(
             store=selected_store,
             parent_product__isnull=True,
             name__icontains='msi'
@@ -149,7 +152,12 @@ class EtatStockViewset(generics.GenericAPIView):
         ).filter(
             name_lower__icontains='msi'
         )
+    def get(self, request):
+        products = self.get_queryset()
+        
         products_stock = []
+        start_date_filter = request.query_params.get('start_date')
+        end_date_filter = request.query_params.get('end_date')
         for product in products:
             report = []
             initial_quantity = sum(stock.quantity_initial for stock in product.mon_stock.all())
@@ -199,6 +207,22 @@ class EtatStockViewset(generics.GenericAPIView):
 
                 # Move to the next week
                 start_date = end_date + timedelta(days=1)
+            if start_date_filter and end_date_filter:
+                report = [
+                    entry for entry in report
+                    if start_date_filter <= entry['start_date'] and entry['end_date'] <= end_date_filter
+                ]
+            elif start_date_filter:
+                report = [
+                    entry for entry in report
+                    if start_date_filter <= entry['start_date'] 
+                ]
+            elif end_date_filter:
+                report = [
+                    entry for entry in report
+                    if entry['end_date'] <= end_date_filter
+                ]
+            
             products_stock.extend(report)
         paginated_products_stock = self.paginate_queryset(products_stock)
         return self.get_paginated_response(paginated_products_stock)
