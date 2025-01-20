@@ -136,7 +136,10 @@ class EtatStockViewset(generics.GenericAPIView):
     filter_backends=[ UserFilterBackend,  StoreFilter]
     pagination_class = PageNumberPagination
     def get(self, request):
-        selected_store = store.objects.get(pk=self.request.session["store"])
+        try:
+            selected_store = store.objects.get(pk=self.request.session["store"])
+        except:
+            selected_store = store.objects.get(pk=1)
         products = Product.objects.filter(
             store=selected_store,
             parent_product__isnull=True,
