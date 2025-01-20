@@ -5,7 +5,7 @@ from django.shortcuts import render
 from .models import * 
 from .serializers import * 
 # from permissions import *
-from rest_framework import viewsets, views
+from rest_framework import viewsets, views ,generics 
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated, AllowAny,IsAdminUser
 from rest_framework import response,status
@@ -130,7 +130,7 @@ class codeEAViewset(viewsets.ModelViewSet):
     pagination_class = PageNumberPagination 
     
 
-class EtatStockViewset(views.APIView):
+class EtatStockViewset(generics.GenericAPIView):
     authentication_classes=[JWTAuthentication] 
     permission_classes=[IsAuthenticated, DynamicPermission ]
     filter_backends=[ UserFilterBackend,  StoreFilter]
@@ -197,4 +197,5 @@ class EtatStockViewset(views.APIView):
                 # Move to the next week
                 start_date = end_date + timedelta(days=1)
             products_stock.extend(report)
-        return Response (products_stock,status=status.HTTP_200_OK)
+        paginated_products_stock = self.paginate_queryset(products_stock)
+        return self.get_paginated_response(paginated_products_stock)
