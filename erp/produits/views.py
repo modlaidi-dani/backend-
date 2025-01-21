@@ -130,14 +130,14 @@ class codeEAViewset(viewsets.ModelViewSet):
     pagination_class = PageNumberPagination 
     
 
-class EtatStockViewset(generics.GenericAPIView):
+class EtatStockViewset(generics.ListAPIView):
     quereset=Product.objects.all()
     authentication_classes=[JWTAuthentication] 
     permission_classes=[IsAuthenticated, DynamicPermission ]
     filter_backends=[SearchFilter,DjangoFilterBackend, UserFilterBackend,  StoreFilter]
     pagination_class = PageNumberPagination 
     filterset_class=ProduitFiltercategory
-    search_fields = ['name', 'reference']
+    search_fields = ['name']
     def get_queryset(self):
         try:
             selected_store = store.objects.get(pk=self.request.session["store"])
@@ -146,14 +146,12 @@ class EtatStockViewset(generics.GenericAPIView):
         return Product.objects.filter(
             store=selected_store,
             parent_product__isnull=True,
-            name__icontains='msi'
-        ).annotate(
-            name_lower=Lower('name')
-        ).filter(
-            name_lower__icontains='msi'
+            name__icontains='msi'  # Recherche statique pour "msi"
         )
+    
     def get(self, request):
-        products = self.get_queryset()
+        queryset = self.filter_queryset(self.get_queryset())
+        products = queryset
         
         products_stock = []
         start_date_filter = request.query_params.get('start_date')
