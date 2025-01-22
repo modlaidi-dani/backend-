@@ -44,10 +44,6 @@ class BonentyFilter(django_filters.FilterSet):
         queryset=Entrepot.objects.all(),
         label="entrepot"
     )
-    # The `fournisseur` in the `BonentyFilter` class is a `django_filters.ModelChoiceFilter` that
-    # filters the queryset based on the `fournisseur` field of the `BonEntry` model. It allows users
-    # to select a specific `fournisseur` (supplier) when filtering instances of the `BonEntry` model.
-    # The filter will display a dropdown list of available `Fournisseur` objects for selection.
     fournisseur = django_filters.ModelChoiceFilter(
         field_name="fournisseur",
         queryset=Fournisseur.objects.all(),
