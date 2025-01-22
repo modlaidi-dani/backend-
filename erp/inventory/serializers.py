@@ -343,19 +343,32 @@ class BonReformeSerializer(serializers.ModelSerializer):
         model=BonReforme
         fields="__all__"
 class ProduitsEnBonEntrySerializer(serializers.ModelSerializer):
-    stock=ProductSerializer()
+    name=serializers.SerializerMethodField()
+    reference=serializers.SerializerMethodField()
+    price=serializers.SerializerMethodField()
+    
     class Meta:
         model=ProduitsEnBonEntry
         fields="__all__"
+    def get_name(self,obj):
+        return obj.stock.name
+    def get_reference(self,obj):
+        return obj.stock.reference
+    def get_price(self,obj):
+        return obj.stock.prix_achat
+    
 class BonEntrySerializer(serializers.ModelSerializer):
     produits=ProduitsEnBonEntrySerializer(source="produits_en_bon_entry",many=True)
     fournisseur=FournisseurSerializer()
-    entrepot=EntrepotSerializer()
-    user=CustomUserSerializer()
-    store=StoreSerializer()
+    entrepot_name=serializers.SerializerMethodField()
+    username=serializers.SerializerMethodField()
     class Meta:
         model=BonEntry
         fields="__all__"
+    def get_username(self,obj):
+        return obj.user.username
+    def get_entrepot_name(self,obj):
+        return obj.entrepot.name
 class ProduitsEnBonReintegrationSerializer(serializers.ModelSerializer):
     stock=ProductSerializer()
     class Meta:
