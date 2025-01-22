@@ -35,3 +35,15 @@ class StockFilter(django_filters.FilterSet):
     class Meta:
         model = Stock
         fields = ['category','entrepot']    
+class BonentyFilter(django_filters.FilterSet):
+
+    start_date = django_filters.DateFilter(field_name="dateBon", lookup_expr="gte", label="Start Date")
+    end_date = django_filters.DateFilter(field_name="dateBon", lookup_expr="lte", label="End Date")
+    entrepot = django_filters.ModelChoiceFilter(
+        field_name="entrepot",
+        queryset=Entrepot.objects.all(),
+        label="entrepot"
+    )
+    class Meta:
+        model = BonEntry
+        fields = ['start_date', 'end_date','entrepot']    
