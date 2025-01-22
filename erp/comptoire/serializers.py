@@ -31,11 +31,14 @@ class AffectationCaisseSerializer(serializers.ModelSerializer):
         model=AffectationCaisse
         fields="__all__"
 class ClotureSerializer(serializers.ModelSerializer):
-    utilisateur=CustomUserSerializer()
-    store=StoreSerializer()
+    # utilisateur=CustomUserSerializer()
+    # store=StoreSerializer()
+    username=serializers.SerializerMethodField()
     class Meta:
         model=Cloture
         fields="__all__"
+    def get_username(self,obj):
+        return obj.utilisateur.username
 class ProduitsEnBonComptoirSerializer(serializers.ModelSerializer):
     stock=ProductSerializer()
     #entrepot=EntrepotSerializer()
