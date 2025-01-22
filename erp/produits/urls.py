@@ -13,10 +13,13 @@ router.register('ProductVariant',ProductVariantViewset,basename='ProductVariant'
 router.register('historique_prix_achat',historique_prix_achatViewset,basename='historique_prix_achat')
 router.register('VerificationArchive',VerificationArchiveViewset,basename='VerificationArchive')
 router.register('ListProductVerificationArchive',ListProductVerificationArchiveViewset,basename='ListProductVerificationArchive')
-router.register('codeEA',codeEAViewset,basename='codeEA')
+router.register('codeEA',codeEAViewset,basename='codeEA'),
+# router.register('StockState',StockState,basename='StockState'),
 
 
 urlpatterns = [
     path('EtatStockViewset/', EtatStockViewset.as_view(), name='EtatStockViewset'),
+    path('StockState', StockState.as_view(), name='StockState'),
+    
     path('',include(router.urls)),
 ]

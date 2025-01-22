@@ -32,7 +32,7 @@ INSTALLED_APPS = [
     # "erp.target",
     # "erp.statistiques",
     "erp.logistique",
-    # "erp.production",
+    "erp.production",
     "erp.gestionRH",
     "archivage",
     

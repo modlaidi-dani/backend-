@@ -4,6 +4,8 @@ from django.shortcuts import render
 from django.shortcuts import render
 from .models import * 
 from .serializers import * 
+from inventory.models import Stock
+from inventory.serializers import StockSerializer
 # from permissions import *
 from rest_framework import viewsets, views ,generics 
 from rest_framework.response import Response
@@ -19,6 +21,7 @@ from .filters import *
 from django_filters.rest_framework import DjangoFilterBackend
 from django.db.models.functions import Lower
 from ventes.models import *
+from production.models import *
 from datetime import datetime, timedelta
 
 class CategoryViewset(viewsets.ModelViewSet):
@@ -224,3 +227,53 @@ class EtatStockViewset(generics.ListAPIView):
             products_stock.extend(report)
         paginated_products_stock = self.paginate_queryset(products_stock)
         return self.get_paginated_response(paginated_products_stock)
+class StockState(generics.ListAPIView):
+    authentication_classes=[JWTAuthentication] 
+    permission_classes=[IsAuthenticated, DynamicPermission ]
+    queryset = Product.objects.all()
+    # serializer_class = ProductSerializer
+    filter_backends=[SearchFilter,DjangoFilterBackend, UserFilterBackend,  StoreFilter]
+    pagination_class = PageNumberPagination 
+    def get(self, request):
+        produits =  self.filter_queryset(self.get_queryset())
+        mespc= ordreFabrication.objects.all()
+        # produit_serialized=self.get_serializer(produits, many=True).data
+        stocks_all = Stock.objects.filter(product__store=produits[0].store)
+        mespc= ordreFabrication.objects.all()
+        pc =[]
+        for unpc in mespc:
+            produit=unpc.pc_created
+            pc.append(produit)
+        stock_list = []
+
+        for stock in stocks_all:
+            quantity_pc=0
+            quantity_util_production=0
+            if stock.product in pc:
+                order= ordreFabrication.objects.filter(pc_created=stock.product).first()                    
+                produit_production=ProduitsEnOrdreFabrication.objects.filter(BonNo=order).first()
+                quantity_pc=produit_production.quantity                        
+            produit_production=ProduitsEnOrdreFabrication.objects.filter(stock=stock.product)
+            for produit in produit_production:
+                quantity_util_production += produit.quantity
+            serializerstock=StockSerializer(stock).data
+            quantity_expected=serializerstock["quantity_expected"]-quantity_util_production+quantity_pc
+            
+            stock_dict = {
+                "reference": stock.product.reference,
+                "name": stock.product.name,
+                "entrepot": stock.entrepot.name,
+                "quantity_entered": serializerstock['historical_entered_quantity'],
+                "quantity_received": serializerstock['historical_received_quantity'],
+                "quantity_transfered":serializerstock['historical_transfered_quantity'],
+                "quantity_sold": serializerstock['product_sold_quantity'],
+                "quantity_returned":serializerstock['product_returned_quantity'],
+                "quantity_inreal":stock.quantity,
+                "quantity_expected": quantity_expected,
+                "quantity_util_production": quantity_util_production,
+                "quantity_pc": quantity_pc,
+
+
+            }
+            stock_list.append(stock_dict)
+        return Response(stock_list,status=status.HTTP_200_OK)
