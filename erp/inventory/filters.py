@@ -44,6 +44,11 @@ class BonentyFilter(django_filters.FilterSet):
         queryset=Entrepot.objects.all(),
         label="entrepot"
     )
+    fournisseur = django_filters.ModelChoiceFilter(
+        field_name="fournisseur",
+        queryset=Fournisseur.objects.all(),
+        label="fournisseur"
+    )
     class Meta:
         model = BonEntry
-        fields = ['start_date', 'end_date','entrepot']    
+        fields = ['start_date','fournisseur', 'end_date','entrepot']    

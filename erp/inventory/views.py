@@ -176,7 +176,7 @@ class BonEntryViewset(viewsets.ModelViewSet):
     filter_backends=[ SearchFilter,DjangoFilterBackend, UserFilterBackend, StoreFilter]
     pagination_class = PageNumberPagination
     filterset_class=BonentyFilter
-    search_fields = ['idBon','fournisseur__acronym', 'produits_en_bon_entry__stock__reference','produits_en_bon_entry__stock__name']
+    search_fields = ['idBon', 'produits_en_bon_entry__stock__reference','produits_en_bon_entry__stock__name']
      
     
 
