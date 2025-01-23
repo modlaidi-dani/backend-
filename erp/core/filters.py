@@ -21,7 +21,16 @@ class StoreFilter(DjangoFilterBackend):
             if costumeruser.EmployeeAt:
                 return queryset.filter(store=costumeruser.EmployeeAt)
             elif request.session.get('store'):
-                return queryset.filter(store=request.session.get('store'))
-            return queryset.filter(store=1)
+                try:
+                    queryset=queryset.filter(store=request.session.get('store'))
+                except:
+                    queryset=queryset.filter(EmployeeAt=request.session.get('store'))
+                return queryset
+            try:
+                queryset=queryset.filter(store=1)
+            except:
+                queryset=queryset.filter(EmployeeAt=1)
+                
+            return queryset
         except:
             return queryset
