@@ -10,7 +10,10 @@ from rest_framework_simplejwt.authentication import JWTAuthentication
 # from permissions import IsManager
 from core.permission import DynamicPermission
 from core.filters import  UserFilterBackend, StoreFilter
-
+from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework.filters import SearchFilter
+from .filters import *
+from core.pagination import PageNumberPagination
 
 
 class pointVenteViewset(viewsets.ModelViewSet):
@@ -39,7 +42,9 @@ class ClotureViewset(viewsets.ModelViewSet):
     serializer_class=ClotureSerializer
     authentication_classes=[JWTAuthentication] 
     permission_classes=[IsAuthenticated, DynamicPermission ]
-    filter_backends=[ UserFilterBackend, StoreFilter]
+    filter_backends = [SearchFilter, DjangoFilterBackend, UserFilterBackend, StoreFilter]
+    pagination_class = PageNumberPagination
+    filterset_class=ClotureFilter
 
 class BonComptoireViewset(viewsets.ModelViewSet):
     queryset=BonComptoire.objects.all()
