@@ -51,14 +51,16 @@ class ClotureSerializer(serializers.ModelSerializer):
         
         verssements = verssement.objects.filter( utilisateur=response["utilisateur"], date=response['date'])
         total_verssements = sum(Decimal(v.montant) if v.montant != '' else Decimal(0) for v in verssements)
-        try:    
-            for bon in BonRetourComptoir_objects:
-                
-                    myTotalPrice = sum([product.totalprice for product in bon.produits_en_bon_retourcomptoir.all()])
-                    prix_rembourse_sum = sum(myTotalPrice for bon in BonRetourComptoir_objects)
-            prix_encaisse_sum = sum(bon.prix_encaisse for bon in bonComptoir_objects) - prix_rembourse_sum
-        except:
-            prix_encaisse_sum=0
+       
+        prix_rembourse_sum = 0 
+        for bon in BonRetourComptoir_objects:
+            try:    
+                myTotalPrice = sum([product.totalprice for product in bon.produits_en_bon_retourcomptoir.all()])
+                prix_rembourse_sum += myTotalPrice
+            except:
+                pass        
+        prix_encaisse_sum = sum(bon.prix_encaisse for bon in bonComptoir_objects) - prix_rembourse_sum
+      
         prix_encaisse_sum += total_verssements
         response["totalprice_sum"] = total_price_sum
         response["totalremise"]= total_remise_sum
