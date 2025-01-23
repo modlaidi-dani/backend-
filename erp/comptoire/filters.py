@@ -11,7 +11,7 @@ class ClotureFilter(django_filters.FilterSet):
         label="utilisateur"
     )
     caisse = django_filters.ModelChoiceFilter(
-        field_name="caisse",
+        field_name="utilisateur__mon_affectation__CompteTres",
         queryset=CompteEntreprise.objects.none(),
         label="Caisse"
     )
