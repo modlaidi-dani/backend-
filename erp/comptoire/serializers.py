@@ -39,12 +39,38 @@ class ClotureSerializer(serializers.ModelSerializer):
         fields="__all__"
     def get_username(self,obj):
         return obj.utilisateur.username
+    def to_representation(self, instance):
+        response = super().to_representation(instance)
+        bonComptoir_objects = BonComptoire.objects.filter(user=response["utilisateur"], dateBon=response['date'])
+        BonRetourComptoir_objects =BonRetourComptoir.objects.filter( user=response["utilisateur"], dateBon=response['date'])
+    
+        prix_to_pay_list = [bon.totalprice for bon in bonComptoir_objects]
+        total_price_sum = sum(prix_to_pay_list)
+        total_price_sum = total_price_sum or Decimal(0) 
+        total_remise_sum = bonComptoir_objects.aggregate(Sum('totalremise'))['totalremise__sum'] or 0
+        
+        verssements = verssement.objects.filter( utilisateur=response["utilisateur"], date=response['date'])
+        total_verssements = sum(Decimal(v.montant) if v.montant != '' else Decimal(0) for v in verssements)
+        try:    
+            for bon in BonRetourComptoir_objects:
+                
+                    myTotalPrice = sum([product.totalprice for product in bon.produits_en_bon_retourcomptoir.all()])
+                    prix_rembourse_sum = sum(myTotalPrice for bon in BonRetourComptoir_objects)
+            prix_encaisse_sum = sum(bon.prix_encaisse for bon in bonComptoir_objects) - prix_rembourse_sum
+        except:
+            prix_encaisse_sum=0
+        response["totalprice_sum"] = total_price_sum
+        response["totalremise"]= total_remise_sum
+        response["total_verssemens"] = total_verssements
+        response["totalRembourse"]=prix_encaisse_sum
+        return response
 class ProduitsEnBonComptoirSerializer(serializers.ModelSerializer):
     stock=ProductSerializer()
     #entrepot=EntrepotSerializer()
     class Meta:
         model=ProduitsEnBonComptoir
         fields="__all__"
+
 
 class BonComptoireSerializer(serializers.ModelSerializer):
     produit=ProduitsEnBonComptoirSerializer(many=True)
