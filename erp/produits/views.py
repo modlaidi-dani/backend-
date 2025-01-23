@@ -230,15 +230,17 @@ class EtatStockViewset(generics.ListAPIView):
 class StockState(generics.ListAPIView):
     authentication_classes=[JWTAuthentication] 
     permission_classes=[IsAuthenticated, DynamicPermission ]
-    queryset = Product.objects.all()
+    queryset = Stock.objects.all()
     # serializer_class = ProductSerializer
     filter_backends=[SearchFilter,DjangoFilterBackend, UserFilterBackend,  StoreFilter]
     pagination_class = PageNumberPagination 
+    filterset_class=StockStateFilter
+    
     def get(self, request):
-        produits =  self.filter_queryset(self.get_queryset())
-        mespc= ordreFabrication.objects.all()
-        # produit_serialized=self.get_serializer(produits, many=True).data
-        stocks_all = Stock.objects.filter(product__store=produits[0].store)
+        queryset =  self.filter_queryset(self.get_queryset())
+        liste=self.paginate_queryset(queryset)
+        stocks_all=self.get_paginated_response(liste)
+        data=stocks_all.data.get('results', [])
         mespc= ordreFabrication.objects.all()
         pc =[]
         for unpc in mespc:
@@ -246,7 +248,7 @@ class StockState(generics.ListAPIView):
             pc.append(produit)
         stock_list = []
 
-        for stock in stocks_all:
+        for stock in data:
             quantity_pc=0
             quantity_util_production=0
             if stock.product in pc:
@@ -276,4 +278,5 @@ class StockState(generics.ListAPIView):
 
             }
             stock_list.append(stock_dict)
-        return Response(stock_list,status=status.HTTP_200_OK)
+        stocks_all.data['results'] = stock_list
+        return Response(stocks_all.data,status=status.HTTP_200_OK)
