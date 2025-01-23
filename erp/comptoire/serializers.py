@@ -59,10 +59,12 @@ class ClotureSerializer(serializers.ModelSerializer):
             prix_encaisse_sum = sum(bon.prix_encaisse for bon in bonComptoir_objects) - prix_rembourse_sum
         except:
             prix_encaisse_sum=0
+        prix_encaisse_sum += total_verssements
         response["totalprice_sum"] = total_price_sum
         response["totalremise"]= total_remise_sum
         response["total_verssemens"] = total_verssements
-        response["totalRembourse"]=prix_encaisse_sum
+        response["totalprix_encaisse"]=prix_encaisse_sum
+        response["totalRembourse"]=prix_rembourse_sum
         return response
 class ProduitsEnBonComptoirSerializer(serializers.ModelSerializer):
     stock=ProductSerializer()
